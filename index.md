@@ -1,7 +1,10 @@
 ---
+published: "true"
 layout: page
 title: Welcome
+
 ---
+
 {% include JB/setup %}
 
 #### 最近发布的文章：
