@@ -1,7 +1,7 @@
 ---
 published: "true"
 layout: page
-title: Welcome
+title: 7 In The Garden
 
 ---
 
