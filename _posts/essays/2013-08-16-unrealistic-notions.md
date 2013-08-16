@@ -1,13 +1,12 @@
 ---
 published: true
 layout: post
-title: 就让那不切实际的想法不切实际吧
+title: "就让那不切实际的想法不切实际吧"
 description: ""
 category: essay
-tags: 
-  - Life
-  - Work
+tags: [Life, Work]
 ---
+{% include JB/setup %}
 
 最近很难得的有机会和曾经在同一团队共事的前辈(太过于熟悉，这么说反而有点别扭)聊天。两次下来，他就开始说我最近「不切实际」的想法有点多，还说要赶紧把我扭转过来之类的。
 
