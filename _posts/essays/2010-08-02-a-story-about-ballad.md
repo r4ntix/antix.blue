@@ -1,14 +1,12 @@
 ---
-published: "false"
+published: "true"
 layout: post
-title: 那个关于民谣的故事
+title: "那个关于民谣的故事"
 description: ""
 category: essay
-tags: 
-  - Time
-  - Life
-
+tags: [Time, Life]
 ---
+{% include JB/setup %}
 
 最近有那么一段零碎的时间，漫不经心的在听一些民谣似的歌曲。却让我惊诧的想起，自己曾经有那么一个关于民谣的故事。
 

@@ -1,14 +1,12 @@
 ---
-published: "false"
+published: "true"
 layout: post
-title: 天气给我带来了什么
+title: "天气给我带来了什么"
 description: ""
 category: essay
-tags: 
-  - Time
-  - Life
-
+tags: [Time, Life]
 ---
+{% include JB/setup %}
 
 回到学校，天气就开始阴沉下来。在寝室从书包里拿出厚厚的课本，才知道自己什么也没看，反而却成了书桌的装饰品。好想走，走得远远的，把书丢进垃圾桶。坐在路旁看着行人，倾听他们的声音，直到自己再也听不见任何的声音。眼前是一片隔膜。
 

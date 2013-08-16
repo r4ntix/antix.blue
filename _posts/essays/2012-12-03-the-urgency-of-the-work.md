@@ -1,12 +1,11 @@
 ---
+published: "true"
 layout: post
 title: "有多少工作是需要马上完成的"
 description: ""
 category: essay
 tags: [Work]
-published: true
 ---
-
 {% include JB/setup %}
 
 有多少工作是需要马上完成的？

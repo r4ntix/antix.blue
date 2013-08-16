@@ -1,6 +1,8 @@
 ---
+published: "true"
 layout: post
 title: "Time waits for no one"
+description: ""
 category: essay
 tags: [Time, ACG]
 ---

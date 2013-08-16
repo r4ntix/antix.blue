@@ -1,12 +1,11 @@
 ---
+published: "true"
 layout: post
 title: "读「白」"
 description: ""
 category: essay
 tags: [Beautiful, Design]
-published: true
 ---
-
 {% include JB/setup %}
 
 这两天读了原研哉的「白」。
