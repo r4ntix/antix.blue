@@ -11,6 +11,6 @@ tags: [Time, Life]
 
 在分别很久很久之后，再次听到这首歌曲，再次想起那时还在身边的朋友们。或许这就是人与人之间所谓的羁绊吧。
 
-<embed height="452" width="544" quality="high" allowfullscreen="true" type="application/x-shockwave-flash" src="http://static.hdslb.com/miniloader.swf" flashvars="aid=8568&page=1" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"></embed>
+<embed height="452" width="544" quality="high" allowfullscreen="true" type="application/x-shockwave-flash" src="http://static.hdslb.com/miniloader.swf" flashvars="aid=8568%26page=1" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"></embed>
 
 >在这无限延伸的梦想后面，现在的你还会选择去穿越这冷酷无情的世界吗。
