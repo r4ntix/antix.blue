@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} | {{ super() }}{% endblock title %}
+
+{% block content_left %}
+      <div class="article typo">
+        <h1 class="serif">{{ article.title }}</h1>
+        {{ article.content }}
+      </div>
+{% endblock content_left %}
+
+{% block content_right %}
+      <div class="row">
+        <ul class="side-nav">
+          <li><time datetime="{{ article.date.isoformat() }}" class="serif">{{ article.locale_date }}</time></li>
+          <li class="divider"></li>
+          <li><span class="serif">Written by</span> <a href="#">{{ article.author }}</a></li>
+          <li class="divider"></li>
+          <li><span class="serif">Categories</span> <a href="#">{{ article.category }}</a></li>
+          <li class="divider"></li>
+          <li><span class="serif">Tags</span> {% for tag in article.tags %}<a href="＃">{{ tag }}</a> {% endfor %}</li>
+        </ul>
+      </div>
+{% endblock content_right %}

@@ -1,10 +1,17 @@
-_site/*
-_theme_packages/*
+# Byte-compiled / optimized / DLL files
+*.py[cod]
 
+# logs
+*.swp
+*.log
+*.pid
+.Sync*
 Thumbs.db
 .DS_Store
 
-!.gitkeep
+# some private files
+_demo/*
+_posts/*
 
-.rbenv-version
-.rvmrc
+# blog html files
+output/*

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ super() }}{% endblock title %}
+
+{% block content_left %}
+      <div class="article typo">
+        {{ page.content }}
+      </div>
+{% endblock content_left %}
+
+{% block content_right %}
+      <img src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/img/logo.png" />
+{% endblock content_right %}
