@@ -1,0 +1,10 @@
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+
+# logs
+*.swp
+*.log
+*.pid
+.Sync*
+Thumbs.db
+.DS_Store

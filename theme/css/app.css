@@ -1,0 +1,81 @@
+/* overrides */
+
+
+/* -----------------------------------------
+   For a, body, header, content, footer
+----------------------------------------- */
+a {
+  color: black;
+}
+
+a:hover {
+  color: #ce5333;
+}
+
+body {
+  background: white url(../img/bg.png) repeat;
+}
+
+header {
+  padding: 7px 0;
+}
+
+header .name h1 a,
+footer small > a,
+#content table tr td > a {
+  text-decoration: underline;
+}
+
+footer.row {
+  margin-top: 50px;
+  padding: 10px 0;
+  border-top: 1px solid black;
+}
+
+#content {
+  margin-top: 50px;
+}
+
+h1.serif {
+  border-bottom: 1px solid #eee;
+}
+
+header.contain-to-grid,
+header .top-bar,
+header .top-bar-section ul,
+header .top-bar-section li:not(.has-form) a:not(.button),
+header .top-bar-section ul li > a,
+header .top-bar.expanded .title-area,
+#content .tabs dd.active > a {
+  background: #161616 url(../img/bg.png) repeat;
+  color: white;
+  text-decoration: none;
+}
+
+#content .tabs dd a {
+  background: #efefef;
+  color: black;
+}
+
+.content table {
+  border: none;
+}
+
+
+/* -----------------------------------------
+   For side-bav
+----------------------------------------- */
+.side-nav li.divider {
+  border-top-color: #eee;
+}
+
+.side-nav li a {
+  display: inline;
+  text-decoration: underline;
+  color: black;
+}
+
+.side-nav li span {
+  display: block;
+}
+
