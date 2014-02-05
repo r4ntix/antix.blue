@@ -79,3 +79,10 @@ header .top-bar.expanded .title-area,
   display: block;
 }
 
+
+/* -----------------------------------------
+   For pygments code highlight
+----------------------------------------- */
+.highlight pre {
+  background: none;
+}
