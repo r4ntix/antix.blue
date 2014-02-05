@@ -37,4 +37,4 @@ SOCIAL = (('Twitter', 'https://twitter.com/r4ntix'),
 
 DEFAULT_PAGINATION = False
 
-ACTIVE_CATEGORY = 'essay'
+ACTIVE_CATEGORY = 'Writings'

@@ -1,8 +1,8 @@
 不再
-########
+========
 
 :date: 2008-08-13
-:category: essay
+:category: Writings
 :tags: sketch
 :slug: no-more
 :author: r.4ntix Shawn

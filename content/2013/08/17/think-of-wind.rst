@@ -1,8 +1,8 @@
 有时候我也会去想想风
-##################################
+==================================
 
 :date: 2013-08-17
-:category: essay
+:category: Writings
 :tags: life, work
 :slug: think-of-wind
 :author: r.4ntix Shawn

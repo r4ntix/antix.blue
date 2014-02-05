@@ -1,8 +1,8 @@
 读「白」
-############
+============
 
 :date: 2012-11-30
-:category: essay
+:category: Writings
 :tags: design
 :slug: read-white
 :author: r.4ntix Shawn

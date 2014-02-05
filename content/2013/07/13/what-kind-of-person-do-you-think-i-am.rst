@@ -1,8 +1,8 @@
 把这样的难题留给身边的人
-########################################
+========================================
 
 :date: 2013-07-13
-:category: essay
+:category: Writings
 :tags: life
 :slug: what-kind-of-person-do-you-think-i-am
 :author: r.4ntix Shawn

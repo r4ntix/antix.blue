@@ -1,8 +1,8 @@
 Time waits for no one
-##########################################
+==========================================
 
 :date: 2010-06-25
-:category: essay
+:category: Writings
 :tags: time, acg
 :slug: time-waits-for-no-one
 :author: r.4ntix Shawn

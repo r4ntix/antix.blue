@@ -1,8 +1,8 @@
 我为什么反对团队使用公共旺旺
-################################################
+================================================
 
 :date: 2013-10-27
-:category: essay
+:category: Writings
 :tags: work
 :slug: why-i-oppose-use-of-public-wangwang
 :author: r.4ntix Shawn

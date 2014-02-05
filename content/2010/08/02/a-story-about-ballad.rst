@@ -1,8 +1,8 @@
 那个关于民谣的故事
-##############################
+==============================
 
 :date: 2010-08-02
-:category: essay
+:category: Writings
 :tags: time, life
 :slug: a-story-about-ballad
 :author: r.4ntix Shawn

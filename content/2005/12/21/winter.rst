@@ -1,9 +1,9 @@
 冬忘
-########
+========
 
 :date: 2005-12-21
 :tags: sketch
-:category: essay
+:category: Writings
 :slug: winter
 :author: r.4ntix Shawn
 :summary: 零五年十二月素描

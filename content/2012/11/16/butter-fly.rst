@@ -1,8 +1,8 @@
 Butter Fly
-####################
+====================
 
 :date: 2012-11-16
-:category: essay
+:category: Writings
 :tags: time, life
 :slug: butter-fly
 :author: r.4ntix Shawn

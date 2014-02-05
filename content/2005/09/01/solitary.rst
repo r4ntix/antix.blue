@@ -1,9 +1,9 @@
 落单
-########
+========
 
 :date: 2005-09-01
 :tags: sketch
-:category: essay
+:category: Writings
 :slug: solitary
 :author: r.4ntix Shawn
 :summary: 零五年，九月素描1

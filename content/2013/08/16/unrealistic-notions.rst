@@ -1,8 +1,8 @@
 就让那不切实际的想法不切实际吧
-##################################################
+==================================================
 
 :date: 2013-08-16
-:category: essay
+:category: Writings
 :tags: life, work
 :slug: unrealistic-notions
 :author: r.4ntix Shawn

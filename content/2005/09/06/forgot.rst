@@ -1,8 +1,8 @@
 忽略
-########
+========
 
 :date: 2005-09-06
-:category: essay
+:category: Writings
 :tags: sketch
 :slug: forgot
 :author: r.4ntix Shawn

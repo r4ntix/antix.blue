@@ -1,8 +1,8 @@
 天气给我带来了什么
-##############################
+==============================
 
 :date: 2005-10-09
-:category: essay
+:category: Writings
 :tags: time, life
 :slug: feeling-from-the-weather
 :author: r.4ntix Shawn
