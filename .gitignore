@@ -8,3 +8,11 @@
 .Sync*
 Thumbs.db
 .DS_Store
+
+# some private files
+_demo/
+_posts/
+content/
+
+# blog html files
+output/

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="zh-cmn-Hans" > <![endif]-->
+<html class="no-js" lang="zh-cmn-Hans" >
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>.bash_profile vs .bashrc | r.4ntix Shawn's Noise Player</title>
+
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/normalize.css">
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/foundation.min.css">
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/typo.css">
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/pygments.css">
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/app.css">
+
+  <script src="http://r.durara.net/theme/js/vendor/modernizr.js"></script>
+</head>
+
+<body>
+  <!-- start of header -->
+  <header class="contain-to-grid">
+    <nav class="top-bar" data-topbar>
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="http://r.durara.net">r.4ntix Shawn's Noise Player</a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+      </ul>
+      <section class="top-bar-section">
+        <!-- Right Nav Section -->
+        <ul class="right">
+          <li>
+            <a href="#">|</a>
+          </li>
+          <li><a href="https://twitter.com/r4ntix">Twitter</a></li>
+          <li><a href="https://plus.google.com/112109872395334308066">Google+</a></li>
+        </ul>
+      </section>
+    </nav>
+  </header>
+  <!-- end of header -->
+
+  <!-- start of content -->
+  <div id="content" class="row">
+    <div class="medium-9 large-10 columns">
+      <div class="article typo">
+        <h1 class="serif">.bash_profile vs .bashrc</h1>
+        <dl class="docutils">
+<dt>原文：</dt>
+<dd><a class="reference external" href="http://www.joshstaiger.org/archives/2005/07/bash_profile_vs.html">http://www.joshstaiger.org/archives/2005/07/bash_profile_vs.html</a></dd>
+</dl>
+<p>每当我工作在Linux、Unix 以及Mac OS X 下，想要为我的shell 设置PATH 和其他环境变量的时候，我总是忘记我究竟该编辑哪个bash 配置文件。如果是你，你会编辑.bash_profile 还是.bashrc 呢？</p>
+<p>你可以把你的bash 配置写到这两个配置文件中的任意一个，如果不存在的话则创建它。但是，为什么会存在两个不同的配置文件呢？他们的区别是什么呢？</p>
+<p>根据bash 的man page 说明，.bash_profile 是在使用 <strong>登录式shell</strong> 的时候执行的，而.bashrc 则是在使用 <strong>交互式非登录shell</strong> 时执行。</p>
+<div class="section" id="shell-shell">
+<h2>什么是 <strong>登录式shell</strong> 和 <strong>交互式非登录shell</strong> ？</h2>
+<p>每当你直接坐在电脑前或者是远程使用ssh 通过console 使用账号和密码进行登录时：.bash_profile 将在初始化命令提示符之前执行，完成shell 配置。</p>
+<p>但是，如果你已经登录你的电脑，在图形界面Gnome 或者KDE 下打开一个终端窗口(xterm)，.bashrc 就将在这窗口命令提示符初始化之前执行。同时，当你在一个终端里执行 <code class="bash">/bin/bash</code> 时，.bashrc 也将运行。</p>
+</div>
+<div class="section" id="id1">
+<h2>为什么会存在两个不同的配置文件？</h2>
+<p>比如说，你想在你每次登录机器时，打印出一些机器的诊断信息(平均负载、内存使用率、当前用户等)，你可以通过配置.bash_profile 来完成。如果你使用.bashrc 来配置的话，就会在每次打开终端窗口时都打印出这些信息来。</p>
+</div>
+<div class="section" id="mac-os-x">
+<h2>Mac OS X —— 一个列外</h2>
+<p>Mac OS X 的Terminal.app 终端程序是个例外。它对每个新建的终端窗口，都默认以 <strong>登录式shell</strong> 打开，然后执行.bash_profile 而不是.bashrc。虽然其他的GUI 终端模拟器也可以这样，但基本都不这么干。</p>
+</div>
+<div class="section" id="id2">
+<h2>建议</h2>
+<p>大多数情况下没有人愿意同时维护两个不同的配置文件，来应对 <strong>登录式shell</strong> 和 <strong>交互式非登录shell</strong> ——当你想设置PATH 时，你得同时配置到两个文件里去。但你可以通过在.bash_profile 里引用.bashrc，然后在.bashrc 里进行PATH 和其他配置。</p>
+<p>将下面几行代码添加到你得.bash_profile 文件里：</p>
+<div class="highlight"><pre><span class="k">if</span> <span class="o">[</span> -f ~/.bashrc <span class="o">]</span>; <span class="k">then</span>
+<span class="k">    </span><span class="nb">source</span> ~/.bashrc
+<span class="k">fi</span>
+</pre></div>
+<p>现在当你通过console 进行 <strong>登录式shell</strong> 时，.bashrc 也将被执行了。</p>
+</div>
+
+      </div>
+    </div>
+    <div class="medium-3 large-2 columns">
+      <ul class="side-nav">
+        <li><time datetime="2005-07-01T00:00:00" class="serif">2005年07月01日</time></li>
+        <li class="divider"></li>
+        <li><span class="serif">Written by</span> <a href="#">Josh Staiger</a></li>
+        <li class="divider"></li>
+        <li><span class="serif">Categories</span> <a href="#">Translation</a></li>
+        <li class="divider"></li>
+        <li><span class="serif">Tags</span> <a href="#">linux</a> <a href="#">unix</a> <a href="#">mac</a> <a href="#">bash</a> <a href="#">shell</a> </li>
+      </ul>
+    </div>
+  </div>
+  <!-- end of content -->
+
+  <!-- start of footer -->
+  <footer class="row">
+    <div class="small-6 medium-6 large-6 columns">
+      <small>
+        Designed and Created(2005-2014) by <a href="http://r.durara.net/about/">r.4ntix Shawn</a>
+        <br />
+        ✎ Time waits for no one.
+      </small>
+    </div>
+    <div class="small-6 medium-6 large-6 columns">
+      <small class="right">
+        Help from <a href="http://blog.getpelican.com/">Pelican</a> and <a href="http://foundation.zurb.com/">Foundation 5</a> and <a href="http://typo.sofish.de/">Typo.css</a>
+        <br />
+        ☂ Hosting on <a href="https://github.com/">GitHub</a> and <a href="https://gitcafe.com/">GitCafe</a>
+      </small>
+    </div>
+  </footer>
+  <!-- end of footer -->
+
+  <script src="http://r.durara.net/theme/js/vendor/jquery.js"></script>
+  <script src="http://r.durara.net/theme/js/foundation.min.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+</body>
+
+</html>
