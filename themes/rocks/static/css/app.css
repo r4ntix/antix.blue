@@ -69,10 +69,15 @@ header .top-bar.expanded .title-area,
   border-top-color: #eee;
 }
 
-.side-nav li a {
+.side-nav li a:not(.button) {
   display: inline;
   text-decoration: underline;
   color: black;
+}
+
+.side-nav li a:not(.button):hover,
+.side-nav li a:not(.button):focus {
+  color: #ce5333;
 }
 
 .side-nav li span {
