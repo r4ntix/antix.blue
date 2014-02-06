@@ -22,12 +22,13 @@ header {
 
 header .name h1 a,
 footer small > a,
-#content table tr td > a {
+#content table tr td > a,
+.article a {
   text-decoration: underline;
 }
 
 footer.row {
-  margin-top: 50px;
+  margin-top: 10px;
   padding: 10px 0;
   border-top: 1px solid black;
 }
