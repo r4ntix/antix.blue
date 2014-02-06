@@ -32,7 +32,8 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
 # Social
-SOCIAL = (('Twitter', 'https://twitter.com/r4ntix'),
+SOCIAL = (('Instagram', 'http://instagram.com/r4ntix'),
+          ('Twitter', 'https://twitter.com/r4ntix'),
           ('Google+', 'https://plus.google.com/112109872395334308066'),)
 
 DEFAULT_PAGINATION = False
