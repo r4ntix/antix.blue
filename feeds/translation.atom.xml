@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>r.4ntix Shawn's Noise Player</title><link href="http://r.durara.net/" rel="alternate"></link><link href="http://r.durara.net/feeds/translation.atom.xml" rel="self"></link><id>http://r.durara.net/</id><updated>2005-07-25T00:00:00+08:00</updated><entry><title>.bash_profile vs .bashrc</title><link href="http://r.durara.net/translation/2005/07/25/bash-profile-vs/" rel="alternate"></link><updated>2005-07-25T00:00:00+08:00</updated><author><name>Josh Staiger</name></author><id>tag:r.durara.net,2005-07-25:translation/2005/07/25/bash-profile-vs/</id><summary type="html">&lt;!--  --&gt;
+&lt;blockquote&gt;
+原文：&lt;a class="reference external" href="http://www.joshstaiger.org/archives/2005/07/bash_profile_vs.html"&gt;http://www.joshstaiger.org/archives/2005/07/bash_profile_vs.html&lt;/a&gt;&lt;/blockquote&gt;
+&lt;p&gt;每当我工作在Linux、Unix 以及Mac OS X 下，想要为我的shell 设置PATH 和其他环境变量的时候，我总是忘记我究竟该编辑哪个bash 配置文件。应该编辑 &lt;tt class="docutils literal"&gt;.bash_profile&lt;/tt&gt; 还是 &lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt; 呢？&lt;/p&gt;
+&lt;p&gt;实际上，你可以把你的bash 配置写到这两个配置文件中的任意一个，它们不存在的话则创建它。但是，为什么会存在两个不同的配置文件呢？他们的区别是什么呢？&lt;/p&gt;
+&lt;p&gt;根据bash 的 &lt;a class="reference external" href="http://linux.die.net/man/1/bash"&gt;man page&lt;/a&gt; 说明，&lt;tt class="docutils literal"&gt;.bash_profile&lt;/tt&gt; 是在使用 &lt;strong&gt;登录式shell&lt;/strong&gt; 的时候执行的，而 &lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt; 则是在使用 &lt;strong&gt;交互式非登录shell&lt;/strong&gt; 时执行。&lt;/p&gt;
+&lt;div class="section" id="shell-shell"&gt;
+&lt;h2&gt;什么是 &lt;strong&gt;登录式shell&lt;/strong&gt; 和 &lt;strong&gt;交互式非登录shell&lt;/strong&gt; ？&lt;/h2&gt;
+&lt;p&gt;每当你直接坐在电脑前或者是远程使用ssh 通过console 使用账号和密码进行登录时：&lt;tt class="docutils literal"&gt;.bash_profile&lt;/tt&gt; 将在初始化命令提示符之前执行，完成shell 的配置。&lt;/p&gt;
+&lt;p&gt;但是，如果你已经登录你的电脑，在图形界面Gnome 或者KDE 下打开一个终端窗口(xterm)，这时 &lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt; 将在这个窗口命令提示符初始化之前执行，以完成shell 的配置。同时，当你在一个终端里执行 &lt;code class="bash"&gt;/bin/bash&lt;/code&gt; 时，&lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt; 也将被执行。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;为什么会存在两个不同的配置文件？&lt;/h2&gt;
+&lt;p&gt;有时候，你想在你每次登录机器时，打印出机器的一些诊断信息(平均负载、内存使用率、当前用户等)，你可以通过配置 &lt;tt class="docutils literal"&gt;.bash_profile&lt;/tt&gt; 来完成。但是，如果你使用 &lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt; 来配置的话，则会在每次打开终端窗口时都打印出这些信息来，而不仅仅只是在登录的时候。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="mac-os-x"&gt;
+&lt;h2&gt;Mac OS X —— 一个列外&lt;/h2&gt;
+&lt;p&gt;Mac OS X 的Terminal.app 终端程序是个例外。它对每个新建的终端窗口，都默认以 &lt;strong&gt;登录式shell&lt;/strong&gt; 方式打开，然后执行 &lt;tt class="docutils literal"&gt;.bash_profile&lt;/tt&gt; 而不是 &lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt; 。虽然其他的GUI 终端模拟器也可以这样，但基本都不这么干。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;建议&lt;/h2&gt;
+&lt;p&gt;大多数情况下没有人愿意同时维护两个不同的配置文件，来分别应对 &lt;strong&gt;登录式shell&lt;/strong&gt; 和 &lt;strong&gt;交互式非登录shell&lt;/strong&gt; ——这样的话，当你想设置PATH 时，你得同时在两个文件里都配置。其实，你可以通过在 &lt;tt class="docutils literal"&gt;.bash_profile&lt;/tt&gt; 里引用 &lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt;，然后在 &lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt; 里进行PATH 和其他配置。&lt;/p&gt;
+&lt;p&gt;将下面几行代码添加到你的 &lt;tt class="docutils literal"&gt;.bash_profile&lt;/tt&gt; 文件里：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -f ~/.bashrc &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt; ~/.bashrc
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;现在当你通过console 进行 &lt;strong&gt;登录式shell&lt;/strong&gt; 时，&lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt; 也将被执行了。&lt;/p&gt;
+&lt;/div&gt;
+</summary><category term="linux"></category><category term="unix"></category><category term="mac"></category><category term="bash"></category><category term="shell"></category></entry></feed>

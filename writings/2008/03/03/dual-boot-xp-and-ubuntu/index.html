@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>忽略 | r.4ntix Shawn's Noise Player</title>
+  <title>Ubuntu &amp; XP 双系统 | r.4ntix Shawn's Noise Player</title>
 
   <link rel="stylesheet" href="http://r.durara.net/theme/css/normalize.css">
   <link rel="stylesheet" href="http://r.durara.net/theme/css/foundation.min.css">
@@ -45,23 +45,58 @@
   <div id="content" class="row">
     <div class="medium-9 large-10 columns">
       <div class="article typo">
-        <h1 class="serif">忽略</h1>
-        <p>我是一个容易遗忘的人。</p>
-<p>回忆对我来说只可能是一些无法连续的片段，点点滴滴并且转瞬即逝。写字时能够唤醒它们，思绪让他们在时光的碎片中穿插，结集，拼嵌完整。这和一首歌所带来的回忆是一样的。而这种间歇性的记忆似乎正在被某种东西逐渐侵蚀，最终走向的将是消亡。这就如同水冲洗掉玻璃上的墨汁，不会留下任何痕迹。</p>
-<p>夕日的阳光在文字中显得阴暗，周围的树林变得不再熟悉，年幼时在田埂之间的穿行而过早已模糊不清。记得与遗忘在瞬时之间交融，如原始宇宙般的混沌凌乱。</p>
-<p>写于2005年9月6日。</p>
+        <h1 class="serif">Ubuntu &amp; XP 双系统</h1>
+        <!--  -->
+<p>现在，我的Ubuntu 7.10 已经很舒服的在我手上运行了。以前用过Ubuntu 6.10，所以从Windows 到Ubuntu  没什么不适应的。这个版本还是变化挺大的，界面越做越好了，和朋友一样，不准备改变默认的主题了，真的很漂亮，很清爽。 由于是第一次装双系统并且在XP 下做GRUB 引导，所以记录下来。</p>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>在XP 下做GRUB 引导</dt>
+<dd><p class="first">我选择在XP 下做GRUB 引导的原因很简单：如果重装XP 的话，能很方便的再做一次引导，而用Linux 的GRUB 去写MBR 的话，重装XP 后要引导Linux 很麻烦，因为MBR 被XP 重新修改了。</p>
+<p class="last">我参考了一些资料，决定用GRUB4DOS，下载后只用从压缩包里解压两个文件(grldr 和menu.lst)放在C 盘根目录就可以，然后修改boot.ini 在最后另起一行添加 <code class="bash">C:<span class="se">\g</span>rldr<span class="o">=</span><span class="s2">&quot;Ubuntu 7.10&quot;</span></code>。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>安装Ubuntu</dt>
+<dd><p class="first">具体的步骤就不说了，保证网络顺畅连接就可以(安装过程中要从网络下载安全更新和语言包)，全傻瓜式安装。分区自己注意就可以。</p>
+<p class="last">重点是，将Linux 的GRUB 安装到根挂载区。如果默认不变，那么前面的GRUB4DOS 就白做了。进行到GRUB 安装界面时，按Advanced，把里面的内容从hd0 改成Ubuntu 所在的分区。接下来就自动安装了，泡杯咖啡吧，嘿嘿。安装完后，重启就可进入Linux 了。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>安装显卡驱动，解决声卡无声</dt>
+<dd><p class="first">要玩比VISTA 还酷的3D 特效，当然要装好显卡的驱动。我的显卡是GF 7300 GT，安装命令如下：</p>
+<div class="highlight"><pre>sudo cp /etc/X11/xorg.conf /etc/X11/xorg.conf.bak 备份
+sudo apt-get install nvidia-glx-new   安装驱动
+sudo nvidia-glx-config <span class="nb">enable</span>   开启驱动
+sudo nvidia-xconfig –add-argb-glx-visuals –composite   开启3D特效
+</pre></div>
+<!--  -->
+<p>我一次性成功。</p>
+<p class="last">有很多人安装Ubuntu 完毕后，系统没有声音，我的ALC 883 声卡就受影响。我查了很多资料后发现，其实只要：
+<code class="bash">sudo gedit /etc/modprobe.d/alsa-base</code> 编辑alsa-base 文件，在最后加上一行 <code class="bash">options snd-hda-intel <span class="nv">model</span><span class="o">=</span>laptop-automute</code> 重启就可以了。嘿嘿，Ubuntu 启动时的鼓声还是挺不错的哦。</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>其他的一些完善设置</dt>
+<dd><p class="first last">其他的就一些，常用的设置了，像播放器呀，字体美化，QQ 等等。</p>
+</dd>
+</dl>
+</li>
+</ol>
 
       </div>
     </div>
     <div class="hide-for-small-only medium-3 large-2 columns">
       <ul class="side-nav">
-        <li><time datetime="2005-09-06T00:00:00" class="serif">2005年09月06日</time></li>
+        <li><time datetime="2008-03-03T00:00:00" class="serif">2008年03月03日</time></li>
         <li class="divider"></li>
         <li><span class="serif">Written by</span> <a href="#">r.4ntix Shawn</a></li>
         <li class="divider"></li>
         <li><span class="serif">Categories</span> <a href="#">Writings</a></li>
         <li class="divider"></li>
-        <li><span class="serif">Tags</span> <a href="#">sketch</a> </li>
+        <li><span class="serif">Tags</span> <a href="#">system</a> <a href="#">linux</a> <a href="#">xp</a> <a href="#">ubuntu</a> </li>
       </ul>
     </div>
   </div>
