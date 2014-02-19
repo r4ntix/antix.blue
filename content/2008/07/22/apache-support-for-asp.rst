@@ -1,0 +1,153 @@
+让Apache/WampServer 支持ASP/ASP.NET
+==================================================================
+
+:date: 2008-07-22
+:category: Writings
+:tags: apache, asp, wamp, .net
+:slug: apache-support-for-asp
+:author: r.4ntix Shawn
+:summary: 利用ActiveHTML Mod 让Apache 支持ASP
+
+
+0X00 注解
+----------------
+
+本文是基于WampServer 2.X 套件讨论的，但适用于截止到目前为止所有版本的Apache。其实我们也只是对WampServer 中的Apache 模块做了修改，使其能够支持ASP/ASP.NET。本文中Apache版本为2.2.8，WampServer 的目录地址为D:\wamp\ 。
+
+0X01 ASP.NET
+------------------------
+
+让Apache 支持ASP.NET 比较简单，使用apache.org 里提供的mod_aspdotnet 即可。地址是：http://httpd.apache.org/modules/
+
+说一下配置：首先下载mod_aspdotnet，然后将其mod_aspdotnet.so 释放到apache 的/modules/ ，如D:\wamp\bin\apache\apache2.2.8\modules。然后，我们需要建立一个mod_aspdotnet 单独的配置文件.conf，如httpd-aspdotnet.conf，写好后放入apache的/conf/extra/中，这样比较规范。
+
+httpd-aspdotnet.conf，如下：
+
+.. code-block:: apache
+
+    # Load asp.net module
+    LoadModule aspdotnet_module "modules/mod_aspdotnet.so"
+
+    # Set asp.net extensions
+    AddHandler asp.net asax ascx ashx asmx aspx axd config cs csproj licx rem resources resx soap vb vbproj vsdisco webinfo
+
+    # 其中"D:/wamp/www/aspx"  为我们的ASPX 的文件的目录。需自己修改。：）
+    <ifmodule mod_aspdotnet.cpp>
+        # Mount the ASP.NET /ASP application
+        AspNetMount /ASP "D:/wamp/www/aspx"
+
+        # Map all requests for /ASP to the application files
+        Alias /ASP "D:/wamp/www/aspx"
+
+        # Allow asp.net scripts to be executed in the /ASP folder
+        <directory "D:/wamp/www/aspx">
+            # Set asp.net options
+            Options Indexes FollowSymLinks Includes +ExecCGI
+            # Set asp.net permissions
+            Order allow,deny
+            Allow from all
+            # Set asp.net default index page to .aspx and .htm
+            DirectoryIndex index.aspx index.htm
+        </directory>
+
+        # Set aspnet_client files to serve the client-side helper scripts.  这里为我们的ASP.NET_Framework 的安装地址，需自己修改。
+        AliasMatch /aspnet_client/system_web/(\d+)_(\d+)_(\d+)_(\d+)/(.*) "C:/WINDOWS/Microsoft.NET/Framework/v3.5/ASP.NETClientFiles/$4"
+        <directory "C:/WINDOWS/Microsoft.NET/Framework/v3.5/ASP.NETClientFiles">
+            Options FollowSymlinks
+            Order allow,deny
+            Allow from all
+        </directory>
+    </ifmodule>
+
+这样写好httpd-aspdotnet.conf 后放入apache的/conf/extra/中，然后修改apache 的主配置文件/conf/httpd.conf 在其中适当位置加入代码：
+
+.. code-block:: apache
+
+    # ASP.net ，写在httpd.conf 最后适当的位置。只是为了规范。
+    Include conf/extra/httpd-aspdotnet.conf
+
+然后，重启apache，现在/www/aspx/目录已经可以解析.aspx 文件了。：）
+
+0X02 ASP
+----------------
+
+让Apache 完美的支持asp，目前网上也没有好的解决办法，很多东西都还是商业的，以前有个mod 可以用，但只能用在apache1.X 上，很老的东西了。我找寻了很久也没有找到免费的解决办法。无意间得知phpnow 有个插件可以支持asp，马上下载下来玩了一下，终于成功让这个插件脱离phpnow，使其支持任意的Apache。其实phpnow 也是提取了试用版的ActiveHTML，效果还不错，我比较满意。
+
+过程如下：首先下载这个phpnow 版的ActiveHTML，释放在一个适合的位置，如D:\wamp\bin\ActiveHTML\ ，ActiveHTML 需要注册几个.dll，运行CMD 在ActiveHTML 目录，执行如下命令：
+
+.. code-block:: bat
+
+    # CMD 进入ActiveHTML目录，执行如下命令
+    regsvr32.exe /s slASP3.dll
+    regsvr32.exe /s slDispatch.dll
+    regsvr32.exe /s MSXML4.dll
+    regsvr32.exe /s MSXML4R.dll
+
+然后，同样的我们需要为ActiveHTML 写一个配置文件.conf，如httpd-ahtml.conf，如下：
+
+.. code-block:: apache
+
+    ##################################################
+    #   Uncomment the following lines if you want
+    #   to use Authorization environment-variables
+    #   You may implement you own user
+    #   authentication using LOGON_USER and
+    #   LOGON_PASSWORD in your scripts (Login.asp)
+    ##################################################
+    LoadModule rewrite_module modules/mod_rewrite.so
+    RewriteEngine On
+    RewriteCond     %{HTTP:Authorization}   ^(.*)$ [NC]
+    RewriteRule     /.*             -       [E=HTTP_AUTHORIZATION:%1]
+    ##################################################
+
+    # Supports Imagemaps
+    AddHandler imap-file map
+
+    ##################################################
+    #   Do not allow access to global.asa
+    ##################################################
+    <files ~ "global.asa">
+        Order allow,deny
+        Deny from all
+        Satisfy All
+    </files>
+
+    ##################################################
+    #   Add ActiveHTML-Handler  其中”D:/wamp/bin/ActiveHTML“ 为ActiveHTML释放的目录，需自己修改。
+    ##################################################
+    ScriptAlias /asp_bin "D:/wamp/bin/ActiveHTML"
+    Action ActiveHTML "/asp_bin/AHTML.exe"
+    AddHandler ActiveHTML .asp
+    DirectoryIndex index.asp default.asp
+
+    ##################################################
+    #   Add Sampledirectory Alias  其中"D:/wamp/www/asp/"为asp文件所在的目录，需自己修改。
+    ##################################################
+    <directory "D:/wamp/bin/ActiveHTML">
+        Options Indexes MultiViews FollowSymLinks
+        AllowOverride None
+        Order allow,deny
+        Allow from all
+    </directory>
+
+    Alias /asp/ "D:/wamp/www/asp/"
+    <directory "D:/wamp/www/asp/">
+        Options Indexes MultiViews FollowSymLinks
+        AllowOverride all
+        Order allow,deny
+        Allow from all
+    </directory>
+
+同样的，在apache的主配置文件httpd.conf 里适当的位置加入代码：
+
+.. code-block:: apache
+
+    # ASP ，写在httpd.conf 最后适当的位置。只是为了规范。
+    Include conf/extra/httpd-ahtml.conf
+
+然后，重启apache，现在/www/asp/目录已经可以解析.asp 文件了。：）
+
+0X03 PS
+--------------
+
+文章本来很早就打算写，从考试前一直拖到放假。也很久没跟新这个Time.log。于是乎，在这个安静的夜晚，终于写下了这个早就打算写的文章。晚安 ～～
