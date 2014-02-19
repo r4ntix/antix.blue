@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="zh-cmn-Hans" > <![endif]-->
+<html class="no-js" lang="zh-cmn-Hans" >
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>linux 下mp3 显示乱码 | r.4ntix Shawn's Noise Player</title>
+
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/normalize.css">
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/foundation.min.css">
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/typo.css">
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/pygments.css">
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/app.css">
+
+  <script src="http://r.durara.net/theme/js/vendor/modernizr.js"></script>
+</head>
+
+<body>
+  <!-- start of header -->
+  <header class="contain-to-grid">
+    <nav class="top-bar" data-topbar>
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="http://r.durara.net">r.4ntix Shawn's Noise Player</a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+      </ul>
+      <section class="top-bar-section">
+        <!-- Right Nav Section -->
+        <ul class="right">
+          <li>
+            <a href="#">|</a>
+          </li>
+          <li><a href="https://www.readability.com/r4ntix/">Readability</a></li>
+          <li><a href="http://instagram.com/r4ntix">Instagram</a></li>
+          <li><a href="https://twitter.com/r4ntix">Twitter</a></li>
+          <li><a href="https://plus.google.com/112109872395334308066">Google+</a></li>
+        </ul>
+      </section>
+    </nav>
+  </header>
+  <!-- end of header -->
+
+  <!-- start of content -->
+  <div id="content" class="row">
+    <div class="medium-9 large-10 columns">
+      <div class="article typo">
+        <h1 class="serif">linux 下mp3 显示乱码</h1>
+        <p>我的audacious，还有其他的一些音乐播放器对于一些mp3 的标题一直显示乱码，全是ID3 tag 惹的祸。一气之下，批量删除mp3 的ID3 tag 之。</p>
+<div class="highlight"><pre><span class="c">#!/bin/bash</span>
+
+<span class="c"># 需要安装mid3v2 ， 执行sudo apt-get install python-mutagen</span>
+
+<span class="nb">help</span><span class="o">()</span>
+<span class="o">{</span>
+    cat <span class="s">&lt;&lt; HELP</span>
+<span class="s">        deltag -- can delete tag of mp3</span>
+
+<span class="s">        USAGE: deltag [-h] folder</span>
+<span class="s">        OPTIONS: -h help text</span>
+<span class="s">        EXAMPLE: deltag &quot;/home/Xuange/Music/&quot;</span>
+
+<span class="s">        ==&gt;will delete all tag of mp3 from /home/Xuange/Music/  !</span>
+<span class="s">        (: 能自动遍历所有子目录中的mp3文件。:)</span>
+
+<span class="s">    HELP</span>
+    <span class="nb">exit </span>0
+<span class="o">}</span>
+
+error<span class="o">()</span>
+<span class="o">{</span>
+    <span class="c"># print an error and exit</span>
+    <span class="nb">echo</span> <span class="s2">&quot;$1&quot;</span>
+    <span class="nb">exit </span>1
+<span class="o">}</span>
+
+<span class="c"># the main</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$#&quot;</span> -lt 1 <span class="o">]</span>; <span class="k">then</span>
+<span class="k">    </span><span class="nb">help</span>
+<span class="k">fi</span>
+
+<span class="k">while</span> <span class="o">[</span> -n <span class="s2">&quot;$1&quot;</span> <span class="o">]</span>; <span class="k">do</span>
+<span class="k">    case</span> <span class="nv">$1</span> in
+        -h<span class="o">)</span> <span class="nb">help</span>;<span class="nb">shift</span>;; <span class="c"># function help is called</span>
+        --<span class="o">)</span> <span class="nb">shift</span>;<span class="nb">break</span>;; <span class="c"># end of options</span>
+        -*<span class="o">)</span> error <span class="s2">&quot;error: no such option $1. -h for help&quot;</span>;;
+        *<span class="o">)</span> <span class="nb">break</span>;;
+    <span class="k">esac</span>
+<span class="k">done</span>
+
+<span class="k">if</span> <span class="o">[</span> -d <span class="s2">&quot;$1&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+<span class="k">    </span><span class="nb">echo</span> <span class="s2">&quot;deleting tag of mp3 ....&quot;</span>
+    find <span class="s2">&quot;$1&quot;</span> -name <span class="s2">&quot;*.[Mm][Pp]3&quot;</span> -type f -print | sed <span class="s1">&#39;s/^/&quot;/;s/$/&quot;/&#39;</span> | xargs mid3v2 -D
+<span class="k">else</span>
+<span class="k">    </span>error <span class="s2">&quot;error: no such dir $1. -h for help&quot;</span>
+<span class="k">fi</span>
+
+<span class="nb">exit </span>0
+</pre></div>
+
+      </div>
+    </div>
+    <div class="hide-for-small-only medium-3 large-2 columns">
+      <ul class="side-nav">
+        <li><time datetime="2008-09-28T00:00:00" class="serif">2008年09月28日</time></li>
+        <li class="divider"></li>
+        <li><span class="serif">Written by</span> <a href="#">r.4ntix Shawn</a></li>
+        <li class="divider"></li>
+        <li><span class="serif">Categories</span> <a href="#">Writings</a></li>
+        <li class="divider"></li>
+        <li><span class="serif">Tags</span> <a href="#">ubuntu</a> <a href="#">linux</a> <a href="#">mp3</a> <a href="#">id3tag</a> </li>
+      </ul>
+    </div>
+  </div>
+  <!-- end of content -->
+
+  <!-- start of footer -->
+  <footer class="row">
+    <div class="small-6 medium-6 large-6 columns">
+      <small>
+        Designed and Created(2005-2014) by <a href="http://r.durara.net/about/">r.4ntix Shawn</a>
+        <br />
+        ✎ Time waits for no one.
+      </small>
+    </div>
+    <div class="small-6 medium-6 large-6 columns">
+      <small class="right">
+        Help from <a href="http://blog.getpelican.com/">Pelican</a> and <a href="http://foundation.zurb.com/">Foundation 5</a> and <a href="http://typo.sofish.de/">Typo.css</a>
+        <br />
+        ☂ Hosting on <a href="https://github.com/">GitHub</a> and <a href="https://gitcafe.com/">GitCafe</a>
+      </small>
+    </div>
+  </footer>
+  <!-- end of footer -->
+
+  <script src="http://r.durara.net/theme/js/vendor/jquery.js"></script>
+  <script src="http://r.durara.net/theme/js/foundation.min.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+
+  <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-47845863-1', 'durara.net');
+    ga('send', 'pageview');
+  </script>
+</body>
+
+</html>

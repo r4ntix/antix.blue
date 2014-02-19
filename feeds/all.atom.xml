@@ -93,13 +93,239 @@
 &lt;p&gt;那些曾经以为会永远在一起的人们，那个曾经认为会一直陪伴着的自己。希望再次遇到你时，你抬起额头看着远方，身上闪耀着太阳般的光芒。我想，那便是我所想要的。&lt;/p&gt;
 &lt;blockquote&gt;
 Time waits for no one. 时不待人。&lt;/blockquote&gt;
-</summary><category term="time"></category><category term="acg"></category></entry><entry><title>不再</title><link href="http://r.durara.net/writings/2008/08/13/no-more/" rel="alternate"></link><updated>2008-08-13T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-08-13:writings/2008/08/13/no-more/</id><summary type="html">&lt;p&gt;雨水突然的鞭打下来，大地发出连续且持久的声响。像是重锤在鞭打着心脏。每次鞭打声响之后灰尘便被震抖起来，然后又迅速的降落下来。竟是如此的强劲有力。&lt;/p&gt;
+</summary><category term="time"></category><category term="acg"></category></entry><entry><title>linux 下mp3 显示乱码</title><link href="http://r.durara.net/writings/2008/09/28/linux-remove-mp3-id3-tag/" rel="alternate"></link><updated>2008-09-28T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-09-28:writings/2008/09/28/linux-remove-mp3-id3-tag/</id><summary type="html">&lt;p&gt;我的audacious，还有其他的一些音乐播放器对于一些mp3 的标题一直显示乱码，全是ID3 tag 惹的祸。一气之下，批量删除mp3 的ID3 tag 之。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class="c"&gt;# 需要安装mid3v2 ， 执行sudo apt-get install python-mutagen&lt;/span&gt;
+
+&lt;span class="nb"&gt;help&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+    cat &lt;span class="s"&gt;&amp;lt;&amp;lt; HELP&lt;/span&gt;
+&lt;span class="s"&gt;        deltag -- can delete tag of mp3&lt;/span&gt;
+
+&lt;span class="s"&gt;        USAGE: deltag [-h] folder&lt;/span&gt;
+&lt;span class="s"&gt;        OPTIONS: -h help text&lt;/span&gt;
+&lt;span class="s"&gt;        EXAMPLE: deltag &amp;quot;/home/Xuange/Music/&amp;quot;&lt;/span&gt;
+
+&lt;span class="s"&gt;        ==&amp;gt;will delete all tag of mp3 from /home/Xuange/Music/  !&lt;/span&gt;
+&lt;span class="s"&gt;        (: 能自动遍历所有子目录中的mp3文件。:)&lt;/span&gt;
+
+&lt;span class="s"&gt;    HELP&lt;/span&gt;
+    &lt;span class="nb"&gt;exit &lt;/span&gt;0
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+error&lt;span class="o"&gt;()&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="c"&gt;# print an error and exit&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;exit &lt;/span&gt;1
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="c"&gt;# the main&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$#&amp;quot;&lt;/span&gt; -lt 1 &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;help&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -n &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;do&lt;/span&gt;
+&lt;span class="k"&gt;    case&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt; in
+        -h&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;help&lt;/span&gt;;&lt;span class="nb"&gt;shift&lt;/span&gt;;; &lt;span class="c"&gt;# function help is called&lt;/span&gt;
+        --&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;shift&lt;/span&gt;;&lt;span class="nb"&gt;break&lt;/span&gt;;; &lt;span class="c"&gt;# end of options&lt;/span&gt;
+        -*&lt;span class="o"&gt;)&lt;/span&gt; error &lt;span class="s2"&gt;&amp;quot;error: no such option $1. -h for help&amp;quot;&lt;/span&gt;;;
+        *&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;break&lt;/span&gt;;;
+    &lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -d &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;deleting tag of mp3 ....&amp;quot;&lt;/span&gt;
+    find &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; -name &lt;span class="s2"&gt;&amp;quot;*.[Mm][Pp]3&amp;quot;&lt;/span&gt; -type f -print | sed &lt;span class="s1"&gt;&amp;#39;s/^/&amp;quot;/;s/$/&amp;quot;/&amp;#39;&lt;/span&gt; | xargs mid3v2 -D
+&lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;error &lt;span class="s2"&gt;&amp;quot;error: no such dir $1. -h for help&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="nb"&gt;exit &lt;/span&gt;0
+&lt;/pre&gt;&lt;/div&gt;
+</summary><category term="ubuntu"></category><category term="linux"></category><category term="mp3"></category><category term="id3tag"></category></entry><entry><title>不再</title><link href="http://r.durara.net/writings/2008/08/13/no-more/" rel="alternate"></link><updated>2008-08-13T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-08-13:writings/2008/08/13/no-more/</id><summary type="html">&lt;p&gt;雨水突然的鞭打下来，大地发出连续且持久的声响。像是重锤在鞭打着心脏。每次鞭打声响之后灰尘便被震抖起来，然后又迅速的降落下来。竟是如此的强劲有力。&lt;/p&gt;
 &lt;p&gt;青葱过的山丘，已遍地黄沙。落叶消失不见，树木开始枯黄腐烂。空气里糜烂的味道，辛辣的冲刺着。&lt;/p&gt;
 &lt;p&gt;一切都不再一样。&lt;/p&gt;
 &lt;p&gt;她早已不再是她，他亦不需要再怀念。&lt;/p&gt;
 &lt;p&gt;写于2008年8月13日。&lt;/p&gt;
 &lt;p&gt;CD：「九份的咖啡店」，窗外，雨。&lt;/p&gt;
-</summary><category term="sketch"></category></entry><entry><title>Ubuntu &amp; XP 双系统</title><link href="http://r.durara.net/writings/2008/03/03/dual-boot-xp-and-ubuntu/" rel="alternate"></link><updated>2008-03-03T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-03-03:writings/2008/03/03/dual-boot-xp-and-ubuntu/</id><summary type="html">&lt;!--  --&gt;
+</summary><category term="sketch"></category></entry><entry><title>让Apache/WampServer 支持ASP/ASP.NET</title><link href="http://r.durara.net/writings/2008/07/22/apache-support-for-asp/" rel="alternate"></link><updated>2008-07-22T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-07-22:writings/2008/07/22/apache-support-for-asp/</id><summary type="html">&lt;div class="section" id="x00"&gt;
+&lt;h2&gt;0X00 注解&lt;/h2&gt;
+&lt;p&gt;本文是基于WampServer 2.X 套件讨论的，但适用于截止到目前为止所有版本的Apache。其实我们也只是对WampServer 中的Apache 模块做了修改，使其能够支持ASP/ASP.NET。本文中Apache版本为2.2.8，WampServer 的目录地址为D:wamp。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="x01-asp-net"&gt;
+&lt;h2&gt;0X01 ASP.NET&lt;/h2&gt;
+&lt;p&gt;让Apache 支持ASP.NET 比较简单，使用apache.org 里提供的mod_aspdotnet 即可。地址是：&lt;a class="reference external" href="http://httpd.apache.org/modules/"&gt;http://httpd.apache.org/modules/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;说一下配置：首先下载mod_aspdotnet，然后将其mod_aspdotnet.so 释放到apache 的/modules/ ，如D:wampbinapacheapache2.2.8modules。然后，我们需要建立一个mod_aspdotnet 单独的配置文件.conf，如httpd-aspdotnet.conf，写好后放入apache的/conf/extra/中，这样比较规范。&lt;/p&gt;
+&lt;p&gt;httpd-aspdotnet.conf，如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# Load asp.net module&lt;/span&gt;
+&lt;span class="nb"&gt;LoadModule&lt;/span&gt; aspdotnet_module &lt;span class="s2"&gt;&amp;quot;modules/mod_aspdotnet.so&amp;quot;&lt;/span&gt;
+
+&lt;span class="c"&gt;# Set asp.net extensions&lt;/span&gt;
+&lt;span class="nb"&gt;AddHandler&lt;/span&gt; asp.net asax ascx ashx asmx aspx axd config cs csproj licx rem resources resx soap vb vbproj vsdisco webinfo
+
+&lt;span class="c"&gt;# 其中&amp;quot;D:/wamp/www/aspx&amp;quot;  为我们的ASPX 的文件的目录。需自己修改。：）&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;ifmodule&lt;/span&gt; &lt;span class="s"&gt;mod_aspdotnet.cpp&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="c"&gt;# Mount the ASP.NET /ASP application&lt;/span&gt;
+    &lt;span class="nb"&gt;AspNetMount&lt;/span&gt; &lt;span class="sx"&gt;/ASP&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;D:/wamp/www/aspx&amp;quot;&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Map all requests for /ASP to the application files&lt;/span&gt;
+    &lt;span class="nb"&gt;Alias&lt;/span&gt; &lt;span class="sx"&gt;/ASP&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;D:/wamp/www/aspx&amp;quot;&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Allow asp.net scripts to be executed in the /ASP folder&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;directory&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;D:/wamp/www/aspx&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="c"&gt;# Set asp.net options&lt;/span&gt;
+        &lt;span class="nb"&gt;Options&lt;/span&gt; Indexes FollowSymLinks Includes +ExecCGI
+        &lt;span class="c"&gt;# Set asp.net permissions&lt;/span&gt;
+        &lt;span class="nb"&gt;Order&lt;/span&gt; allow,deny
+        &lt;span class="nb"&gt;Allow&lt;/span&gt; from &lt;span class="k"&gt;all&lt;/span&gt;
+        &lt;span class="c"&gt;# Set asp.net default index page to .aspx and .htm&lt;/span&gt;
+        &lt;span class="nb"&gt;DirectoryIndex&lt;/span&gt; index.aspx index.htm
+    &lt;span class="nt"&gt;&amp;lt;/directory&amp;gt;&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Set aspnet_client files to serve the client-side helper scripts.  这里为我们的ASP.NET_Framework 的安装地址，需自己修改。&lt;/span&gt;
+    &lt;span class="nb"&gt;AliasMatch&lt;/span&gt; &lt;span class="sx"&gt;/aspnet_client/system_web/&lt;/span&gt;(\d+)_(\d+)_(\d+)_(\d+)/(.*) &lt;span class="s2"&gt;&amp;quot;C:/WINDOWS/Microsoft.NET/Framework/v3.5/ASP.NETClientFiles/$4&amp;quot;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;directory&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;C:/WINDOWS/Microsoft.NET/Framework/v3.5/ASP.NETClientFiles&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="nb"&gt;Options&lt;/span&gt; FollowSymlinks
+        &lt;span class="nb"&gt;Order&lt;/span&gt; allow,deny
+        &lt;span class="nb"&gt;Allow&lt;/span&gt; from &lt;span class="k"&gt;all&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/directory&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/ifmodule&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样写好httpd-aspdotnet.conf 后放入apache的/conf/extra/中，然后修改apache 的主配置文件/conf/httpd.conf 在其中适当位置加入代码：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# ASP.net ，写在httpd.conf 最后适当的位置。只是为了规范。&lt;/span&gt;
+&lt;span class="nb"&gt;Include&lt;/span&gt; conf/extra/httpd-aspdotnet.conf
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;然后，重启apache，现在/www/aspx/目录已经可以解析.aspx 文件了。：）&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="x02-asp"&gt;
+&lt;h2&gt;0X02 ASP&lt;/h2&gt;
+&lt;p&gt;让Apache 完美的支持asp，目前网上也没有好的解决办法，很多东西都还是商业的，以前有个mod 可以用，但只能用在apache1.X 上，很老的东西了。我找寻了很久也没有找到免费的解决办法。无意间得知phpnow 有个插件可以支持asp，马上下载下来玩了一下，终于成功让这个插件脱离phpnow，使其支持任意的Apache。其实phpnow 也是提取了试用版的ActiveHTML，效果还不错，我比较满意。&lt;/p&gt;
+&lt;p&gt;过程如下：首先下载这个phpnow 版的ActiveHTML，释放在一个适合的位置，如D:wampbinActiveHTML，ActiveHTML 需要注册几个.dll，运行CMD 在ActiveHTML 目录，执行如下命令：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;# CMD 进入ActiveHTML目录，执行如下命令
+regsvr&lt;span class="m"&gt;32&lt;/span&gt;.exe &lt;span class="n"&gt;/s&lt;/span&gt; slASP&lt;span class="m"&gt;3&lt;/span&gt;.dll
+regsvr&lt;span class="m"&gt;32&lt;/span&gt;.exe &lt;span class="n"&gt;/s&lt;/span&gt; slDispatch.dll
+regsvr&lt;span class="m"&gt;32&lt;/span&gt;.exe &lt;span class="n"&gt;/s&lt;/span&gt; MSXML&lt;span class="m"&gt;4&lt;/span&gt;.dll
+regsvr&lt;span class="m"&gt;32&lt;/span&gt;.exe &lt;span class="n"&gt;/s&lt;/span&gt; MSXML&lt;span class="m"&gt;4&lt;/span&gt;R.dll
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;然后，同样的我们需要为ActiveHTML 写一个配置文件.conf，如httpd-ahtml.conf，如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;##################################################&lt;/span&gt;
+&lt;span class="c"&gt;#   Uncomment the following lines if you want&lt;/span&gt;
+&lt;span class="c"&gt;#   to use Authorization environment-variables&lt;/span&gt;
+&lt;span class="c"&gt;#   You may implement you own user&lt;/span&gt;
+&lt;span class="c"&gt;#   authentication using LOGON_USER and&lt;/span&gt;
+&lt;span class="c"&gt;#   LOGON_PASSWORD in your scripts (Login.asp)&lt;/span&gt;
+&lt;span class="c"&gt;##################################################&lt;/span&gt;
+&lt;span class="nb"&gt;LoadModule&lt;/span&gt; rewrite_module modules/mod_rewrite.so
+&lt;span class="nb"&gt;RewriteEngine&lt;/span&gt; &lt;span class="k"&gt;On&lt;/span&gt;
+&lt;span class="nb"&gt;RewriteCond&lt;/span&gt;     %{HTTP:Authorization}   ^(.*)$ [NC]
+&lt;span class="nb"&gt;RewriteRule&lt;/span&gt;     /.*             -       [E=HTTP_AUTHORIZATION:%1]
+&lt;span class="c"&gt;##################################################&lt;/span&gt;
+
+&lt;span class="c"&gt;# Supports Imagemaps&lt;/span&gt;
+&lt;span class="nb"&gt;AddHandler&lt;/span&gt; imap-file map
+
+&lt;span class="c"&gt;##################################################&lt;/span&gt;
+&lt;span class="c"&gt;#   Do not allow access to global.asa&lt;/span&gt;
+&lt;span class="c"&gt;##################################################&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;files&lt;/span&gt; &lt;span class="s"&gt;~ &amp;quot;global.asa&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nb"&gt;Order&lt;/span&gt; allow,deny
+    &lt;span class="nb"&gt;Deny&lt;/span&gt; from &lt;span class="k"&gt;all&lt;/span&gt;
+    &lt;span class="nb"&gt;Satisfy&lt;/span&gt; &lt;span class="k"&gt;All&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/files&amp;gt;&lt;/span&gt;
+
+&lt;span class="c"&gt;##################################################&lt;/span&gt;
+&lt;span class="c"&gt;#   Add ActiveHTML-Handler  其中”D:/wamp/bin/ActiveHTML“ 为ActiveHTML释放的目录，需自己修改。&lt;/span&gt;
+&lt;span class="c"&gt;##################################################&lt;/span&gt;
+&lt;span class="nb"&gt;ScriptAlias&lt;/span&gt; &lt;span class="sx"&gt;/asp_bin&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;D:/wamp/bin/ActiveHTML&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;Action&lt;/span&gt; ActiveHTML &lt;span class="s2"&gt;&amp;quot;/asp_bin/AHTML.exe&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;AddHandler&lt;/span&gt; ActiveHTML .asp
+&lt;span class="nb"&gt;DirectoryIndex&lt;/span&gt; index.asp default.asp
+
+&lt;span class="c"&gt;##################################################&lt;/span&gt;
+&lt;span class="c"&gt;#   Add Sampledirectory Alias  其中&amp;quot;D:/wamp/www/asp/&amp;quot;为asp文件所在的目录，需自己修改。&lt;/span&gt;
+&lt;span class="c"&gt;##################################################&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;directory&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;D:/wamp/bin/ActiveHTML&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nb"&gt;Options&lt;/span&gt; Indexes MultiViews FollowSymLinks
+    &lt;span class="nb"&gt;AllowOverride&lt;/span&gt; &lt;span class="k"&gt;None&lt;/span&gt;
+    &lt;span class="nb"&gt;Order&lt;/span&gt; allow,deny
+    &lt;span class="nb"&gt;Allow&lt;/span&gt; from &lt;span class="k"&gt;all&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/directory&amp;gt;&lt;/span&gt;
+
+&lt;span class="nb"&gt;Alias&lt;/span&gt; &lt;span class="sx"&gt;/asp/&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;D:/wamp/www/asp/&amp;quot;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;directory&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;D:/wamp/www/asp/&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nb"&gt;Options&lt;/span&gt; Indexes MultiViews FollowSymLinks
+    &lt;span class="nb"&gt;AllowOverride&lt;/span&gt; &lt;span class="k"&gt;all&lt;/span&gt;
+    &lt;span class="nb"&gt;Order&lt;/span&gt; allow,deny
+    &lt;span class="nb"&gt;Allow&lt;/span&gt; from &lt;span class="k"&gt;all&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/directory&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;同样的，在apache的主配置文件httpd.conf 里适当的位置加入代码：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# ASP ，写在httpd.conf 最后适当的位置。只是为了规范。&lt;/span&gt;
+&lt;span class="nb"&gt;Include&lt;/span&gt; conf/extra/httpd-ahtml.conf
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;然后，重启apache，现在/www/asp/目录已经可以解析.asp 文件了。：）&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="x03-ps"&gt;
+&lt;h2&gt;0X03 PS&lt;/h2&gt;
+&lt;p&gt;文章本来很早就打算写，从考试前一直拖到放假。也很久没跟新这个Time.log。于是乎，在这个安静的夜晚，终于写下了这个早就打算写的文章。晚安 ～～&lt;/p&gt;
+&lt;/div&gt;
+</summary><category term="apache"></category><category term="asp"></category><category term="wamp"></category><category term=".net"></category></entry><entry><title>看完「Last Day」</title><link href="http://r.durara.net/writings/2008/05/05/kurt-last-day/" rel="alternate"></link><updated>2008-05-05T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-05-05:writings/2008/05/05/kurt-last-day/</id><summary type="html">&lt;p&gt;看完「Last Day」，心里没太多的想法。关于Nirvana，人们本不应该去讨论得太多。试图去解读一个人的内心，是否能真的看到什么？细腻的叙述，反而，或许可以抵达某处。&lt;/p&gt;
+&lt;p&gt;「Last Day」，与其说是关于Nirvana，不如说是在尽力的去描述Kurt，这是死亡的后期。当所有的东西，都离开他而去，或许说是他自己的内心已经无法去接受任何全部时，音乐和死亡成为了他最后的衣钵。他不停的自言自语，不停的...&lt;/p&gt;
+&lt;p&gt;他不停的写着什么，然后幻觉充满了脑子。&lt;/p&gt;
+&lt;p&gt;我想，这就是死亡。&lt;/p&gt;
+</summary><category term="nirvana"></category><category term="rock"></category><category term="kurt"></category><category term="music"></category></entry><entry><title>Ubuntu 8.04 Realtek 8168/8111 网卡不能上网解决办法</title><link href="http://r.durara.net/writings/2008/04/28/ubuntu-8.04-realtek-8168-8111-nic-driver/" rel="alternate"></link><updated>2008-04-28T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-04-28:writings/2008/04/28/ubuntu-8.04-realtek-8168-8111-nic-driver/</id><summary type="html">&lt;!--  --&gt;
+&lt;blockquote&gt;
+2008年10月16日：官方已经修复了网卡驱动的问题。&lt;/blockquote&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;一、确定你也遭受同样的问题&lt;/h2&gt;
+&lt;p&gt;确定你的网卡为Realtek 8168/8111网卡，可用lspci 查看。你的Ubuntu 内核为 2.6.24，似乎现在只有这个内核或者更高内核，出现死活不能上网的问题。包括在Win 下打开wake-on-lan after shutdown 为enable，也不能上网。看看你现在Ubuntu 的网卡驱动是不是r8169，这个驱动对Realtek 8168/8111 竟然不支持，有人在官方提交了BUG 报告了，但现在还没更新。&lt;/p&gt;
+&lt;p&gt;并且你试图自己下载8168的驱动，自己安装的时候，出现错误：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;xuange@R-desktop:/usr/src/r8168-8.005.00&lt;span class="nv"&gt;$ &lt;/span&gt;sudo make clean modules
+make -C src/ clean
+make&lt;span class="o"&gt;[&lt;/span&gt;1&lt;span class="o"&gt;]&lt;/span&gt;: Entering directory &lt;span class="sb"&gt;`&lt;/span&gt;/usr/src/r8168-8.005.00/src&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="s1"&gt;rm -rf *.o *.ko *~ core* .dep* .*.d .*.cmd *.mod.c *.a *.s .*.flags .tmp_versions Module.symvers Modules.symvers rset&lt;/span&gt;
+&lt;span class="s1"&gt;make[1]: Leaving directory `/usr/src/r8168-8.005.00/src&amp;#39;&lt;/span&gt;
+make -C src/ modules
+make&lt;span class="o"&gt;[&lt;/span&gt;1&lt;span class="o"&gt;]&lt;/span&gt;: Entering directory &lt;span class="sb"&gt;`&lt;/span&gt;/usr/src/r8168-8.005.00/src&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="s1"&gt;make -C /lib/modules/2.6.24-12-generic/build SUBDIRS=/src modules&lt;/span&gt;
+&lt;span class="s1"&gt;make[2]: Entering directory `/usr/src/linux-headers-2.6.24-12-generic&amp;#39;&lt;/span&gt;
+scripts/Makefile.build:41: /src/Makefile: No such file or directory
+make&lt;span class="o"&gt;[&lt;/span&gt;3&lt;span class="o"&gt;]&lt;/span&gt;: *** No rule to make target &lt;span class="sb"&gt;`&lt;/span&gt;/src/Makefile&lt;span class="s1"&gt;&amp;#39;. Stop.&lt;/span&gt;
+&lt;span class="s1"&gt;make[2]: *** [_module_/src] Error 2&lt;/span&gt;
+&lt;span class="s1"&gt;make[2]: Leaving directory `/usr/src/linux-headers-2.6.24-12-generic&amp;#39;&lt;/span&gt;
+make&lt;span class="o"&gt;[&lt;/span&gt;1&lt;span class="o"&gt;]&lt;/span&gt;: *** &lt;span class="o"&gt;[&lt;/span&gt;modules&lt;span class="o"&gt;]&lt;/span&gt; Error 2
+make&lt;span class="o"&gt;[&lt;/span&gt;1&lt;span class="o"&gt;]&lt;/span&gt;: Leaving directory &lt;span class="sb"&gt;`&lt;/span&gt;/usr/src/r8168-8.005.00/src&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+make: *** &lt;span class="o"&gt;[&lt;/span&gt;modules&lt;span class="o"&gt;]&lt;/span&gt; Error 2
+xuange@R-desktop:/usr/src/r8168-8.005.00&lt;span class="err"&gt;$&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;现在，如果像我所说的一样，很不幸，你和我们一样，遇到了这个问题。 :(&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;二、解决办法&lt;/h2&gt;
+&lt;p&gt;你需要安装一个patch 软件包，可以叫别人下了后拷贝给你：&lt;a class="reference external" href="http://forum.ubuntu.org.cn/download/file.php?id=32364&amp;amp;sid=2ada0f5b55bf226cab872bef441a6412"&gt;r8168-8.005.00版本驱动的Patch&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;下载Realtek 8168/8111网卡官方文件驱动，同样可以叫别人下了后拷贝给你，地址：
+&lt;a class="reference external" href="http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&amp;amp;PNid=13&amp;amp;PFid=5&amp;amp;Level=5&amp;amp;Conn=4&amp;amp;DownTypeID=3&amp;amp;GetDown=false"&gt;http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&amp;amp;PNid=13&amp;amp;PFid=5&amp;amp;Level=5&amp;amp;Conn=4&amp;amp;DownTypeID=3&amp;amp;GetDown=false&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;现在，我们可以动手了，自己编译驱动安装：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;tar xvjf r8168-8.005.00.tar.bz2
+
+&lt;span class="c"&gt;# 解压r8168-8.005.00.tar.bz2后，将补丁文件r8168-8.005.00.hardy.diff.txt，放在./r8168-8.005.00/src 里。&lt;/span&gt;
+
+&lt;span class="nb"&gt;cd&lt;/span&gt; ./r8168-8.005.00/src
+patch &amp;lt; r8168-8.005.00.hardy.diff.txt
+&lt;span class="nb"&gt;cd&lt;/span&gt; ..
+make clean
+make modules
+sudo make install
+sudo depmod -a
+sudo insmod ./src/r8168.ko
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;OK！ 不用重启，看看，是不是能上网了？嘿嘿。 :)&lt;/p&gt;
+&lt;p&gt;最后，感谢energymomentum 发的补丁文件。期待官方升级驱动...&lt;/p&gt;
+&lt;p&gt;补丁来源：&lt;a class="reference external" href="http://ubuntuforums.org/showthread.php?p=4718501"&gt;《r8168 driver patch for 2.6.24 kernel and higher》&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+</summary><category term="ubuntu"></category><category term="linux"></category></entry><entry><title>Ubuntu &amp; XP 双系统</title><link href="http://r.durara.net/writings/2008/03/03/dual-boot-xp-and-ubuntu/" rel="alternate"></link><updated>2008-03-03T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-03-03:writings/2008/03/03/dual-boot-xp-and-ubuntu/</id><summary type="html">&lt;!--  --&gt;
 &lt;p&gt;现在，我的Ubuntu 7.10 已经很舒服的在我手上运行了。以前用过Ubuntu 6.10，所以从Windows 到Ubuntu  没什么不适应的。这个版本还是变化挺大的，界面越做越好了，和朋友一样，不准备改变默认的主题了，真的很漂亮，很清爽。 由于是第一次装双系统并且在XP 下做GRUB 引导，所以记录下来。&lt;/p&gt;
 &lt;ol class="arabic"&gt;
 &lt;li&gt;&lt;dl class="first docutils"&gt;
