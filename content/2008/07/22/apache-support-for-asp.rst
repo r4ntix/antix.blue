@@ -12,14 +12,14 @@
 0X00 注解
 ----------------
 
-本文是基于WampServer 2.X 套件讨论的，但适用于截止到目前为止所有版本的Apache。其实我们也只是对WampServer 中的Apache 模块做了修改，使其能够支持ASP/ASP.NET。本文中Apache版本为2.2.8，WampServer 的目录地址为D:\wamp\ 。
+本文是基于WampServer 2.X 套件讨论的，但适用于截止到目前为止所有版本的Apache。其实我们也只是对WampServer 中的Apache 模块做了修改，使其能够支持ASP/ASP.NET。本文中Apache版本为2.2.8，WampServer 的目录地址为D:\\wamp\\ 。
 
 0X01 ASP.NET
 ------------------------
 
 让Apache 支持ASP.NET 比较简单，使用apache.org 里提供的mod_aspdotnet 即可。地址是：http://httpd.apache.org/modules/
 
-说一下配置：首先下载mod_aspdotnet，然后将其mod_aspdotnet.so 释放到apache 的/modules/ ，如D:\wamp\bin\apache\apache2.2.8\modules。然后，我们需要建立一个mod_aspdotnet 单独的配置文件.conf，如httpd-aspdotnet.conf，写好后放入apache的/conf/extra/中，这样比较规范。
+说一下配置：首先下载mod_aspdotnet，然后将其mod_aspdotnet.so 释放到apache 的/modules/ ，如D:\\wamp\\bin\\apache\\apache2.2.8\\modules。然后，我们需要建立一个mod_aspdotnet 单独的配置文件.conf，如httpd-aspdotnet.conf，写好后放入apache的/conf/extra/中，这样比较规范。
 
 httpd-aspdotnet.conf，如下：
 
@@ -73,7 +73,7 @@ httpd-aspdotnet.conf，如下：
 
 让Apache 完美的支持asp，目前网上也没有好的解决办法，很多东西都还是商业的，以前有个mod 可以用，但只能用在apache1.X 上，很老的东西了。我找寻了很久也没有找到免费的解决办法。无意间得知phpnow 有个插件可以支持asp，马上下载下来玩了一下，终于成功让这个插件脱离phpnow，使其支持任意的Apache。其实phpnow 也是提取了试用版的ActiveHTML，效果还不错，我比较满意。
 
-过程如下：首先下载这个phpnow 版的ActiveHTML，释放在一个适合的位置，如D:\wamp\bin\ActiveHTML\ ，ActiveHTML 需要注册几个.dll，运行CMD 在ActiveHTML 目录，执行如下命令：
+过程如下：首先下载这个phpnow 版的ActiveHTML，释放在一个适合的位置，如D:\\wamp\\bin\\ActiveHTML\\ ，ActiveHTML 需要注册几个.dll，运行CMD 在ActiveHTML 目录，执行如下命令：
 
 .. code-block:: bat
 
