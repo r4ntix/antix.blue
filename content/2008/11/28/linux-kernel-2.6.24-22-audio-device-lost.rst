@@ -1,0 +1,67 @@
+内核升级到2.6.24-22声卡失效
+================================================
+
+:date: 2008-11-28
+:category: Writings
+:tags: ubuntu, linux, kernel
+:slug: linux-kernel-2.6.24-22-audio-device-lost
+:author: r.4ntix Shawn
+:summary: 内核升级modules 包竟然没装上
+
+
+今天遇到了一件非常奇怪的事情。先是mirror.lupaworld.com 的源提示内核升级，升就升呗，自己早就想升了，2.6.24-21的内核对我的系统来说启动太慢了。 可是升级过后，重启系统，声卡就失效了。看了看“音效”设置，提示“找不到设备”。晕… 看来驱动没加载。
+
+.. code-block:: bash
+
+    Xuange@r:~/桌面$ sudo lshw -C sound
+    [sudo] password for Xuange:
+        *-multimedia
+            description: Audio device
+            product: MCP65 High Definition Audio
+            vendor: nVidia Corporation
+            physical id: 7
+            bus info: pci@0000:00:07.0
+            version: a1
+            width: 32 bits
+            clock: 66MHz
+            capabilities: pm msi ht bus_master cap_list
+            configuration: driver=HDA Intel latency=0 maxlatency=5 mingnt=2 module=snd_hda_intel
+
+sudo lshw -C sound 能找到设备。那就是内核加载驱动的事情了。
+
+.. code-block:: bash
+
+    Xuange@r:~/桌面$ dpkg -l linux-ubuntu*
+        Desired=Unknown/Install/Remove/Purge/Hold
+        | Status=Not/Installed/Config-f/Unpacked/Failed-cfg/Half-inst/t-aWait/T-pend
+        |/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: uppercase=bad)
+        ||/ 名称         版本         简介
+        +++-==============-==============-============================================
+        rc  linux-ubuntu-m 2.6.22-14.38   Ubuntu supplied Linux modules for version 2.
+        rc  linux-ubuntu-m 2.6.24-20.29   Ubuntu supplied Linux modules for version 2.
+        ii  linux-ubuntu-m 2.6.24-21.33   Ubuntu supplied Linux modules for version 2.
+
+晕，竟然没有2.6.24-22内核对应的modules 包。太奇怪了，以前自动升级内核从来没遇到过少一个modules 包的情况。
+
+自己安装上：
+
+.. code-block:: bash
+
+    Xuange@r:~/桌面$ sudo apt-get install linux-ubuntu-modules-2.6.24-22-generic
+        正在读取软件包列表... 完成
+        正在分析软件包的依赖关系树
+        读取状态信息... 完成
+        下列【新】软件包将被安装：
+        linux-ubuntu-modules-2.6.24-22-generic
+        共升级了 0 个软件包，新安装了 1 个软件包，要卸载 0 个软件包，有 0 个软件未被升级。
+        需要下载 5433kB 的软件包。
+        操作完成后，会消耗掉 17.2MB 的额外磁盘空间。
+        获取：1 http://mirror.lupaworld.com hardy-security/main linux-ubuntu-modules-2.6.24-22-generic 2.6.24-22.35 [5433kB]
+        下载 5433kB，耗时 7s (689kB/s)
+        选中了曾被取消选择的软件包 linux-ubuntu-modules-2.6.24-22-generic。
+        (正在读取数据库 ... 系统当前总共安装有 127301 个文件和目录。)
+        正在解压缩 linux-ubuntu-modules-2.6.24-22-generic (从 .../linux-ubuntu-modules-2.6.24-22-generic_2.6.24-22.35_i386.deb) ...
+        正在设置 linux-ubuntu-modules-2.6.24-22-generic (2.6.24-22.35) ...
+        update-initramfs: Generating /boot/initrd.img-2.6.24-22-generic
+
+重启系统，OK恢复正常！以后升级内核，一定要看清楚升级包有哪里，掉了没…
