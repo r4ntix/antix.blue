@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="zh-cmn-Hans" > <![endif]-->
+<html class="no-js" lang="zh-cmn-Hans" >
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>undefined reference to `gzopen64′? | r.4ntix Shawn's Noise Player</title>
+
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/normalize.css">
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/foundation.min.css">
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/typo.css">
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/pygments.css">
+  <link rel="stylesheet" href="http://r.durara.net/theme/css/app.css">
+
+  <script src="http://r.durara.net/theme/js/vendor/modernizr.js"></script>
+</head>
+
+<body>
+  <!-- start of header -->
+  <header class="contain-to-grid">
+    <nav class="top-bar" data-topbar>
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="http://r.durara.net">r.4ntix Shawn's Noise Player</a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+      </ul>
+      <section class="top-bar-section">
+        <!-- Right Nav Section -->
+        <ul class="right">
+          <li>
+            <a href="#">|</a>
+          </li>
+          <li><a href="https://www.readability.com/r4ntix/">Readability</a></li>
+          <li><a href="http://instagram.com/r4ntix">Instagram</a></li>
+          <li><a href="https://twitter.com/r4ntix">Twitter</a></li>
+          <li><a href="https://plus.google.com/112109872395334308066">Google+</a></li>
+        </ul>
+      </section>
+    </nav>
+  </header>
+  <!-- end of header -->
+
+  <!-- start of content -->
+  <div id="content" class="row">
+    <div class="medium-9 large-10 columns">
+      <div class="article typo">
+        <h1 class="serif">undefined reference to `gzopen64′?</h1>
+        <p>最近在学习GTK＋，尝试自己写一个有UI 的C/S 程序的时候。编译代码产生错误如下：</p>
+<div class="highlight"><pre>/usr/bin/../lib/libxml2.so.2: undefined reference to <span class="sb">`</span>gzopen64′
+collect2: ld 返回 1
+</pre></div>
+<p>/usr/lib/libxml2.so.2 没有gzopen64函数的定义？奇怪。那好，跟进这个文件看看：</p>
+<div class="highlight"><pre>ls -l /usr/lib/libxml2.so.2
+    lrwxrwxrwx 1 root root 17 2008-11-19 10:28 /usr/lib/libxml2.so.2 -&gt; libxml2.so.2.6.31
+ls -l /usr/lib/libxml2.so.2.6.31
+    -rw-r--r-- 1 root root 1171112 2008-11-19 03:16 /usr/lib/libxml2.so.2.6.31
+strings /usr/lib/libxml2.so.2.6.31 | grep gzopen64
+    gzopen64        <span class="c"># 发现了gzopen64的字符串，奇怪。继续..</span>
+ldd /usr/lib/libxml2.so.2.6.31
+    linux-gate.so.1 <span class="o">=</span>&gt;  <span class="o">(</span>0xb7fb7000<span class="o">)</span>
+    libdl.so.2 <span class="o">=</span>&gt; /lib/tls/i686/cmov/libdl.so.2 <span class="o">(</span>0xb7e7e000<span class="o">)</span>
+    libz.so.1 <span class="o">=</span>&gt; /usr/lib/libz.so.1 <span class="o">(</span>0xb7e69000<span class="o">)</span>    <span class="c"># 注意这个so动态库</span>
+    libm.so.6 <span class="o">=</span>&gt; /lib/tls/i686/cmov/libm.so.6 <span class="o">(</span>0xb7e43000<span class="o">)</span>
+    libc.so.6 <span class="o">=</span>&gt; /lib/tls/i686/cmov/libc.so.6 <span class="o">(</span>0xb7cf4000<span class="o">)</span>
+     /lib/ld-linux.so.2 <span class="o">(</span>0xb7fb8000<span class="o">)</span>
+ls -l /usr/lib/libz.so.1
+    lrwxrwxrwx 1 root root 15 2009-04-06 22:36 /usr/lib/libz.so.1 -&gt; libz.so.1.2.3.3
+ls -l /usr/lib/libz.so.1.2.3.3
+    -rw-r--r-- 1 root root 81240 2007-11-15 20:08 /usr/lib/libz.so.1.2.3.3
+strings /usr/lib/libz.so.1.2.3.3 | grep gzopen64
+    gzopen64   <span class="c"># 确定gzopen64是包含在这个文件里</span>
+objdump -T /usr/lib/libz.so.1.2.3.3 | grep gzopen64
+    00004040 g    DF .text  0000001b  Base        gzopen64      <span class="c"># 很明显的可以看到这个gzopen64是定义了的。</span>
+</pre></div>
+<p>这就奇怪， 难道是一个reference lookup error? 本人环境Ubuntu 8.04.2 ，libxml2 为apt-get 最新的库文件。</p>
+<p>find 搜索一下本地的libz*，发现自己机子的/opt/ 里还有一个libz.so.1.2.3。/opt/ 里放的是我本地LAMP 的开发环境(xampp的开发包)。刚好，就把libxml2 连接过来算了。gcc 编译的时候加上一句-L/opt /lampp/lib/ -lxml2 编译通过。</p>
+<p>googled：</p>
+<ul class="simple">
+<li><a class="reference external" href="https://bugs.launchpad.net/ubuntu/+source/libxml2/+bug/151045">https://bugs.launchpad.net/ubuntu/+source/libxml2/+bug/151045</a> # 不过这个bug 报告被标记为：Invalid</li>
+<li><a class="reference external" href="http://hi.baidu.com/linux%5Flfs/blog/item/3f19abdf9d615315485403ec.html">http://hi.baidu.com/linux%5Flfs/blog/item/3f19abdf9d615315485403ec.html</a> # 另外一种情况</li>
+</ul>
+
+      </div>
+    </div>
+    <div class="hide-for-small-only medium-3 large-2 columns">
+      <ul class="side-nav">
+        <li><time datetime="2009-04-07T00:00:00" class="serif">2009年04月07日</time></li>
+        <li class="divider"></li>
+        <li><span class="serif">Written by</span> <a href="#">r.4ntix Shawn</a></li>
+        <li class="divider"></li>
+        <li><span class="serif">Categories</span> <a href="#">Writings</a></li>
+        <li class="divider"></li>
+        <li><span class="serif">Tags</span> <a href="#">gtk</a> <a href="#">c</a> <a href="#">program</a> <a href="#">linux</a> </li>
+      </ul>
+    </div>
+  </div>
+  <!-- end of content -->
+
+  <!-- start of footer -->
+  <footer class="row">
+    <div class="small-6 medium-6 large-6 columns">
+      <small>
+        Designed and Created(2005-2014) by <a href="http://r.durara.net/about/">r.4ntix Shawn</a>
+        <br />
+        ✎ Time waits for no one.
+      </small>
+    </div>
+    <div class="small-6 medium-6 large-6 columns">
+      <small class="right">
+        Help from <a href="http://blog.getpelican.com/">Pelican</a> and <a href="http://foundation.zurb.com/">Foundation 5</a> and <a href="http://typo.sofish.de/">Typo.css</a>
+        <br />
+        ☂ Hosting on <a href="https://github.com/">GitHub</a> and <a href="https://gitcafe.com/">GitCafe</a>
+      </small>
+    </div>
+  </footer>
+  <!-- end of footer -->
+
+  <script src="http://r.durara.net/theme/js/vendor/jquery.js"></script>
+  <script src="http://r.durara.net/theme/js/foundation.min.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+
+  <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-47845863-1', 'durara.net');
+    ga('send', 'pageview');
+  </script>
+</body>
+
+</html>

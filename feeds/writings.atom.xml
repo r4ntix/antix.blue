@@ -93,7 +93,326 @@
 &lt;p&gt;那些曾经以为会永远在一起的人们，那个曾经认为会一直陪伴着的自己。希望再次遇到你时，你抬起额头看着远方，身上闪耀着太阳般的光芒。我想，那便是我所想要的。&lt;/p&gt;
 &lt;blockquote&gt;
 Time waits for no one. 时不待人。&lt;/blockquote&gt;
-</summary><category term="time"></category><category term="acg"></category></entry><entry><title>linux 下mp3 显示乱码</title><link href="http://r.durara.net/writings/2008/09/28/linux-remove-mp3-id3-tag/" rel="alternate"></link><updated>2008-09-28T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-09-28:writings/2008/09/28/linux-remove-mp3-id3-tag/</id><summary type="html">&lt;p&gt;我的audacious，还有其他的一些音乐播放器对于一些mp3 的标题一直显示乱码，全是ID3 tag 惹的祸。一气之下，批量删除mp3 的ID3 tag 之。&lt;/p&gt;
+</summary><category term="time"></category><category term="acg"></category></entry><entry><title>Transmission 1.8 Magnet磁力链接</title><link href="http://r.durara.net/writings/2010/01/23/transmission1.8-magnet/" rel="alternate"></link><updated>2010-01-23T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2010-01-23:writings/2010/01/23/transmission1.8-magnet/</id><summary type="html">&lt;p&gt;海盗湾事件过去很久了，天朝也开始大量河蟹 BT，ACG 网站，一瞬间让我觉得似乎回到了几年前电驴被封的那个时代，于是乎大家分分大呼将要迎来BT2.0时代。这个当然是必然的趋势，看看电驴的KAD 就知道了。&lt;/p&gt;
+&lt;p&gt;电驴活了下来，BT 也不会死。&lt;/p&gt;
+&lt;p&gt;不知道从什么时候BT 冒出来了个“Magnet 磁力链接”。简单的说，它就是类似于电驴链接地址的东西，而不用下载BT 种子。直接的说，你以后用BT 下载，既不需要Tracker 服务器，也不需要torrent 文件，仅需要一串字符就可以进行文件下载。&lt;/p&gt;
+&lt;p&gt;话从，我今天下载动画片说起，“极影”的BT 站老是连接不上啊，要么连接上站点了，种子文件死活下载不下来。去“动谩花园”看了看，于是乎就想起了“Magnet 磁力链接”。巧了，Transmission 从1.8版本开始支持“Magnet 磁力链接”，我在getdeb 已经跟新到了1.8版本。&lt;/p&gt;
+&lt;p&gt;使用“Magnet 磁力链接”下载的话，就简单了。在”动谩花园“一点击Magnet，Transmission 就自动弹出来了，确认下载。开始的1分钟左右，是在通过DHT&amp;amp;PEX 找寻peer，1分钟过后，我的下载速度已经稳定在了500kb/s 左右，下载到70%的时候，我的速度已经稳定在1mb/s了，当然这和我的网络有关系。但“Magnet 磁力链接”已经初显威力，DHT&amp;amp;PEX 的模式的确很好的实现了“去中心化下载”，并且找寻peer 的速度很快。相比之下电驴的KAD，找寻的速度貌似要慢很多。当然，DHT&amp;amp;PEX&amp;amp;KAD 都是一个思想下的产物。稍微了解了一下，可以很明显的看到DHT&amp;amp;PEX 的算法思想和现实网络中的“路由选择算法”非常相似，internet 真是奇妙。&lt;/p&gt;
+&lt;p&gt;咯… 等我反应过来，想要截图的时候，我的动画片已经下载完袄，做种上传中…&lt;/p&gt;
+&lt;p&gt;PS:&lt;/p&gt;
+&lt;p&gt;Transmission 从1.75版本开始，我个人就觉得相当的赞了，也就是从1.75版本开始我抛弃了一直使用的“奔流”。这次刚发布的1.8版本，更是相当的不错。几项功能我相当的满意，比如“Magnet 磁力链接”，监视文件夹自动添加种子(这点我相当的喜欢)，支持DHT&amp;amp;PEX，支持加密连接，支持过滤列表，支持UPNP&amp;amp;NAT-PMP，WEB 管理，等等功能。并且程序是用C 写的，效率，占用资源等等，做得很不错!&lt;/p&gt;
+&lt;p&gt;PSS:&lt;/p&gt;
+&lt;p&gt;在迅雷和快车的客服论坛都看到有网友在询问支持“Magnet 磁力链接”的问题，相信再过不久，大家都会迎来BT2.0时代。据我所知，除了“动谩花园”，其他一些BT 站点也开始在试点支持“Magnet 磁力链接”，没办法，天朝B 的。&lt;/p&gt;
+&lt;p&gt;PSSS:&lt;/p&gt;
+&lt;p&gt;这几年BT 的发展和电驴的发展真的很相似，电驴就是”前车之鉴“哇。哇卡卡。&lt;/p&gt;
+&lt;p&gt;很多事情真的要有人B 你，你才能取得进步，几年前的电驴就是这样，现在轮到BT 了。&lt;/p&gt;
+&lt;p&gt;PSSSS:&lt;/p&gt;
+&lt;p&gt;哇，今天23号了！&lt;/p&gt;
+&lt;p&gt;Fate/stay night Unlimited Blade Works
+魔法少女リリカルなのは The MOVIE 1st
+遊☆戯☆王 ～超融合！時空（とき）を越えた絆～&lt;/p&gt;
+&lt;p&gt;3部剧场版今天同时上映！！！ 等待了好久，OY！ 我先洗洗睡了，躺在床上看动画片。^_^&lt;/p&gt;
+</summary><category term="transmission"></category><category term="bt"></category><category term="magnet"></category></entry><entry><title>2009——挥霍与珍惜原来是同一件事情</title><link href="http://r.durara.net/writings/2009/12/31/i-2009/" rel="alternate"></link><updated>2009-12-31T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2009-12-31:writings/2009/12/31/i-2009/</id><summary type="html">&lt;p&gt;2009年的最后一天，懒散的看完了《CANAAN》的最后一话。&lt;/p&gt;
+&lt;p&gt;18:00出门去洗澡，习惯了每年的最后一天去洗澡，同样也喜欢上了这样的安排。&lt;/p&gt;
+&lt;p&gt;最后一顿饭是杂酱面，洗澡回来的路上一个人去吃的。煮面的姐姐端面上来说：“我帮你多煮了一些，不知道你吃得完不。”    “还可以吧。”，我说。吃完了，没忘记笑着说上一句：“刚好吃完，嘿嘿”，以表得意。&lt;/p&gt;
+&lt;p&gt;对于2010年，我还是挺期待的，毕竟要离开校园了，新的生活即将开始，或许还会遇上一些稀奇古怪的人。&lt;/p&gt;
+&lt;p&gt;2009年，挥霍与珍惜原来是同一件事情。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;生活&lt;/h2&gt;
+&lt;p&gt;记不得上半年干了些啥了。总之，我宅了。&lt;/p&gt;
+&lt;p&gt;4，也许是5月份，开始玩9c的FIFA online 2 ，认识了很多游戏上的朋友；&lt;/p&gt;
+&lt;p&gt;6月份，参加了贵州FIFA联盟的线下比赛，哇嘎嘎，不好意思得了第一名，奖品若干；&lt;/p&gt;
+&lt;p&gt;暑假回家，看余华的小说；好好看了几场球赛，现在的意甲真难看；&lt;/p&gt;
+&lt;p&gt;10月份，松哥，飞哥，还有俺，终于出去旅游了哇。去了松哥的家乡，铜仁；&lt;/p&gt;
+&lt;p&gt;在梵净山山顶，待了一夜，看见了梦幻的云朵，夕阳，流星，日出；&lt;/p&gt;
+&lt;p&gt;话说我被松哥4点叫起来看日出，黑漆漆的深夜3个人在山顶，顶着狂风＆寒冷站了2个小时才看到日出，死的心都有了；&lt;/p&gt;
+&lt;p&gt;还去了凤凰，真是适合生活的地方，如果旅游的人能少点的话；还想再去一次；&lt;/p&gt;
+&lt;p&gt;国庆后，删除了FIFA online 2，开始玩FM2009，等待FM2010；最后FM2010 也悲剧了；&lt;/p&gt;
+&lt;p&gt;看了很多很多的动画片，多得我数不过来。哭了个稀巴烂。&lt;/p&gt;
+&lt;p&gt;做了两年的兼职，结束了。蹭服务器用的日子，也结束了 ;(&lt;/p&gt;
+&lt;p&gt;Reforget.Timelog 搬到了思跃无限，把域名也备了案。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h2&gt;学习&lt;/h2&gt;
+&lt;p&gt;看完了《Linux程序设计》，突然发现Gnome/GTK 方面的中文文档真的很少；&lt;/p&gt;
+&lt;p&gt;也跟着书上的代码例子，像模像样的写了点东西；&lt;/p&gt;
+&lt;p&gt;忍不住，还是把Ubuntu从8.04 升级到了9.04。&lt;/p&gt;
+&lt;p&gt;看了一部分《TCP/IP详解卷1》，至今也没看完；&lt;/p&gt;
+&lt;p&gt;断断续续，我开始挥霍时间了；&lt;/p&gt;
+&lt;p&gt;把Ubuntu从9.04 升级到了9.10，变化真大啊；&lt;/p&gt;
+&lt;p&gt;有些东西有需求的时候，没去写；开始着手去写的时候，发现自己没需求了；就挂在那里；&lt;/p&gt;
+&lt;p&gt;《Unix环境高级编程》放在书架上半年了，没翻开过，或许已经是一层灰了；&lt;/p&gt;
+&lt;p&gt;要开始毕业设计了，完全不知道自己想干嘛。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id4"&gt;
+&lt;h2&gt;爱情&lt;/h2&gt;
+&lt;p&gt;挥霍与珍惜原来是同一件事情。&lt;/p&gt;
+&lt;/div&gt;
+</summary><category term="myself"></category><category term="life"></category></entry><entry><title>undefined reference to `gzopen64′?</title><link href="http://r.durara.net/writings/2009/04/07/undefined-reference-to-gzopen64/" rel="alternate"></link><updated>2009-04-07T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2009-04-07:writings/2009/04/07/undefined-reference-to-gzopen64/</id><summary type="html">&lt;p&gt;最近在学习GTK＋，尝试自己写一个有UI 的C/S 程序的时候。编译代码产生错误如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;/usr/bin/../lib/libxml2.so.2: undefined reference to &lt;span class="sb"&gt;`&lt;/span&gt;gzopen64′
+collect2: ld 返回 1
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;/usr/lib/libxml2.so.2 没有gzopen64函数的定义？奇怪。那好，跟进这个文件看看：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ls -l /usr/lib/libxml2.so.2
+    lrwxrwxrwx 1 root root 17 2008-11-19 10:28 /usr/lib/libxml2.so.2 -&amp;gt; libxml2.so.2.6.31
+ls -l /usr/lib/libxml2.so.2.6.31
+    -rw-r--r-- 1 root root 1171112 2008-11-19 03:16 /usr/lib/libxml2.so.2.6.31
+strings /usr/lib/libxml2.so.2.6.31 | grep gzopen64
+    gzopen64        &lt;span class="c"&gt;# 发现了gzopen64的字符串，奇怪。继续..&lt;/span&gt;
+ldd /usr/lib/libxml2.so.2.6.31
+    linux-gate.so.1 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt;  &lt;span class="o"&gt;(&lt;/span&gt;0xb7fb7000&lt;span class="o"&gt;)&lt;/span&gt;
+    libdl.so.2 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/tls/i686/cmov/libdl.so.2 &lt;span class="o"&gt;(&lt;/span&gt;0xb7e7e000&lt;span class="o"&gt;)&lt;/span&gt;
+    libz.so.1 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /usr/lib/libz.so.1 &lt;span class="o"&gt;(&lt;/span&gt;0xb7e69000&lt;span class="o"&gt;)&lt;/span&gt;    &lt;span class="c"&gt;# 注意这个so动态库&lt;/span&gt;
+    libm.so.6 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/tls/i686/cmov/libm.so.6 &lt;span class="o"&gt;(&lt;/span&gt;0xb7e43000&lt;span class="o"&gt;)&lt;/span&gt;
+    libc.so.6 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/tls/i686/cmov/libc.so.6 &lt;span class="o"&gt;(&lt;/span&gt;0xb7cf4000&lt;span class="o"&gt;)&lt;/span&gt;
+     /lib/ld-linux.so.2 &lt;span class="o"&gt;(&lt;/span&gt;0xb7fb8000&lt;span class="o"&gt;)&lt;/span&gt;
+ls -l /usr/lib/libz.so.1
+    lrwxrwxrwx 1 root root 15 2009-04-06 22:36 /usr/lib/libz.so.1 -&amp;gt; libz.so.1.2.3.3
+ls -l /usr/lib/libz.so.1.2.3.3
+    -rw-r--r-- 1 root root 81240 2007-11-15 20:08 /usr/lib/libz.so.1.2.3.3
+strings /usr/lib/libz.so.1.2.3.3 | grep gzopen64
+    gzopen64   &lt;span class="c"&gt;# 确定gzopen64是包含在这个文件里&lt;/span&gt;
+objdump -T /usr/lib/libz.so.1.2.3.3 | grep gzopen64
+    00004040 g    DF .text  0000001b  Base        gzopen64      &lt;span class="c"&gt;# 很明显的可以看到这个gzopen64是定义了的。&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这就奇怪， 难道是一个reference lookup error? 本人环境Ubuntu 8.04.2 ，libxml2 为apt-get 最新的库文件。&lt;/p&gt;
+&lt;p&gt;find 搜索一下本地的libz*，发现自己机子的/opt/ 里还有一个libz.so.1.2.3。/opt/ 里放的是我本地LAMP 的开发环境(xampp的开发包)。刚好，就把libxml2 连接过来算了。gcc 编译的时候加上一句-L/opt /lampp/lib/ -lxml2 编译通过。&lt;/p&gt;
+&lt;p&gt;googled：&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://bugs.launchpad.net/ubuntu/+source/libxml2/+bug/151045"&gt;https://bugs.launchpad.net/ubuntu/+source/libxml2/+bug/151045&lt;/a&gt; # 不过这个bug 报告被标记为：Invalid&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://hi.baidu.com/linux%5Flfs/blog/item/3f19abdf9d615315485403ec.html"&gt;http://hi.baidu.com/linux%5Flfs/blog/item/3f19abdf9d615315485403ec.html&lt;/a&gt; # 另外一种情况&lt;/li&gt;
+&lt;/ul&gt;
+</summary><category term="gtk"></category><category term="c"></category><category term="program"></category><category term="linux"></category></entry><entry><title>error while loading shared libraries?</title><link href="http://r.durara.net/writings/2009/03/17/error-while-loading-shared-libraries/" rel="alternate"></link><updated>2009-03-17T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2009-03-17:writings/2009/03/17/error-while-loading-shared-libraries/</id><summary type="html">&lt;p&gt;最近在看mysql 的api。用C 写和mysql 交互的代码，用的是xampp-linux-devel-1.7 包，全部的lib 和include 都放在了/opt 下面。编译时指定include 和lib 搜索位置都没问题。可在程序运行时./connect 时，出错：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./connect: error &lt;span class="k"&gt;while &lt;/span&gt;loading shared libraries: libmysqlclient.so.15.0.0:cannot open shared object file: No such file or directory
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;查了一下，是ld(动态装载器)找不到libmysqlclient.so.15.0.0 的所在位置。解决办法：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo touch /etc/ld.so.conf.d/mysql.conf
+sudo gedit /etc/ld.so.conf.d/mysql.conf
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;在里面写上libmysqlclient.so.15.0.0 所在的目录位置就可以，比如：/opt/lampp/lib/mysql 保存后，执行sudo ldconfig -v 就可以了。&lt;/p&gt;
+&lt;p&gt;.so 动态库的解决办法都一样 :)&lt;/p&gt;
+</summary><category term="linux"></category><category term="c"></category><category term="program"></category><category term="mysql"></category></entry><entry><title>Ubuntu Upstart 基于事件的启动进程</title><link href="http://r.durara.net/writings/2009/01/08/ubuntu-upstart-event-based-init-daemon/" rel="alternate"></link><updated>2009-01-08T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2009-01-08:writings/2009/01/08/ubuntu-upstart-event-based-init-daemon/</id><summary type="html">&lt;p&gt;昨晚上在看《开源世界的旅行手册》的时候，其「II.地理——第15章 基本系统——启动流程」中描述到：&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;读取MBR 的信息，启动Boot Manager&lt;/li&gt;
+&lt;li&gt;加载系统内核，启动init 进程&lt;/li&gt;
+&lt;li&gt;init 进程读取/etc/inittab 文件中的信息，并进入预设的运行级别，按顺序运行该运行级别对应文件夹下的脚本。脚本通常以start 选项启动，并指向一个系统中的程序。&lt;/li&gt;
+&lt;li&gt;根据/etc/rcS.d/ 文件夹中对应的脚本启动Xwindow 服务器xorg&lt;/li&gt;
+&lt;li&gt;启动登录管理器，等待用户登录&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;注意第3条，我在ubuntu 8.04 上并没有发现所谓的/etc/inittab 文件，在网上找了一些资料知道从ubuntu 6.10 开始，ubuntu 已经开始用Upstart 取代了传统的System V 的init daemon (Sysvinit)。于是随着这个好奇，找了一些资料了解到下一代init 程序，如：Upstart，initng 的发展，及其优势。主要看了Upstart 的资料，从官网上看，目前Upstart 的用户包括了：&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Ubuntu 6.10 and later&lt;/li&gt;
+&lt;li&gt;Fedora 9 and later&lt;/li&gt;
+&lt;li&gt;Debian experimental&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;总的来说，Upstart 这种基于事件的启动模式来说，优势是很明显的，很灵活。实质上，改变了linux 以往的runlevel 的模式。&lt;/p&gt;
+&lt;p&gt;资料：&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://upstart.ubuntu.com/"&gt;http://upstart.ubuntu.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://labs.chinamobile.com/community/my_blog/225/2804"&gt;http://labs.chinamobile.com/community/my_blog/225/2804&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://labs.chinamobile.com/community/my_blog/225/2804"&gt;资料2&lt;/a&gt; 中有这么一句话：&lt;/p&gt;
+&lt;blockquote&gt;
+在/etc/event.d/rc? 文件中定义的rc? 工作会运行/etc/init.d/rc 脚本，这个脚本会运行链接到/etc/rc?.d 目录中的/etc/init.d 中的启动脚本，以模拟SysVinit 的行为。&lt;/blockquote&gt;
+&lt;p&gt;实质上，/etc/rc?.d 目录中的文件，是到/etc/init.d 中启动脚本的一个符号链接(ln -s)，终归到底就是在/etc/init.d/ 目录的脚本执行。而这样做，却把/etc/init.d/ 中的脚本归类了，分为由不同的事件来驱动，并且排了个启动顺序。再次 见证linux 的文件管理方式的符号链接模式的便利，和灵活。赞一个～～&lt;/p&gt;
+&lt;p&gt;考试好无聊哦，咱想回家 ^_^&lt;/p&gt;
+</summary><category term="ubuntu"></category><category term="linux"></category></entry><entry><title>编译并打包deb 安装conky1.6.1</title><link href="http://r.durara.net/writings/2009/01/02/create-conky-deb-package/" rel="alternate"></link><updated>2009-01-02T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2009-01-02:writings/2009/01/02/create-conky-deb-package/</id><summary type="html">&lt;p&gt;conky 是我非常喜欢的一款system monitor，官方用一句话来描述conky: A light-weight system monitor。&lt;/p&gt;
+&lt;p&gt;ubuntu 8.04 源里的版本是1.5.1，我也用了好久，但总有一些小bug，并且因为是通用deb 的原因，并没有开启$nvidia 的一些信息获取支持(我用的是nvidia，嘿嘿)。刚好在conky 官方看到，最新的稳定版本是1.6.1，fixed 不少bug。 于是乎，自己下载下来编译打包。;-)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install libcurl4-openssl-dev   &lt;span class="c"&gt;#这个是--enable-rss需要的库，我用conky来订阅了一些RSS;-)&lt;/span&gt;
+sudo apt-get install libxnvctrl-dev     &lt;span class="c"&gt;#这个是 --enable-nvidia需要的库&lt;/span&gt;
+&lt;span class="c"&gt;#其他的一些基本需要的库就不列举出来了。比如libx11-dev  ...&lt;/span&gt;
+tar -xjvf conky-1.6.1.tar.bz2
+&lt;span class="nb"&gt;cd &lt;/span&gt;conky-1.6.1/
+./configure --prefix&lt;span class="o"&gt;=&lt;/span&gt;/usr --mandir&lt;span class="o"&gt;=&lt;/span&gt;/usr/share/man --infodir&lt;span class="o"&gt;=&lt;/span&gt;/usr/share/info --datadir&lt;span class="o"&gt;=&lt;/span&gt;/usr/share --sysconfdir&lt;span class="o"&gt;=&lt;/span&gt;/etc --localstatedir&lt;span class="o"&gt;=&lt;/span&gt;/var/lib --enable-xft --enable-dou-ble-buffer --enable-own-window --enable-proc-uptime --enable-mpd --enable-x11 --enable-portmon --enable-nvidia --enable-audacious --enable-rss
+make
+sudo checkinstall
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样就可以在本目录下生成一个deb 包，并且自动安装好。&lt;/p&gt;
+&lt;p&gt;如果仅仅只想打包，不安装，最后一步这样：checkinstall，不加sudo 就行(权限不够，安装失败，嘿嘿)。&lt;/p&gt;
+</summary><category term="conky"></category><category term="debian"></category><category term="ubuntu"></category><category term="linux"></category></entry><entry><title>FCK plugins 代码高亮插件 for Z-blog</title><link href="http://r.durara.net/writings/2008/12/08/fckeditor-plugin-code-highlighter-for-zblog/" rel="alternate"></link><updated>2008-12-08T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-12-08:writings/2008/12/08/fckeditor-plugin-code-highlighter-for-zblog/</id><summary type="html">&lt;!--  --&gt;
+&lt;p&gt;其实我很早之前就开始弄上这个了，用了6个多月，也一直没发出来… 太懒了：)&lt;/p&gt;
+&lt;p&gt;昨天给咱的Z-blog 升级到最新版本，一不注意，把我很多修改过的东西直接覆盖了，其中就包括这个InsertCode 代码高亮插件。在本地弄了一会儿，发现全忘记了，那个汗啊… 看来还是记下来比较好。&lt;/p&gt;
+&lt;p&gt;首先把insertcode 整个文件夹放在FCK的plugins 文件夹下，在Z-blog 里就是~/admin/FCKeditor/editor/plugins 。然后把fck_editorarea.css 复制到FCKeditor/editor/css 下，直接覆盖。修改FCKeditor/fckconfig.js 文件，在 &lt;code class="js"&gt;&lt;span class="nx"&gt;FCKConfig&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Plugins&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="err"&gt;‘&lt;/span&gt;&lt;span class="nx"&gt;Media&lt;/span&gt;&lt;span class="err"&gt;’&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;‘&lt;/span&gt;&lt;span class="nx"&gt;zh&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;cn&lt;/span&gt;&lt;span class="err"&gt;’&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;&lt;/code&gt; 下面加上如下一行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;FCKConfig&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Plugins&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;insertcode&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;然后修改FCKConfig.ToolbarSets，如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;FCKConfig&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ToolbarSets&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Default&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Source&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;FontName&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;FontSize&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;TextColor&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;BGColor&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Image&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Media&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Flash&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Table&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Smiley&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;SpecialChar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ShowBlocks&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Preview&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;FitWindow&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;PasteText&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Templates&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Find&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;RemoveFormat&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Undo&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Redo&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Bold&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Italic&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Underline&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;StrikeThrough&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;OrderedList&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;UnorderedList&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Outdent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Indent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Blockquote&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;JustifyLeft&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;JustifyCenter&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;JustifyRight&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Link&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Unlink&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Rule&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Subscript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Superscript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;InsertCode&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;   &lt;span class="c1"&gt;// No comma for the last row.&lt;/span&gt;
+&lt;span class="p"&gt;];&lt;/span&gt;
+
+&lt;span class="nx"&gt;FCKConfig&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ToolbarSets&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Basic&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Source&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Bold&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Italic&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;TextColor&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Image&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Link&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;InsertCode&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;最后，千万别忘记修改FCKeditor/editor/lang 下的语言文件，我就是忘记这个了。在语言文件（zh-cn.js &amp;amp; en.js）里修改如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// About Dialog&lt;/span&gt;
+&lt;span class="nx"&gt;DlgAboutAboutTab&lt;/span&gt;    &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;关于&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="nx"&gt;DlgAboutBrowserInfoTab&lt;/span&gt;  &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;浏览器信息&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="nx"&gt;DlgAboutLicenseTab&lt;/span&gt;  &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;许可证&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="nx"&gt;DlgAboutVersion&lt;/span&gt;     &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;版本&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="nx"&gt;DlgAboutInfo&lt;/span&gt;        &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;要获得更多信息请访问 &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="nx"&gt;InsertCodeBtn&lt;/span&gt;   &lt;span class="o"&gt;:&lt;/span&gt;   &lt;span class="s2"&gt;&amp;quot;插入代码&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;最后，在模板文件里加上：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;link&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/admin/FCKeditor/editor/plugins/insertcode/insertcode.css&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;OK 了，清空浏览器的缓存，开始FCK编辑吧.. ～～&lt;/p&gt;
+</summary><category term="hack"></category><category term="zblog"></category><category term="fck"></category></entry><entry><title>内核升级到2.6.24-22声卡失效</title><link href="http://r.durara.net/writings/2008/11/28/linux-kernel-2.6.24-22-audio-device-lost/" rel="alternate"></link><updated>2008-11-28T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-11-28:writings/2008/11/28/linux-kernel-2.6.24-22-audio-device-lost/</id><summary type="html">&lt;p&gt;今天遇到了一件非常奇怪的事情。先是mirror.lupaworld.com 的源提示内核升级，升就升呗，自己早就想升了，2.6.24-21的内核对我的系统来说启动太慢了。 可是升级过后，重启系统，声卡就失效了。看了看“音效”设置，提示“找不到设备”。晕… 看来驱动没加载。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Xuange@r:~/桌面&lt;span class="nv"&gt;$ &lt;/span&gt;sudo lshw -C sound
+&lt;span class="o"&gt;[&lt;/span&gt;sudo&lt;span class="o"&gt;]&lt;/span&gt; password &lt;span class="k"&gt;for &lt;/span&gt;Xuange:
+    *-multimedia
+        description: Audio device
+        product: MCP65 High Definition Audio
+        vendor: nVidia Corporation
+        physical id: 7
+        bus info: pci@0000:00:07.0
+        version: a1
+        width: 32 bits
+        clock: 66MHz
+        capabilities: pm msi ht bus_master cap_list
+        configuration: &lt;span class="nv"&gt;driver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;HDA Intel &lt;span class="nv"&gt;latency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;0 &lt;span class="nv"&gt;maxlatency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;5 &lt;span class="nv"&gt;mingnt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;2 &lt;span class="nv"&gt;module&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;snd_hda_intel
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;sudo lshw -C sound 能找到设备。那就是内核加载驱动的事情了。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Xuange@r:~/桌面&lt;span class="nv"&gt;$ &lt;/span&gt;dpkg -l linux-ubuntu*
+    &lt;span class="nv"&gt;Desired&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;Unknown/Install/Remove/Purge/Hold
+    | &lt;span class="nv"&gt;Status&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;Not/Installed/Config-f/Unpacked/Failed-cfg/Half-inst/t-aWait/T-pend
+    |/ Err?&lt;span class="o"&gt;=(&lt;/span&gt;none&lt;span class="o"&gt;)&lt;/span&gt;/Hold/Reinst-required/X&lt;span class="o"&gt;=&lt;/span&gt;both-problems &lt;span class="o"&gt;(&lt;/span&gt;Status,Err: &lt;span class="nv"&gt;uppercase&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;bad&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="o"&gt;||&lt;/span&gt;/ 名称         版本         简介
+    +++-&lt;span class="o"&gt;==============&lt;/span&gt;-&lt;span class="o"&gt;==============&lt;/span&gt;-&lt;span class="o"&gt;============================================&lt;/span&gt;
+    rc  linux-ubuntu-m 2.6.22-14.38   Ubuntu supplied Linux modules &lt;span class="k"&gt;for &lt;/span&gt;version 2.
+    rc  linux-ubuntu-m 2.6.24-20.29   Ubuntu supplied Linux modules &lt;span class="k"&gt;for &lt;/span&gt;version 2.
+    ii  linux-ubuntu-m 2.6.24-21.33   Ubuntu supplied Linux modules &lt;span class="k"&gt;for &lt;/span&gt;version 2.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;晕，竟然没有2.6.24-22内核对应的modules 包。太奇怪了，以前自动升级内核从来没遇到过少一个modules 包的情况。&lt;/p&gt;
+&lt;p&gt;自己安装上：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Xuange@r:~/桌面&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install linux-ubuntu-modules-2.6.24-22-generic
+    正在读取软件包列表... 完成
+    正在分析软件包的依赖关系树
+    读取状态信息... 完成
+    下列【新】软件包将被安装：
+    linux-ubuntu-modules-2.6.24-22-generic
+    共升级了 0 个软件包，新安装了 1 个软件包，要卸载 0 个软件包，有 0 个软件未被升级。
+    需要下载 5433kB 的软件包。
+    操作完成后，会消耗掉 17.2MB 的额外磁盘空间。
+    获取：1 http://mirror.lupaworld.com hardy-security/main linux-ubuntu-modules-2.6.24-22-generic 2.6.24-22.35 &lt;span class="o"&gt;[&lt;/span&gt;5433kB&lt;span class="o"&gt;]&lt;/span&gt;
+    下载 5433kB，耗时 7s &lt;span class="o"&gt;(&lt;/span&gt;689kB/s&lt;span class="o"&gt;)&lt;/span&gt;
+    选中了曾被取消选择的软件包 linux-ubuntu-modules-2.6.24-22-generic。
+    &lt;span class="o"&gt;(&lt;/span&gt;正在读取数据库 ... 系统当前总共安装有 127301 个文件和目录。&lt;span class="o"&gt;)&lt;/span&gt;
+    正在解压缩 linux-ubuntu-modules-2.6.24-22-generic &lt;span class="o"&gt;(&lt;/span&gt;从 .../linux-ubuntu-modules-2.6.24-22-generic_2.6.24-22.35_i386.deb&lt;span class="o"&gt;)&lt;/span&gt; ...
+    正在设置 linux-ubuntu-modules-2.6.24-22-generic &lt;span class="o"&gt;(&lt;/span&gt;2.6.24-22.35&lt;span class="o"&gt;)&lt;/span&gt; ...
+    update-initramfs: Generating /boot/initrd.img-2.6.24-22-generic
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;重启系统，OK恢复正常！以后升级内核，一定要看清楚升级包有哪里，掉了没…&lt;/p&gt;
+</summary><category term="ubuntu"></category><category term="linux"></category><category term="kernel"></category></entry><entry><title>Discuz! 6.x/7.x SODB-2008-13 Check</title><link href="http://r.durara.net/writings/2008/11/17/discuz-6.x-7.x-sodb-2008-13-bash-check/" rel="alternate"></link><updated>2008-11-17T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-11-17:writings/2008/11/17/discuz-6.x-7.x-sodb-2008-13-bash-check/</id><summary type="html">&lt;p&gt;好吧，我承认上个周末，我并没有像往常一样玩一整天的PES2009。实际上在星期六，我用早上的时间看了正则，下午写下了Discuz! 6.x/7.x SODB-2008-13 Check，这个东东。在我写的前一天heige 发布了exp，不得不说这个是对我的一个诱惑。因为很久没看到DZ 出这么严重的洞洞了 :(&lt;/p&gt;
+&lt;p&gt;说明一下，这不是首发，写出来的那天就被一个朋友在他的blog 上发出来了。不过，发出来只是一个“bug”版本，比如说抓取的结果并不是很好，还有关于google 自动处理机的一些问题。主要的是，并没有整合那个exp，整合的当然不能乱发了。我还是把这个“bug”代码帖一下，记录一下。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class="c"&gt;# Discuz! 6.x/7.x SODB-2008-13 Check&lt;/span&gt;
+&lt;span class="c"&gt;# 文件中google_page_count 参数是 google 搜索结果的页数，大于0就可以，太大了，google 会认为是自动机而停止处理！&lt;/span&gt;
+&lt;span class="c"&gt;# 如果修改了搜索的关键字，抓取链接需自行处理，本脚本只是简单测试&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;#                              date: 11.15.2008&lt;/span&gt;
+
+
+&lt;span class="nb"&gt;help&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+   cat &amp;lt; &amp;lt; HELP
+&lt;span class="c"&gt;#===================================================#&lt;/span&gt;
+Discuz! 6.x/7.x SODB-2008-13 Check
++---------------------------------------------------------+
+USAGE: dzcheck &lt;span class="o"&gt;[&lt;/span&gt;-h&lt;span class="o"&gt;]&lt;/span&gt; google_page_count
+OPTIONS: -h &lt;span class="nb"&gt;help &lt;/span&gt;text
+EXAMPLE: ./dzcheck 10
++---------------------------------------------------------+
+                                date: 11.15.2008
+&lt;span class="c"&gt;#===================================================#&lt;/span&gt;
+
+HELP
+   &lt;span class="nb"&gt;exit &lt;/span&gt;0
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+error&lt;span class="o"&gt;()&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+   &lt;span class="c"&gt;# print an error and exit&lt;/span&gt;
+   &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt;
+   &lt;span class="nb"&gt;exit &lt;/span&gt;1
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="c"&gt;# the main&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$#&amp;quot;&lt;/span&gt; -lt 1 &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;help&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -n &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;do&lt;/span&gt;
+&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt; in
+   -h&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;help&lt;/span&gt;;&lt;span class="nb"&gt;shift&lt;/span&gt;;; &lt;span class="c"&gt;# function help is called&lt;/span&gt;
+   --&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;shift&lt;/span&gt;;&lt;span class="nb"&gt;break&lt;/span&gt;;; &lt;span class="c"&gt;# end of options&lt;/span&gt;
+   -*&lt;span class="o"&gt;)&lt;/span&gt; error &lt;span class="s2"&gt;&amp;quot;error: no such option $1. -h for help&amp;quot;&lt;/span&gt;;;
+   *&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;break&lt;/span&gt;;;
+&lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+
+&lt;span class="nv"&gt;countPage&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;0
+&lt;span class="nv"&gt;flag&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;0
+&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$flag&amp;quot;&lt;/span&gt; -lt &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;do&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;wget --no-cookies --user-agent&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)&amp;quot;&lt;/span&gt; --referer&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;http://www.google.cn&amp;quot;&lt;/span&gt;  &lt;span class="s2"&gt;&amp;quot;http://www.google.cn/search?hl=zh-CN&amp;amp;newwindow=1&amp;amp;q=inurl:bbs/wap/index.php+Powered+by+Discuz!&amp;amp;start=$countPage&amp;amp;sa=N&amp;quot;&lt;/span&gt;  -O /tmp/t_url -T 7 -t 4
+    &lt;span class="k"&gt;for &lt;/span&gt;url in &lt;span class="k"&gt;$(&lt;/span&gt;sed &lt;span class="s1"&gt;&amp;#39;s_&amp;lt;p&amp;gt;&amp;lt;a [^&amp;gt;]*href=&amp;quot;[^&amp;quot;]\+\/index\.php\?_\n&amp;amp;\n_g&amp;#39;&lt;/span&gt; /tmp/t_url | grep &lt;span class="s2"&gt;&amp;quot;&amp;lt;p&amp;gt;&amp;lt;a href=&amp;quot;&lt;/span&gt; | awk -F&lt;span class="s2"&gt;&amp;quot;\&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;{print $2}&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;do&lt;/span&gt;
+&lt;span class="k"&gt;        &lt;/span&gt;wget --no-cookies --user-agent&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)&amp;quot;&lt;/span&gt; --referer&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;http://www.google.cn&amp;quot;&lt;/span&gt; --post-data&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;action=register&amp;#39;&lt;/span&gt; -O /tmp/check -T 7 -t 4 &lt;span class="s2"&gt;&amp;quot;$url&amp;quot;&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$(grep &amp;quot;&lt;/span&gt;email&lt;span class="s2"&gt;&amp;quot; /tmp/check | wc -l)&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;0&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;OK! $url &amp;quot;&lt;/span&gt;
+            &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;OK : $url&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; urllist
+        &lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="k"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;NO! $url &amp;quot;&lt;/span&gt;
+        &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;    done&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;countPage&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$((&lt;/span&gt;&lt;span class="nv"&gt;$countPage&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="k"&gt;))&lt;/span&gt;
+    &lt;span class="nv"&gt;flag&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$((&lt;/span&gt;&lt;span class="nv"&gt;$flag&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;))&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+rm -r /tmp/t_url /tmp/check
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;开启WAP注册的结果URL列表保存在当前目录下urllist&amp;quot;&lt;/span&gt;
+
+&lt;span class="nb"&gt;exit &lt;/span&gt;0
+&lt;/pre&gt;&lt;/div&gt;
+</summary><category term="discuz"></category><category term="security"></category><category term="poc"></category><category term="bash"></category></entry><entry><title>signal(sig, function) 系统调用</title><link href="http://r.durara.net/writings/2008/11/10/signal-function-system-call/" rel="alternate"></link><updated>2008-11-10T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-11-10:writings/2008/11/10/signal-function-system-call/</id><summary type="html">&lt;!--  --&gt;
+&lt;p&gt;在这星期《操作系统实验指导》上看到了这样一个系统调用：&lt;code class="c"&gt;&lt;span class="n"&gt;signal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;/code&gt;，呵呵，很好奇，因为每次这课的系统调用都说得很不清楚，连函数原型也没有。所以导致很多同学写的(也可能是抄的..)程序编译不成功，即使编译成功了程序也出错。&lt;/p&gt;
+&lt;p&gt;于是翻了翻书，书上说这个系统调用的函数原型是 &lt;code class="c"&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;signal&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;sig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;func&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;/code&gt;，更是一惊，这样的函数原型在学校这种SB 课本上是很少见的，可能有些同学看都看不懂，更别说，好好的调用了。当然 &lt;code class="c"&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;signal&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt; 头文件(跟进去看看就知道了，老外还真细心)为代码用户解决了 &lt;code class="c"&gt;&lt;span class="n"&gt;conversion&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="err"&gt;‘&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="err"&gt;’&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="err"&gt;’&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="err"&gt;’&lt;/span&gt;&lt;/code&gt; 这样的问题，虽然能成功编译文件，但编译时照样会出现警告！&lt;/p&gt;
+&lt;p&gt;当然如果你认为“警告”无关紧要的话，你就去死吧。0 warning，0 error ，才是我的追求。&lt;/p&gt;
+&lt;p&gt;&lt;code class="c"&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;signal&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;sig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;func&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;/code&gt; 的原型其实是这样的 &lt;code class="c"&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;/code&gt;，有点熟悉了吧？再深入一点 &lt;code class="c"&gt;&lt;span class="n"&gt;signal&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;sig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;func&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;&lt;/code&gt;，会引出一个问题，如果 &lt;code class="c"&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;func&lt;/span&gt;&lt;/code&gt; 函数是 &lt;code class="c"&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;func&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;/code&gt; 的怎么办？很多人一不小心就会写成这样。需要强制转换对吧？应该出现ERROR，但为什么，还能编译成功呢？进去 &lt;code class="c"&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;signal&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt; 头文件看看，在75行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cm"&gt;/* Type of a signal handler.  */&lt;/span&gt;
+&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="nf"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kt"&gt;__sighandler_t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;extern&lt;/span&gt; &lt;span class="kt"&gt;__sighandler_t&lt;/span&gt; &lt;span class="n"&gt;__sysv_signal&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;__sig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;__sighandler_t&lt;/span&gt; &lt;span class="n"&gt;__handler&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="n"&gt;__THROW&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;原来人家都把强制转换做好了的。
+我们也可以这样，显示的强制转换：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;signal&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SIGINT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="n"&gt;func&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="cm"&gt;/* 或者可读性好一些的：*/&lt;/span&gt;
+&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="nf"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kt"&gt;func_t&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;span class="n"&gt;signal&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SIGINT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;func_t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;func&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;好了，现在来对这个typedef 进行理解吧，直接看《THE C PROGRAMMING LANGUAGE》 Page.147&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="nf"&gt;int&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;PFI&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="cm"&gt;/*&lt;/span&gt;
+&lt;span class="cm"&gt; * creates the type PFI, for &amp;#39;&amp;#39;pointer to function (of two char * arguments) returning int,&amp;#39;&amp;#39; which can be used in contexts like&lt;/span&gt;
+&lt;span class="cm"&gt; * PFI strcmp, numcmp;&lt;/span&gt;
+&lt;span class="cm"&gt; */&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;现在应该完全理解这个 &lt;code class="c"&gt;&lt;span class="n"&gt;signal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;/code&gt; 系统调用了吧。&lt;/p&gt;
+</summary><category term="c"></category><category term="program"></category></entry><entry><title>linux 下mp3 显示乱码</title><link href="http://r.durara.net/writings/2008/09/28/linux-remove-mp3-id3-tag/" rel="alternate"></link><updated>2008-09-28T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-09-28:writings/2008/09/28/linux-remove-mp3-id3-tag/</id><summary type="html">&lt;p&gt;我的audacious，还有其他的一些音乐播放器对于一些mp3 的标题一直显示乱码，全是ID3 tag 惹的祸。一气之下，批量删除mp3 的ID3 tag 之。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
 
 &lt;span class="c"&gt;# 需要安装mid3v2 ， 执行sudo apt-get install python-mutagen&lt;/span&gt;
@@ -152,12 +471,12 @@ error&lt;span class="o"&gt;()&lt;/span&gt;
 &lt;p&gt;CD：「九份的咖啡店」，窗外，雨。&lt;/p&gt;
 </summary><category term="sketch"></category></entry><entry><title>让Apache/WampServer 支持ASP/ASP.NET</title><link href="http://r.durara.net/writings/2008/07/22/apache-support-for-asp/" rel="alternate"></link><updated>2008-07-22T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-07-22:writings/2008/07/22/apache-support-for-asp/</id><summary type="html">&lt;div class="section" id="x00"&gt;
 &lt;h2&gt;0X00 注解&lt;/h2&gt;
-&lt;p&gt;本文是基于WampServer 2.X 套件讨论的，但适用于截止到目前为止所有版本的Apache。其实我们也只是对WampServer 中的Apache 模块做了修改，使其能够支持ASP/ASP.NET。本文中Apache版本为2.2.8，WampServer 的目录地址为D:wamp。&lt;/p&gt;
+&lt;p&gt;本文是基于WampServer 2.X 套件讨论的，但适用于截止到目前为止所有版本的Apache。其实我们也只是对WampServer 中的Apache 模块做了修改，使其能够支持ASP/ASP.NET。本文中Apache版本为2.2.8，WampServer 的目录地址为D:\wamp\ 。&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="x01-asp-net"&gt;
 &lt;h2&gt;0X01 ASP.NET&lt;/h2&gt;
 &lt;p&gt;让Apache 支持ASP.NET 比较简单，使用apache.org 里提供的mod_aspdotnet 即可。地址是：&lt;a class="reference external" href="http://httpd.apache.org/modules/"&gt;http://httpd.apache.org/modules/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;说一下配置：首先下载mod_aspdotnet，然后将其mod_aspdotnet.so 释放到apache 的/modules/ ，如D:wampbinapacheapache2.2.8modules。然后，我们需要建立一个mod_aspdotnet 单独的配置文件.conf，如httpd-aspdotnet.conf，写好后放入apache的/conf/extra/中，这样比较规范。&lt;/p&gt;
+&lt;p&gt;说一下配置：首先下载mod_aspdotnet，然后将其mod_aspdotnet.so 释放到apache 的/modules/ ，如D:\wamp\bin\apache\apache2.2.8\modules。然后，我们需要建立一个mod_aspdotnet 单独的配置文件.conf，如httpd-aspdotnet.conf，写好后放入apache的/conf/extra/中，这样比较规范。&lt;/p&gt;
 &lt;p&gt;httpd-aspdotnet.conf，如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# Load asp.net module&lt;/span&gt;
 &lt;span class="nb"&gt;LoadModule&lt;/span&gt; aspdotnet_module &lt;span class="s2"&gt;&amp;quot;modules/mod_aspdotnet.so&amp;quot;&lt;/span&gt;
@@ -202,7 +521,7 @@ error&lt;span class="o"&gt;()&lt;/span&gt;
 &lt;div class="section" id="x02-asp"&gt;
 &lt;h2&gt;0X02 ASP&lt;/h2&gt;
 &lt;p&gt;让Apache 完美的支持asp，目前网上也没有好的解决办法，很多东西都还是商业的，以前有个mod 可以用，但只能用在apache1.X 上，很老的东西了。我找寻了很久也没有找到免费的解决办法。无意间得知phpnow 有个插件可以支持asp，马上下载下来玩了一下，终于成功让这个插件脱离phpnow，使其支持任意的Apache。其实phpnow 也是提取了试用版的ActiveHTML，效果还不错，我比较满意。&lt;/p&gt;
-&lt;p&gt;过程如下：首先下载这个phpnow 版的ActiveHTML，释放在一个适合的位置，如D:wampbinActiveHTML，ActiveHTML 需要注册几个.dll，运行CMD 在ActiveHTML 目录，执行如下命令：&lt;/p&gt;
+&lt;p&gt;过程如下：首先下载这个phpnow 版的ActiveHTML，释放在一个适合的位置，如D:\wamp\bin\ActiveHTML\ ，ActiveHTML 需要注册几个.dll，运行CMD 在ActiveHTML 目录，执行如下命令：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;# CMD 进入ActiveHTML目录，执行如下命令
 regsvr&lt;span class="m"&gt;32&lt;/span&gt;.exe &lt;span class="n"&gt;/s&lt;/span&gt; slASP&lt;span class="m"&gt;3&lt;/span&gt;.dll
 regsvr&lt;span class="m"&gt;32&lt;/span&gt;.exe &lt;span class="n"&gt;/s&lt;/span&gt; slDispatch.dll
