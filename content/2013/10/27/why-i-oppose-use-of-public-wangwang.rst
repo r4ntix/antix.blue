@@ -6,7 +6,7 @@
 :tags: work
 :slug: why-i-oppose-use-of-public-wangwang
 :author: r.4ntix Shawn
-:summary: 真的又必要使用公共旺旺吗？好好想想。
+:summary: 真的有必要使用公共旺旺吗？好好想想。
 
 
 注：

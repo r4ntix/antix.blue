@@ -6,7 +6,7 @@ Transmission 1.8 Magnet磁力链接
 :tags: transmission, bt, magnet
 :slug: transmission1.8-magnet
 :author: r.4ntix Shawn
-:summary: BT
+:summary: BT 传播方式的改变
 
 
 海盗湾事件过去很久了，天朝也开始大量河蟹 BT，ACG 网站，一瞬间让我觉得似乎回到了几年前电驴被封的那个时代，于是乎大家分分大呼将要迎来BT2.0时代。这个当然是必然的趋势，看看电驴的KAD 就知道了。

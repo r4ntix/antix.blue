@@ -6,7 +6,7 @@
 :tags: life, work
 :slug: think-of-wind
 :author: r.4ntix Shawn
-:summary: 对于工作近况的反思
+:summary: 我们是被生活推着走的？还是被风吹着走的？我发出这样的提问。
 
 
 杜鲁门·卡波特的短篇小说「关上最后一扇门」的结尾是这么一句话：
