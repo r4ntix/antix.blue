@@ -56,6 +56,7 @@ header .top-bar.expanded .title-area,
 #content .tabs dd a {
   background: #efefef;
   color: black;
+  text-decoration: underline;
 }
 
 .content table {
@@ -93,4 +94,21 @@ header .top-bar.expanded .title-area,
 ----------------------------------------- */
 .highlight pre {
   background: none;
+}
+
+
+/* -----------------------------------------
+   For typo.css overrides
+----------------------------------------- */
+.typo a {
+  border-bottom: none;
+}
+
+.typo a:hover {
+  color: #ce5333;
+  text-decoration: underline;
+}
+
+blockquote {
+  border-left:1px solid #000;
 }
