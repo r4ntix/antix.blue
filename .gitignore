@@ -11,8 +11,8 @@ Thumbs.db
 
 # some private files
 _demo/
-_posts/
 content/drafts/
 
 # blog html files
 output/
+deploy/

@@ -37,6 +37,8 @@ SOCIAL = (('Readability', 'https://www.readability.com/r4ntix/'),
           ('Twitter', 'https://twitter.com/r4ntix'),
           ('Google+', 'https://plus.google.com/112109872395334308066'),)
 
+# Pagination
 DEFAULT_PAGINATION = False
 
+# Active Categroy in index.html
 ACTIVE_CATEGORY = 'Writings'
