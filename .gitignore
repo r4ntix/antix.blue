@@ -16,3 +16,4 @@ content/drafts/
 # blog html files
 output/
 deploy/
+cache/

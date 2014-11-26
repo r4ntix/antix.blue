@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 # Site
 AUTHOR = u'r.4ntix Shawn'
 SITENAME = u"r.4ntix Shawn's Noise Player"
-SITEURL = ''
 THEME = "themes/rocks"
 
 # TIME & LANG
@@ -39,6 +38,9 @@ SOCIAL = (('Readability', 'https://www.readability.com/r4ntix/'),
 
 # Pagination
 DEFAULT_PAGINATION = False
+
+# set static file path for {attach}
+STATIC_PATHS = ['']
 
 # Active Categroy in index.html
 ACTIVE_CATEGORY = 'Writings'
