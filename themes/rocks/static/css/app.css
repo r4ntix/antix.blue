@@ -1,9 +1,9 @@
 /* overrides */
 
 
-/* -----------------------------------------
-   For a, body, header, content, footer
------------------------------------------ */
+/* --------------------------------------------
+   For a, body, header, content, footer, img
+---------------------------------------------*/
 a {
   color: black;
 }
@@ -61,6 +61,10 @@ header .top-bar.expanded .title-area,
 
 .content table {
   border: none;
+}
+
+img {
+  margin-bottom: 1.8em;
 }
 
 
