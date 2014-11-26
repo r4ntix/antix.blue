@@ -79,52 +79,52 @@ HELP
 error<span class="o">()</span>
 <span class="o">{</span>
    <span class="c"># print an error and exit</span>
-   <span class="nb">echo</span> <span class="s2">&quot;$1&quot;</span>
+   <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
    <span class="nb">exit </span>1
 <span class="o">}</span>
 
 <span class="c"># the main</span>
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$#&quot;</span> -lt 1 <span class="o">]</span>; <span class="k">then</span>
-<span class="k">    </span><span class="nb">help</span>
-<span class="k">fi</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$#&quot;</span><span class="s2"> -lt 1 ]; then</span>
+<span class="s2">    help</span>
+<span class="s2">fi</span>
 
-<span class="k">while</span> <span class="o">[</span> -n <span class="s2">&quot;$1&quot;</span> <span class="o">]</span>; <span class="k">do</span>
-<span class="k">case</span> <span class="nv">$1</span> in
-   -h<span class="o">)</span> <span class="nb">help</span>;<span class="nb">shift</span>;; <span class="c"># function help is called</span>
-   --<span class="o">)</span> <span class="nb">shift</span>;<span class="nb">break</span>;; <span class="c"># end of options</span>
-   -*<span class="o">)</span> error <span class="s2">&quot;error: no such option $1. -h for help&quot;</span>;;
-   *<span class="o">)</span> <span class="nb">break</span>;;
-<span class="k">esac</span>
-<span class="k">done</span>
+<span class="s2">while [ -n &quot;</span><span class="nv">$1</span><span class="s2">&quot; ]; do</span>
+<span class="s2">case </span><span class="nv">$1</span><span class="s2"> in</span>
+<span class="s2">   -h) help;shift;; # function help is called</span>
+<span class="s2">   --) shift;break;; # end of options</span>
+<span class="s2">   -*) error &quot;</span>error: no such option <span class="nv">$1</span>. -h <span class="k">for</span> <span class="nb">help</span><span class="s2">&quot;;;</span>
+<span class="s2">   *) break;;</span>
+<span class="s2">esac</span>
+<span class="s2">done</span>
 
-<span class="nv">countPage</span><span class="o">=</span>0
-<span class="nv">flag</span><span class="o">=</span>0
-<span class="k">while</span> <span class="o">[</span> <span class="s2">&quot;$flag&quot;</span> -lt <span class="s2">&quot;$1&quot;</span> <span class="o">]</span>; <span class="k">do</span>
-<span class="k">    </span>wget --no-cookies --user-agent<span class="o">=</span><span class="s2">&quot;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)&quot;</span> --referer<span class="o">=</span><span class="s2">&quot;http://www.google.cn&quot;</span>  <span class="s2">&quot;http://www.google.cn/search?hl=zh-CN&amp;newwindow=1&amp;q=inurl:bbs/wap/index.php+Powered+by+Discuz!&amp;start=$countPage&amp;sa=N&quot;</span>  -O /tmp/t_url -T 7 -t 4
-    <span class="k">for </span>url in <span class="k">$(</span>sed <span class="s1">&#39;s_&lt;p&gt;&lt;a [^&gt;]*href=&quot;[^&quot;]\+\/index\.php\?_\n&amp;\n_g&#39;</span> /tmp/t_url | grep <span class="s2">&quot;&lt;p&gt;&lt;a href=&quot;</span> | awk -F<span class="s2">&quot;\&quot;&quot;</span> <span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
-    <span class="k">do</span>
-<span class="k">        </span>wget --no-cookies --user-agent<span class="o">=</span><span class="s2">&quot;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)&quot;</span> --referer<span class="o">=</span><span class="s2">&quot;http://www.google.cn&quot;</span> --post-data<span class="o">=</span><span class="s1">&#39;action=register&#39;</span> -O /tmp/check -T 7 -t 4 <span class="s2">&quot;$url&quot;</span>
-        <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$(grep &quot;</span>email<span class="s2">&quot; /tmp/check | wc -l)&quot;</span> !<span class="o">=</span> <span class="s2">&quot;0&quot;</span> <span class="o">]</span>; <span class="k">then</span>
-<span class="k">            </span><span class="nb">echo</span> <span class="s2">&quot;OK! $url &quot;</span>
-            <span class="nb">echo</span> <span class="s2">&quot;OK : $url&quot;</span> &gt;&gt; urllist
-        <span class="k">else</span>
-<span class="k">            </span><span class="nb">echo</span> <span class="s2">&quot;NO! $url &quot;</span>
-        <span class="k">fi</span>
-<span class="k">    done</span>
-<span class="k">    </span><span class="nv">countPage</span><span class="o">=</span><span class="k">$((</span><span class="nv">$countPage</span><span class="o">+</span><span class="m">10</span><span class="k">))</span>
-    <span class="nv">flag</span><span class="o">=</span><span class="k">$((</span><span class="nv">$flag</span><span class="o">+</span><span class="m">1</span><span class="k">))</span>
-<span class="k">done</span>
-rm -r /tmp/t_url /tmp/check
-<span class="nb">echo</span> <span class="s2">&quot;开启WAP注册的结果URL列表保存在当前目录下urllist&quot;</span>
+<span class="s2">countPage=0</span>
+<span class="s2">flag=0</span>
+<span class="s2">while [ &quot;</span><span class="nv">$flag</span><span class="s2">&quot; -lt &quot;</span><span class="nv">$1</span><span class="s2">&quot; ]; do</span>
+<span class="s2">    wget --no-cookies --user-agent=&quot;</span>Mozilla/4.0 <span class="o">(</span>compatible<span class="p">;</span> MSIE 7.0<span class="p">;</span> Windows NT 6.0<span class="o">)</span><span class="s2">&quot; --referer=&quot;</span>http://www.google.cn<span class="s2">&quot;  &quot;</span>http://www.google.cn/search?hl<span class="o">=</span>zh-CN<span class="p">&amp;</span><span class="nv">newwindow</span><span class="o">=</span>1<span class="p">&amp;</span><span class="nv">q</span><span class="o">=</span>inurl:bbs/wap/index.php+Powered+by+Discuz!<span class="p">&amp;</span><span class="nv">start</span><span class="o">=</span><span class="nv">$countPage</span><span class="p">&amp;</span><span class="nv">sa</span><span class="o">=</span>N<span class="s2">&quot;  -O /tmp/t_url -T 7 -t 4</span>
+<span class="s2">    for url in </span><span class="k">$(</span>sed <span class="s1">&#39;s_&lt;p&gt;&lt;a [^&gt;]*href=&quot;[^&quot;]\+\/index\.php\?_\n&amp;\n_g&#39;</span> /tmp/t_url <span class="p">|</span> grep <span class="s2">&quot;&lt;p&gt;&lt;a href=&quot;</span> <span class="p">|</span> awk -F<span class="s2">&quot;\&quot;&quot;</span> <span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span><span class="s2"></span>
+<span class="s2">    do</span>
+<span class="s2">        wget --no-cookies --user-agent=&quot;</span>Mozilla/4.0 <span class="o">(</span>compatible<span class="p">;</span> MSIE 7.0<span class="p">;</span> Windows NT 6.0<span class="o">)</span><span class="s2">&quot; --referer=&quot;</span>http://www.google.cn<span class="s2">&quot; --post-data=&#39;action=register&#39; -O /tmp/check -T 7 -t 4 &quot;</span><span class="nv">$url</span><span class="s2">&quot;</span>
+<span class="s2">        if [ &quot;</span><span class="k">$(</span>grep <span class="s2">&quot;email&quot;</span> /tmp/check <span class="p">|</span> wc -l<span class="k">)</span><span class="s2">&quot; != &quot;</span>0<span class="s2">&quot; ]; then</span>
+<span class="s2">            echo &quot;</span>OK! <span class="nv">$url</span> <span class="s2">&quot;</span>
+<span class="s2">            echo &quot;</span>OK : <span class="nv">$url</span><span class="s2">&quot; &gt;&gt; urllist</span>
+<span class="s2">        else</span>
+<span class="s2">            echo &quot;</span>NO! <span class="nv">$url</span> <span class="s2">&quot;</span>
+<span class="s2">        fi</span>
+<span class="s2">    done</span>
+<span class="s2">    countPage=</span><span class="k">$((</span><span class="nv">$countPage</span><span class="o">+</span><span class="m">10</span><span class="k">))</span><span class="s2"></span>
+<span class="s2">    flag=</span><span class="k">$((</span><span class="nv">$flag</span><span class="o">+</span><span class="m">1</span><span class="k">))</span><span class="s2"></span>
+<span class="s2">done</span>
+<span class="s2">rm -r /tmp/t_url /tmp/check</span>
+<span class="s2">echo &quot;</span>开启WAP注册的结果URL列表保存在当前目录下urllist<span class="s2">&quot;</span>
 
-<span class="nb">exit </span>0
+<span class="s2">exit 0</span>
 </pre></div>
 
       </div>
     </div>
     <div class="hide-for-small-only medium-3 large-2 columns">
       <ul class="side-nav">
-        <li><time datetime="2008-11-17T00:00:00" class="serif">2008年11月17日</time></li>
+        <li><time datetime="2008-11-17T00:00:00+08:00" class="serif">2008年11月17日</time></li>
         <li class="divider"></li>
         <li><span class="serif">Written by</span> <a href="#">r.4ntix Shawn</a></li>
         <li class="divider"></li>

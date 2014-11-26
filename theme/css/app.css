@@ -1,9 +1,9 @@
 /* overrides */
 
 
-/* -----------------------------------------
-   For a, body, header, content, footer
------------------------------------------ */
+/* --------------------------------------------
+   For a, body, header, content, footer, img
+---------------------------------------------*/
 a {
   color: black;
 }
@@ -63,6 +63,10 @@ header .top-bar.expanded .title-area,
   border: none;
 }
 
+img {
+  margin-bottom: 1.8em;
+}
+
 
 /* -----------------------------------------
    For side-bav
@@ -94,6 +98,14 @@ header .top-bar.expanded .title-area,
 ----------------------------------------- */
 .highlight pre {
   background: none;
+}
+
+code {
+  font-weight: normal;
+  color: #bd260d;
+  background: none;
+  border: none;
+  padding: 0;
 }
 
 

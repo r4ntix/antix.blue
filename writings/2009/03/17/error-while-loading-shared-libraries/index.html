@@ -49,7 +49,7 @@
       <div class="article typo textwrap">
         <h1 class="serif">error while loading shared libraries?</h1>
         <p>最近在看mysql 的api。用C 写和mysql 交互的代码，用的是xampp-linux-devel-1.7 包，全部的lib 和include 都放在了/opt 下面。编译时指定include 和lib 搜索位置都没问题。可在程序运行时./connect 时，出错：</p>
-<div class="highlight"><pre>./connect: error <span class="k">while </span>loading shared libraries: libmysqlclient.so.15.0.0:cannot open shared object file: No such file or directory
+<div class="highlight"><pre>./connect: error <span class="k">while</span> loading shared libraries: libmysqlclient.so.15.0.0:cannot open shared object file: No such file or directory
 </pre></div>
 <p>查了一下，是ld(动态装载器)找不到libmysqlclient.so.15.0.0 的所在位置。解决办法：</p>
 <div class="highlight"><pre>sudo touch /etc/ld.so.conf.d/mysql.conf
@@ -62,7 +62,7 @@ sudo gedit /etc/ld.so.conf.d/mysql.conf
     </div>
     <div class="hide-for-small-only medium-3 large-2 columns">
       <ul class="side-nav">
-        <li><time datetime="2009-03-17T00:00:00" class="serif">2009年03月17日</time></li>
+        <li><time datetime="2009-03-17T00:00:00+08:00" class="serif">2009年03月17日</time></li>
         <li class="divider"></li>
         <li><span class="serif">Written by</span> <a href="#">r.4ntix Shawn</a></li>
         <li class="divider"></li>

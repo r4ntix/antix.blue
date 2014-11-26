@@ -1,5 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>r.4ntix Shawn's Noise Player</title><link href="http://r.durara.net/" rel="alternate"></link><link href="http://r.durara.net/feeds/all.atom.xml" rel="self"></link><id>http://r.durara.net/</id><updated>2013-10-27T00:00:00+08:00</updated><entry><title>我为什么反对团队使用公共旺旺</title><link href="http://r.durara.net/writings/2013/10/27/why-i-oppose-use-of-public-wangwang/" rel="alternate"></link><updated>2013-10-27T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2013-10-27:writings/2013/10/27/why-i-oppose-use-of-public-wangwang/</id><summary type="html">&lt;dl class="docutils"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>r.4ntix Shawn's Noise Player</title><link href="http://r.durara.net/" rel="alternate"></link><link href="http://r.durara.net/feeds/all.atom.xml" rel="self"></link><id>http://r.durara.net/</id><updated>2014-08-24T00:00:00+08:00</updated><entry><title>rbenv/pyenv #1 eval "$(pyenv init -)" 做了什么</title><link href="http://r.durara.net/writings/2014/08/24/rbenv-pyenv-init/" rel="alternate"></link><updated>2014-08-24T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2014-08-24:writings/2014/08/24/rbenv-pyenv-init/</id><summary type="html">&lt;!--  --&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/yyuu/pyenv"&gt;pyenv&lt;/a&gt; 是我日常开发过程中常用来管理python 版本和virtualenv 的工具。甚至可以说，我几乎每天都在使用了 &lt;a class="reference external" href="https://github.com/yyuu/pyenv"&gt;pyenv&lt;/a&gt; 的bash 环境下工作。&lt;/p&gt;
+&lt;p&gt;其实 &lt;a class="reference external" href="https://github.com/yyuu/pyenv"&gt;pyenv&lt;/a&gt; 是从fork &lt;a class="reference external" href="https://github.com/sstephenson/rbenv"&gt;rbenv&lt;/a&gt; 而来，两者的核心代码完全一致。&lt;a class="reference external" href="https://github.com/sstephenson/rbenv"&gt;rbenv&lt;/a&gt; 是用来管理ruby environment 的，其作者是 &lt;a class="reference external" href="https://basecamp.com"&gt;Basecamp&lt;/a&gt; 的 &lt;a class="reference external" href="https://github.com/sstephenson"&gt;Sam Stephenson&lt;/a&gt; 。&lt;/p&gt;
+&lt;p&gt;有趣的是，rbenv/pyenv 是纯shell 脚本实现的，不依赖于ruby/python 本身。具体的实现过程也很精巧。现在基于Linux 的开发的工作，也基本上都绕不开python。就我所在的团队，包括测试的同学，也都开始使用 &lt;a class="reference external" href="https://github.com/yyuu/pyenv"&gt;pyenv&lt;/a&gt; 来管理python 环境。&lt;/p&gt;
+&lt;p&gt;所以，是时候来更加的深入了解rbenv/pyenv 了。&lt;/p&gt;
+&lt;p&gt;在这里，我将以 &lt;a class="reference external" href="https://github.com/yyuu/pyenv"&gt;pyenv&lt;/a&gt; 为例，分几篇文章来描述rbenv/pyenv 核心代码的具体实现，但是并不涉及ruby-build、pyenv-build 这样的plugin 实现。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;文件结构&lt;/h2&gt;
+&lt;p&gt;如下图，pyenv 的文件结构是这样的：&lt;/p&gt;
+&lt;img alt="pyenv structure" class="th" src="http://r.durara.net/writings/2014/08/24/rbenv-pyenv-init/pyenv.png" style="width: 50%;" /&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;shims 是pyenv 和用户交互的接口层。&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first last"&gt;这里面存放了我们平时在pyenv shell 环境下所执行的python、pip 等命令文件。当然，这些名为python、pip 的命令文件「并不是真正的python、pip 执行文件」，而是负责命令中转调度的binstub files。&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;versions 是存放各个python 版本文件的地方。&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first last"&gt;里面存放了我们installed 的「真正的python、pip 等文件」。&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;libexec 是pyenv 的核心代码目录。&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;bin/pyenv 则直接软连接到了libexec/pyenv。我们平时所执行的 &lt;code class="bash"&gt;pyenv *&lt;/code&gt; 的命令，实际上最后都调用了libexec/pyenv-* 文件（除plugin/&lt;em&gt;/bin/pyenv-&lt;/em&gt; 命令之外）。&lt;/p&gt;
+&lt;p class="last"&gt;比如我们执行 &lt;code class="bash"&gt;pyenv init -&lt;/code&gt; 则实际调用为 &lt;code class="bash"&gt;libexec/pyenv-init -&lt;/code&gt; 。&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;plugin 是存放plugin 的目录。&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;pyenv 安装时自带了一个叫做python-build 的plugin。它提供了我们安装和卸载python 时所用的 &lt;code class="bash"&gt;pyenv install&lt;/code&gt;、 &lt;code class="bash"&gt;pyenv uninstall&lt;/code&gt; 这两个命令。&lt;/p&gt;
+&lt;p class="last"&gt;其他更多的插件，可看 &lt;a class="reference external" href="https://github.com/yyuu/pyenv/wiki/Plugins"&gt;Plugins wiki page&lt;/a&gt; ，这里面的 &lt;code class="bash"&gt;pyenv-virtualenv&lt;/code&gt; 插件可以用来管理virtualenv 环境。&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;hooks 并不存在叫做hooks 的目录。但是却是pyenv 很有用的一个功能。&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;pyenv 提供了3个hook 点，分别为 &lt;code class="bash"&gt;&lt;span class="nb"&gt;exec&lt;/span&gt;&lt;/code&gt;、 &lt;code class="bash"&gt;rehash&lt;/code&gt;、 &lt;code class="bash"&gt;which&lt;/code&gt;。当在执行 &lt;code class="bash"&gt;pyenv-exec&lt;/code&gt;、 &lt;code class="bash"&gt;pyenv-rehash&lt;/code&gt;、 &lt;code class="bash"&gt;pyenv-which&lt;/code&gt; 时，则会调用hook files。&lt;/p&gt;
+&lt;p&gt;这些hook files，可存放的目录为：&lt;/p&gt;
+&lt;div class="last"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;plugins/*/etc/pyenv.d:&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PYENV_HOOK_PATH&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;:&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PYENV_ROOT&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/pyenv.d:/usr/local/etc/pyenv.d:/etc/pyenv.d:/usr/lib/pyenv/hooks
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;completions 是存放shell completion 的目录。&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first last"&gt;目前支持的shell 为：bash、fish、zsh。&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="pyenv-init"&gt;
+&lt;h2&gt;pyenv-init&lt;/h2&gt;
+&lt;p&gt;在安装完pyenv 之后，根据安装提示，我们需要在shell 的配置文件里，加入几行配置代码。以bash 为例：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;PYENV_ROOT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.pyenv&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$PYENV_ROOT&lt;/span&gt;&lt;span class="s2"&gt;/bin:&lt;/span&gt;&lt;span class="nv"&gt;$PATH&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;eval&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;pyenv init -&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;其中前两行export 指令，设置了pyenv 的路径，并添加到我们的已有PATH 的最前面，以便我们执行pyenv 时，系统能自动从该路径下找到pyenv。&lt;/p&gt;
+&lt;p&gt;而最后一行 &lt;code class="bash"&gt;&lt;span class="nb"&gt;eval&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;pyenv init -&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;/code&gt; 正是魔法的开始，pyenv 的初始化隐藏其中。&lt;/p&gt;
+&lt;p&gt;让我们来具体看看libexec/pyenv-init 的代码。&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;获取到当前的shell name。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -z &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$shell&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+  &lt;span class="nv"&gt;shell&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;ps c -p &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$PPID&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -o &lt;span class="s1"&gt;&amp;#39;ucomm=&amp;#39;&lt;/span&gt; 2&amp;gt;/dev/null &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+  &lt;span class="nv"&gt;shell&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;shell&lt;/span&gt;&lt;span class="p"&gt;##-&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+  &lt;span class="nv"&gt;shell&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;shell&lt;/span&gt;&lt;span class="p"&gt;%% *&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+  &lt;span class="nv"&gt;shell&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;basename &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;shell&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;$SHELL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ol class="arabic simple" start="2"&gt;
+&lt;li&gt;创建shims、versions 目录。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mkdir -p &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PYENV_ROOT&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;shims,versions&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ol class="arabic simple" start="3"&gt;
+&lt;li&gt;打印设置shims path 到我们的$PATH 最前面。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;:&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;:&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; *:&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PYENV_ROOT&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/shims&amp;quot;&lt;/span&gt;:* &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+  &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$shell&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; in
+  fish &lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;setenv PATH &amp;#39;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PYENV_ROOT&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/shims&amp;#39; \$PATH&amp;quot;&lt;/span&gt;
+  &lt;span class="p"&gt;;;&lt;/span&gt;
+  * &lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;export PATH=&amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PYENV_ROOT&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/shims:${PATH}&amp;quot;&amp;#39;&lt;/span&gt;
+  &lt;span class="p"&gt;;;&lt;/span&gt;
+  &lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样的话，当我们输入执行python、pip 等命令时，shell 就会首先到shims 目录去寻找了。&lt;/p&gt;
+&lt;ol class="arabic simple" start="4"&gt;
+&lt;li&gt;设置PYENV_SHELL 环境变量。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$shell&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; in
+fish &lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;setenv PYENV_SHELL &lt;/span&gt;&lt;span class="nv"&gt;$shell&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+* &lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;export PYENV_SHELL=&lt;/span&gt;&lt;span class="nv"&gt;$shell&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ol class="arabic simple" start="5"&gt;
+&lt;li&gt;打印shell completion。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;completion&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;root&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/completions/pyenv.&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;shell&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -r &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$completion&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+  &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$shell&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; in
+  fish &lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;. &amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;$completion&lt;/span&gt;&lt;span class="s2"&gt;&amp;#39;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;;;&lt;/span&gt;
+  *    &lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;source &amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;$completion&lt;/span&gt;&lt;span class="s2"&gt;&amp;#39;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;;;&lt;/span&gt;
+  &lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ol class="arabic simple" start="6"&gt;
+&lt;li&gt;根据参数判断打印是否rehash。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -z &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$no_rehash&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+  &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;pyenv rehash 2&amp;gt;/dev/null&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class="bash"&gt;pyenv rehash&lt;/code&gt; 是pyenv 代码实现中最为核心的部分，它的作用是在shims 目录下生成正确的binstub files。&lt;/p&gt;
+&lt;ol class="arabic simple" start="7"&gt;
+&lt;li&gt;打印一个名叫 &lt;strong&gt;pyenv&lt;/strong&gt; 的shell 函数。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# example for bash&lt;/span&gt;
+
+&lt;span class="nv"&gt;commands&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;pyenv-commands --sh&lt;span class="sb"&gt;`&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+cat &lt;span class="s"&gt;&amp;lt;&amp;lt;EOS&lt;/span&gt;
+&lt;span class="s"&gt;pyenv() {&lt;/span&gt;
+&lt;span class="s"&gt;  local command&lt;/span&gt;
+&lt;span class="s"&gt;  command=&amp;quot;\$1&amp;quot;&lt;/span&gt;
+&lt;span class="s"&gt;  if [ &amp;quot;\$#&amp;quot; -gt 0 ]; then&lt;/span&gt;
+&lt;span class="s"&gt;    shift&lt;/span&gt;
+&lt;span class="s"&gt;  fi&lt;/span&gt;
+
+&lt;span class="s"&gt;  case &amp;quot;\$command&amp;quot; in&lt;/span&gt;
+&lt;span class="s"&gt;  ${commands[*]})&lt;/span&gt;
+&lt;span class="s"&gt;    eval &amp;quot;\`pyenv &amp;quot;sh-\$command&amp;quot; &amp;quot;\$@&amp;quot;\`&amp;quot;;;&lt;/span&gt;
+&lt;span class="s"&gt;  *)&lt;/span&gt;
+&lt;span class="s"&gt;    command pyenv &amp;quot;\$command&amp;quot; &amp;quot;\$@&amp;quot;;;&lt;/span&gt;
+&lt;span class="s"&gt;  esac&lt;/span&gt;
+&lt;span class="s"&gt;}&lt;/span&gt;
+&lt;span class="s"&gt;EOS&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;!--  --&gt;
+&lt;ol class="arabic" start="8"&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;eval &amp;quot;$(pyenv init -)&amp;quot; 执行 &lt;code class="bash"&gt;pyenv init -&lt;/code&gt; 打印出来的代码。&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first last"&gt;这里非常关键，在我们执行 &lt;code class="bash"&gt;&lt;span class="nb"&gt;eval&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;pyenv init -&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;/code&gt; 时，最终eval 的正是 &lt;code class="bash"&gt;pyenv-init&lt;/code&gt; echo 出来的各个语句。而在第七部步时 &lt;code class="bash"&gt;pyenv-init&lt;/code&gt; echo 了一个名为 &lt;strong&gt;pyenv&lt;/strong&gt; 的shell 函数。最终被eval 解析执行。&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;到这里我们已经明白，原来每次我们在bash 输入执行的pyenv 实际上都是这个叫做 &lt;strong&gt;pyenv&lt;/strong&gt; 的shell 函数！&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="pyenv-shell"&gt;
+&lt;h2&gt;名为pyenv 的shell 函数&lt;/h2&gt;
+&lt;p&gt;在这个名为 &lt;strong&gt;pyenv&lt;/strong&gt; 的shell 函数里，实际上将我们执行的 &lt;code class="bash"&gt;pyenv *&lt;/code&gt; 命令分为了两类：&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;rehash|shell&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first last"&gt;当我们执行 &lt;code class="bash"&gt;pyenv rehash&lt;/code&gt;、 &lt;code class="bash"&gt;pyenv shell&lt;/code&gt; 时，通过eval 解析执行 &lt;code class="bash"&gt;libexec/pyenv-sh-rehash&lt;/code&gt;、 &lt;code class="bash"&gt;libexec/pyenv-sh-shell&lt;/code&gt; 命令输出的内容。&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;others&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first last"&gt;除 &lt;code class="bash"&gt;rehash&lt;span class="p"&gt;|&lt;/span&gt;shell&lt;/code&gt; 之外的 &lt;code class="bash"&gt;pyenv *&lt;/code&gt; 命令，通过command 传递给实际的libexec/pyenv 调度相应的 &lt;code class="bash"&gt;pyenv-*&lt;/code&gt; 执行。&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;关于 &lt;code class="bash"&gt;&lt;span class="nb"&gt;command&lt;/span&gt;&lt;/code&gt; 这个命令，是忽略shell 函数的，所以能正确的传递给真实的libexec/pyenv 执行：&lt;/dt&gt;
+&lt;dd&gt;Runs command with arguments ignoring any shell function named command. Only shell builtin commands or commands found by searching the PATH are executed.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;所以，当我们挥动手指，敲打出 &lt;code class="bash"&gt;pyenv *&lt;/code&gt; 命令并按下回车键时，在shell 里的实际执行流程为：&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;pyenv shell function&lt;/li&gt;
+&lt;li&gt;bin/pyenv(libexec/pyenv)&lt;/li&gt;
+&lt;li&gt;libexec/pyenv-*&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;就像是魔法一样。&lt;/p&gt;
+&lt;/div&gt;
+</summary><category term="rbenv"></category><category term="pyenv"></category><category term="bash"></category><category term="shell"></category></entry><entry><title>我为什么反对团队使用公共旺旺</title><link href="http://r.durara.net/writings/2013/10/27/why-i-oppose-use-of-public-wangwang/" rel="alternate"></link><updated>2013-10-27T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2013-10-27:writings/2013/10/27/why-i-oppose-use-of-public-wangwang/</id><summary type="html">&lt;dl class="docutils"&gt;
 &lt;dt&gt;注：&lt;/dt&gt;
 &lt;dd&gt;公共旺旺是指不属于个人的旺旺帐号，作为团队服务、咨询、沟通的IM 入口，阿里内部很多团队都启用了团队公共旺旺。类似于淘宝店里的「客服1, … ,客服4」这样的客服旺旺。作为一个壳，也可称之为：虚拟旺旺。&lt;/dd&gt;
 &lt;/dl&gt;
@@ -154,10 +345,10 @@ collect2: ld 返回 1
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;/usr/lib/libxml2.so.2 没有gzopen64函数的定义？奇怪。那好，跟进这个文件看看：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;ls -l /usr/lib/libxml2.so.2
-    lrwxrwxrwx 1 root root 17 2008-11-19 10:28 /usr/lib/libxml2.so.2 -&amp;gt; libxml2.so.2.6.31
+    lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;17&lt;/span&gt; 2008-11-19 10:28 /usr/lib/libxml2.so.2 -&amp;gt; libxml2.so.2.6.31
 ls -l /usr/lib/libxml2.so.2.6.31
-    -rw-r--r-- 1 root root 1171112 2008-11-19 03:16 /usr/lib/libxml2.so.2.6.31
-strings /usr/lib/libxml2.so.2.6.31 | grep gzopen64
+    -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;1171112&lt;/span&gt; 2008-11-19 03:16 /usr/lib/libxml2.so.2.6.31
+strings /usr/lib/libxml2.so.2.6.31 &lt;span class="p"&gt;|&lt;/span&gt; grep gzopen64
     gzopen64        &lt;span class="c"&gt;# 发现了gzopen64的字符串，奇怪。继续..&lt;/span&gt;
 ldd /usr/lib/libxml2.so.2.6.31
     linux-gate.so.1 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt;  &lt;span class="o"&gt;(&lt;/span&gt;0xb7fb7000&lt;span class="o"&gt;)&lt;/span&gt;
@@ -167,13 +358,13 @@ ldd /usr/lib/libxml2.so.2.6.31
     libc.so.6 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/tls/i686/cmov/libc.so.6 &lt;span class="o"&gt;(&lt;/span&gt;0xb7cf4000&lt;span class="o"&gt;)&lt;/span&gt;
      /lib/ld-linux.so.2 &lt;span class="o"&gt;(&lt;/span&gt;0xb7fb8000&lt;span class="o"&gt;)&lt;/span&gt;
 ls -l /usr/lib/libz.so.1
-    lrwxrwxrwx 1 root root 15 2009-04-06 22:36 /usr/lib/libz.so.1 -&amp;gt; libz.so.1.2.3.3
+    lrwxrwxrwx &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;15&lt;/span&gt; 2009-04-06 22:36 /usr/lib/libz.so.1 -&amp;gt; libz.so.1.2.3.3
 ls -l /usr/lib/libz.so.1.2.3.3
-    -rw-r--r-- 1 root root 81240 2007-11-15 20:08 /usr/lib/libz.so.1.2.3.3
-strings /usr/lib/libz.so.1.2.3.3 | grep gzopen64
+    -rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;81240&lt;/span&gt; 2007-11-15 20:08 /usr/lib/libz.so.1.2.3.3
+strings /usr/lib/libz.so.1.2.3.3 &lt;span class="p"&gt;|&lt;/span&gt; grep gzopen64
     gzopen64   &lt;span class="c"&gt;# 确定gzopen64是包含在这个文件里&lt;/span&gt;
-objdump -T /usr/lib/libz.so.1.2.3.3 | grep gzopen64
-    00004040 g    DF .text  0000001b  Base        gzopen64      &lt;span class="c"&gt;# 很明显的可以看到这个gzopen64是定义了的。&lt;/span&gt;
+objdump -T /usr/lib/libz.so.1.2.3.3 &lt;span class="p"&gt;|&lt;/span&gt; grep gzopen64
+    &lt;span class="m"&gt;00004040&lt;/span&gt; g    DF .text  0000001b  Base        gzopen64      &lt;span class="c"&gt;# 很明显的可以看到这个gzopen64是定义了的。&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;这就奇怪， 难道是一个reference lookup error? 本人环境Ubuntu 8.04.2 ，libxml2 为apt-get 最新的库文件。&lt;/p&gt;
 &lt;p&gt;find 搜索一下本地的libz*，发现自己机子的/opt/ 里还有一个libz.so.1.2.3。/opt/ 里放的是我本地LAMP 的开发环境(xampp的开发包)。刚好，就把libxml2 连接过来算了。gcc 编译的时候加上一句-L/opt /lampp/lib/ -lxml2 编译通过。&lt;/p&gt;
@@ -183,7 +374,7 @@ objdump -T /usr/lib/libz.so.1.2.3.3 | grep gzopen64
 &lt;li&gt;&lt;a class="reference external" href="http://hi.baidu.com/linux%5Flfs/blog/item/3f19abdf9d615315485403ec.html"&gt;http://hi.baidu.com/linux%5Flfs/blog/item/3f19abdf9d615315485403ec.html&lt;/a&gt; # 另外一种情况&lt;/li&gt;
 &lt;/ul&gt;
 </summary><category term="gtk"></category><category term="c"></category><category term="program"></category><category term="linux"></category></entry><entry><title>error while loading shared libraries?</title><link href="http://r.durara.net/writings/2009/03/17/error-while-loading-shared-libraries/" rel="alternate"></link><updated>2009-03-17T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2009-03-17:writings/2009/03/17/error-while-loading-shared-libraries/</id><summary type="html">&lt;p&gt;最近在看mysql 的api。用C 写和mysql 交互的代码，用的是xampp-linux-devel-1.7 包，全部的lib 和include 都放在了/opt 下面。编译时指定include 和lib 搜索位置都没问题。可在程序运行时./connect 时，出错：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;./connect: error &lt;span class="k"&gt;while &lt;/span&gt;loading shared libraries: libmysqlclient.so.15.0.0:cannot open shared object file: No such file or directory
+&lt;div class="highlight"&gt;&lt;pre&gt;./connect: error &lt;span class="k"&gt;while&lt;/span&gt; loading shared libraries: libmysqlclient.so.15.0.0:cannot open shared object file: No such file or directory
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;查了一下，是ld(动态装载器)找不到libmysqlclient.so.15.0.0 的所在位置。解决办法：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;sudo touch /etc/ld.so.conf.d/mysql.conf
@@ -271,7 +462,7 @@ sudo checkinstall
 &lt;p&gt;OK 了，清空浏览器的缓存，开始FCK编辑吧.. ～～&lt;/p&gt;
 </summary><category term="hack"></category><category term="zblog"></category><category term="fck"></category></entry><entry><title>内核升级到2.6.24-22声卡失效</title><link href="http://r.durara.net/writings/2008/11/28/linux-kernel-2.6.24-22-audio-device-lost/" rel="alternate"></link><updated>2008-11-28T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-11-28:writings/2008/11/28/linux-kernel-2.6.24-22-audio-device-lost/</id><summary type="html">&lt;p&gt;今天遇到了一件非常奇怪的事情。先是mirror.lupaworld.com 的源提示内核升级，升就升呗，自己早就想升了，2.6.24-21的内核对我的系统来说启动太慢了。 可是升级过后，重启系统，声卡就失效了。看了看“音效”设置，提示“找不到设备”。晕… 看来驱动没加载。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;Xuange@r:~/桌面&lt;span class="nv"&gt;$ &lt;/span&gt;sudo lshw -C sound
-&lt;span class="o"&gt;[&lt;/span&gt;sudo&lt;span class="o"&gt;]&lt;/span&gt; password &lt;span class="k"&gt;for &lt;/span&gt;Xuange:
+&lt;span class="o"&gt;[&lt;/span&gt;sudo&lt;span class="o"&gt;]&lt;/span&gt; password &lt;span class="k"&gt;for&lt;/span&gt; Xuange:
     *-multimedia
         description: Audio device
         product: MCP65 High Definition Audio
@@ -279,21 +470,21 @@ sudo checkinstall
         physical id: 7
         bus info: pci@0000:00:07.0
         version: a1
-        width: 32 bits
+        width: &lt;span class="m"&gt;32&lt;/span&gt; bits
         clock: 66MHz
         capabilities: pm msi ht bus_master cap_list
-        configuration: &lt;span class="nv"&gt;driver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;HDA Intel &lt;span class="nv"&gt;latency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;0 &lt;span class="nv"&gt;maxlatency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;5 &lt;span class="nv"&gt;mingnt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;2 &lt;span class="nv"&gt;module&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;snd_hda_intel
+        configuration: &lt;span class="nv"&gt;driver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;HDA Intel &lt;span class="nv"&gt;latency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="nv"&gt;maxlatency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="nv"&gt;mingnt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;module&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;snd_hda_intel
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;sudo lshw -C sound 能找到设备。那就是内核加载驱动的事情了。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;Xuange@r:~/桌面&lt;span class="nv"&gt;$ &lt;/span&gt;dpkg -l linux-ubuntu*
     &lt;span class="nv"&gt;Desired&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;Unknown/Install/Remove/Purge/Hold
-    | &lt;span class="nv"&gt;Status&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;Not/Installed/Config-f/Unpacked/Failed-cfg/Half-inst/t-aWait/T-pend
-    |/ Err?&lt;span class="o"&gt;=(&lt;/span&gt;none&lt;span class="o"&gt;)&lt;/span&gt;/Hold/Reinst-required/X&lt;span class="o"&gt;=&lt;/span&gt;both-problems &lt;span class="o"&gt;(&lt;/span&gt;Status,Err: &lt;span class="nv"&gt;uppercase&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;bad&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nv"&gt;Status&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;Not/Installed/Config-f/Unpacked/Failed-cfg/Half-inst/t-aWait/T-pend
+    &lt;span class="p"&gt;|&lt;/span&gt;/ Err?&lt;span class="o"&gt;=(&lt;/span&gt;none&lt;span class="o"&gt;)&lt;/span&gt;/Hold/Reinst-required/X&lt;span class="o"&gt;=&lt;/span&gt;both-problems &lt;span class="o"&gt;(&lt;/span&gt;Status,Err: &lt;span class="nv"&gt;uppercase&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;bad&lt;span class="o"&gt;)&lt;/span&gt;
     &lt;span class="o"&gt;||&lt;/span&gt;/ 名称         版本         简介
     +++-&lt;span class="o"&gt;==============&lt;/span&gt;-&lt;span class="o"&gt;==============&lt;/span&gt;-&lt;span class="o"&gt;============================================&lt;/span&gt;
-    rc  linux-ubuntu-m 2.6.22-14.38   Ubuntu supplied Linux modules &lt;span class="k"&gt;for &lt;/span&gt;version 2.
-    rc  linux-ubuntu-m 2.6.24-20.29   Ubuntu supplied Linux modules &lt;span class="k"&gt;for &lt;/span&gt;version 2.
-    ii  linux-ubuntu-m 2.6.24-21.33   Ubuntu supplied Linux modules &lt;span class="k"&gt;for &lt;/span&gt;version 2.
+    rc  linux-ubuntu-m 2.6.22-14.38   Ubuntu supplied Linux modules &lt;span class="k"&gt;for&lt;/span&gt; version 2.
+    rc  linux-ubuntu-m 2.6.24-20.29   Ubuntu supplied Linux modules &lt;span class="k"&gt;for&lt;/span&gt; version 2.
+    ii  linux-ubuntu-m 2.6.24-21.33   Ubuntu supplied Linux modules &lt;span class="k"&gt;for&lt;/span&gt; version 2.
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;晕，竟然没有2.6.24-22内核对应的modules 包。太奇怪了，以前自动升级内核从来没遇到过少一个modules 包的情况。&lt;/p&gt;
 &lt;p&gt;自己安装上：&lt;/p&gt;
@@ -303,13 +494,13 @@ sudo checkinstall
     读取状态信息... 完成
     下列【新】软件包将被安装：
     linux-ubuntu-modules-2.6.24-22-generic
-    共升级了 0 个软件包，新安装了 1 个软件包，要卸载 0 个软件包，有 0 个软件未被升级。
+    共升级了 &lt;span class="m"&gt;0&lt;/span&gt; 个软件包，新安装了 &lt;span class="m"&gt;1&lt;/span&gt; 个软件包，要卸载 &lt;span class="m"&gt;0&lt;/span&gt; 个软件包，有 &lt;span class="m"&gt;0&lt;/span&gt; 个软件未被升级。
     需要下载 5433kB 的软件包。
     操作完成后，会消耗掉 17.2MB 的额外磁盘空间。
     获取：1 http://mirror.lupaworld.com hardy-security/main linux-ubuntu-modules-2.6.24-22-generic 2.6.24-22.35 &lt;span class="o"&gt;[&lt;/span&gt;5433kB&lt;span class="o"&gt;]&lt;/span&gt;
     下载 5433kB，耗时 7s &lt;span class="o"&gt;(&lt;/span&gt;689kB/s&lt;span class="o"&gt;)&lt;/span&gt;
     选中了曾被取消选择的软件包 linux-ubuntu-modules-2.6.24-22-generic。
-    &lt;span class="o"&gt;(&lt;/span&gt;正在读取数据库 ... 系统当前总共安装有 127301 个文件和目录。&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="o"&gt;(&lt;/span&gt;正在读取数据库 ... 系统当前总共安装有 &lt;span class="m"&gt;127301&lt;/span&gt; 个文件和目录。&lt;span class="o"&gt;)&lt;/span&gt;
     正在解压缩 linux-ubuntu-modules-2.6.24-22-generic &lt;span class="o"&gt;(&lt;/span&gt;从 .../linux-ubuntu-modules-2.6.24-22-generic_2.6.24-22.35_i386.deb&lt;span class="o"&gt;)&lt;/span&gt; ...
     正在设置 linux-ubuntu-modules-2.6.24-22-generic &lt;span class="o"&gt;(&lt;/span&gt;2.6.24-22.35&lt;span class="o"&gt;)&lt;/span&gt; ...
     update-initramfs: Generating /boot/initrd.img-2.6.24-22-generic
@@ -346,45 +537,45 @@ HELP
 error&lt;span class="o"&gt;()&lt;/span&gt;
 &lt;span class="o"&gt;{&lt;/span&gt;
    &lt;span class="c"&gt;# print an error and exit&lt;/span&gt;
-   &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt;
+   &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
    &lt;span class="nb"&gt;exit &lt;/span&gt;1
 &lt;span class="o"&gt;}&lt;/span&gt;
 
 &lt;span class="c"&gt;# the main&lt;/span&gt;
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$#&amp;quot;&lt;/span&gt; -lt 1 &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
-&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;help&lt;/span&gt;
-&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$#&amp;quot;&lt;/span&gt;&lt;span class="s2"&gt; -lt 1 ]; then&lt;/span&gt;
+&lt;span class="s2"&gt;    help&lt;/span&gt;
+&lt;span class="s2"&gt;fi&lt;/span&gt;
 
-&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -n &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;do&lt;/span&gt;
-&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt; in
-   -h&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;help&lt;/span&gt;;&lt;span class="nb"&gt;shift&lt;/span&gt;;; &lt;span class="c"&gt;# function help is called&lt;/span&gt;
-   --&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;shift&lt;/span&gt;;&lt;span class="nb"&gt;break&lt;/span&gt;;; &lt;span class="c"&gt;# end of options&lt;/span&gt;
-   -*&lt;span class="o"&gt;)&lt;/span&gt; error &lt;span class="s2"&gt;&amp;quot;error: no such option $1. -h for help&amp;quot;&lt;/span&gt;;;
-   *&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;break&lt;/span&gt;;;
-&lt;span class="k"&gt;esac&lt;/span&gt;
-&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;span class="s2"&gt;while [ -n &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; ]; do&lt;/span&gt;
+&lt;span class="s2"&gt;case &lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt; in&lt;/span&gt;
+&lt;span class="s2"&gt;   -h) help;shift;; # function help is called&lt;/span&gt;
+&lt;span class="s2"&gt;   --) shift;break;; # end of options&lt;/span&gt;
+&lt;span class="s2"&gt;   -*) error &amp;quot;&lt;/span&gt;error: no such option &lt;span class="nv"&gt;$1&lt;/span&gt;. -h &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;help&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;;;&lt;/span&gt;
+&lt;span class="s2"&gt;   *) break;;&lt;/span&gt;
+&lt;span class="s2"&gt;esac&lt;/span&gt;
+&lt;span class="s2"&gt;done&lt;/span&gt;
 
-&lt;span class="nv"&gt;countPage&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;0
-&lt;span class="nv"&gt;flag&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;0
-&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$flag&amp;quot;&lt;/span&gt; -lt &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;do&lt;/span&gt;
-&lt;span class="k"&gt;    &lt;/span&gt;wget --no-cookies --user-agent&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)&amp;quot;&lt;/span&gt; --referer&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;http://www.google.cn&amp;quot;&lt;/span&gt;  &lt;span class="s2"&gt;&amp;quot;http://www.google.cn/search?hl=zh-CN&amp;amp;newwindow=1&amp;amp;q=inurl:bbs/wap/index.php+Powered+by+Discuz!&amp;amp;start=$countPage&amp;amp;sa=N&amp;quot;&lt;/span&gt;  -O /tmp/t_url -T 7 -t 4
-    &lt;span class="k"&gt;for &lt;/span&gt;url in &lt;span class="k"&gt;$(&lt;/span&gt;sed &lt;span class="s1"&gt;&amp;#39;s_&amp;lt;p&amp;gt;&amp;lt;a [^&amp;gt;]*href=&amp;quot;[^&amp;quot;]\+\/index\.php\?_\n&amp;amp;\n_g&amp;#39;&lt;/span&gt; /tmp/t_url | grep &lt;span class="s2"&gt;&amp;quot;&amp;lt;p&amp;gt;&amp;lt;a href=&amp;quot;&lt;/span&gt; | awk -F&lt;span class="s2"&gt;&amp;quot;\&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;{print $2}&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;do&lt;/span&gt;
-&lt;span class="k"&gt;        &lt;/span&gt;wget --no-cookies --user-agent&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)&amp;quot;&lt;/span&gt; --referer&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;http://www.google.cn&amp;quot;&lt;/span&gt; --post-data&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;action=register&amp;#39;&lt;/span&gt; -O /tmp/check -T 7 -t 4 &lt;span class="s2"&gt;&amp;quot;$url&amp;quot;&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$(grep &amp;quot;&lt;/span&gt;email&lt;span class="s2"&gt;&amp;quot; /tmp/check | wc -l)&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;0&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
-&lt;span class="k"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;OK! $url &amp;quot;&lt;/span&gt;
-            &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;OK : $url&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; urllist
-        &lt;span class="k"&gt;else&lt;/span&gt;
-&lt;span class="k"&gt;            &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;NO! $url &amp;quot;&lt;/span&gt;
-        &lt;span class="k"&gt;fi&lt;/span&gt;
-&lt;span class="k"&gt;    done&lt;/span&gt;
-&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;countPage&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$((&lt;/span&gt;&lt;span class="nv"&gt;$countPage&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="k"&gt;))&lt;/span&gt;
-    &lt;span class="nv"&gt;flag&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$((&lt;/span&gt;&lt;span class="nv"&gt;$flag&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;))&lt;/span&gt;
-&lt;span class="k"&gt;done&lt;/span&gt;
-rm -r /tmp/t_url /tmp/check
-&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;开启WAP注册的结果URL列表保存在当前目录下urllist&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;countPage=0&lt;/span&gt;
+&lt;span class="s2"&gt;flag=0&lt;/span&gt;
+&lt;span class="s2"&gt;while [ &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$flag&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; -lt &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; ]; do&lt;/span&gt;
+&lt;span class="s2"&gt;    wget --no-cookies --user-agent=&amp;quot;&lt;/span&gt;Mozilla/4.0 &lt;span class="o"&gt;(&lt;/span&gt;compatible&lt;span class="p"&gt;;&lt;/span&gt; MSIE 7.0&lt;span class="p"&gt;;&lt;/span&gt; Windows NT 6.0&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; --referer=&amp;quot;&lt;/span&gt;http://www.google.cn&lt;span class="s2"&gt;&amp;quot;  &amp;quot;&lt;/span&gt;http://www.google.cn/search?hl&lt;span class="o"&gt;=&lt;/span&gt;zh-CN&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;newwindow&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;q&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;inurl:bbs/wap/index.php+Powered+by+Discuz!&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;start&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$countPage&lt;/span&gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;N&lt;span class="s2"&gt;&amp;quot;  -O /tmp/t_url -T 7 -t 4&lt;/span&gt;
+&lt;span class="s2"&gt;    for url in &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;sed &lt;span class="s1"&gt;&amp;#39;s_&amp;lt;p&amp;gt;&amp;lt;a [^&amp;gt;]*href=&amp;quot;[^&amp;quot;]\+\/index\.php\?_\n&amp;amp;\n_g&amp;#39;&lt;/span&gt; /tmp/t_url &lt;span class="p"&gt;|&lt;/span&gt; grep &lt;span class="s2"&gt;&amp;quot;&amp;lt;p&amp;gt;&amp;lt;a href=&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; awk -F&lt;span class="s2"&gt;&amp;quot;\&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;{print $2}&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&lt;/span&gt;
+&lt;span class="s2"&gt;    do&lt;/span&gt;
+&lt;span class="s2"&gt;        wget --no-cookies --user-agent=&amp;quot;&lt;/span&gt;Mozilla/4.0 &lt;span class="o"&gt;(&lt;/span&gt;compatible&lt;span class="p"&gt;;&lt;/span&gt; MSIE 7.0&lt;span class="p"&gt;;&lt;/span&gt; Windows NT 6.0&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; --referer=&amp;quot;&lt;/span&gt;http://www.google.cn&lt;span class="s2"&gt;&amp;quot; --post-data=&amp;#39;action=register&amp;#39; -O /tmp/check -T 7 -t 4 &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$url&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;        if [ &amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;grep &lt;span class="s2"&gt;&amp;quot;email&amp;quot;&lt;/span&gt; /tmp/check &lt;span class="p"&gt;|&lt;/span&gt; wc -l&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; != &amp;quot;&lt;/span&gt;0&lt;span class="s2"&gt;&amp;quot; ]; then&lt;/span&gt;
+&lt;span class="s2"&gt;            echo &amp;quot;&lt;/span&gt;OK! &lt;span class="nv"&gt;$url&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;            echo &amp;quot;&lt;/span&gt;OK : &lt;span class="nv"&gt;$url&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; &amp;gt;&amp;gt; urllist&lt;/span&gt;
+&lt;span class="s2"&gt;        else&lt;/span&gt;
+&lt;span class="s2"&gt;            echo &amp;quot;&lt;/span&gt;NO! &lt;span class="nv"&gt;$url&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;        fi&lt;/span&gt;
+&lt;span class="s2"&gt;    done&lt;/span&gt;
+&lt;span class="s2"&gt;    countPage=&lt;/span&gt;&lt;span class="k"&gt;$((&lt;/span&gt;&lt;span class="nv"&gt;$countPage&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="k"&gt;))&lt;/span&gt;&lt;span class="s2"&gt;&lt;/span&gt;
+&lt;span class="s2"&gt;    flag=&lt;/span&gt;&lt;span class="k"&gt;$((&lt;/span&gt;&lt;span class="nv"&gt;$flag&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;))&lt;/span&gt;&lt;span class="s2"&gt;&lt;/span&gt;
+&lt;span class="s2"&gt;done&lt;/span&gt;
+&lt;span class="s2"&gt;rm -r /tmp/t_url /tmp/check&lt;/span&gt;
+&lt;span class="s2"&gt;echo &amp;quot;&lt;/span&gt;开启WAP注册的结果URL列表保存在当前目录下urllist&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
 
-&lt;span class="nb"&gt;exit &lt;/span&gt;0
+&lt;span class="s2"&gt;exit 0&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 </summary><category term="discuz"></category><category term="security"></category><category term="poc"></category><category term="bash"></category></entry><entry><title>signal(sig, function) 系统调用</title><link href="http://r.durara.net/writings/2008/11/10/signal-function-system-call/" rel="alternate"></link><updated>2008-11-10T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-11-10:writings/2008/11/10/signal-function-system-call/</id><summary type="html">&lt;!--  --&gt;
 &lt;p&gt;在这星期《操作系统实验指导》上看到了这样一个系统调用：&lt;code class="c"&gt;&lt;span class="n"&gt;signal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;/code&gt;，呵呵，很好奇，因为每次这课的系统调用都说得很不清楚，连函数原型也没有。所以导致很多同学写的(也可能是抄的..)程序编译不成功，即使编译成功了程序也出错。&lt;/p&gt;
@@ -436,32 +627,32 @@ rm -r /tmp/t_url /tmp/check
 error&lt;span class="o"&gt;()&lt;/span&gt;
 &lt;span class="o"&gt;{&lt;/span&gt;
     &lt;span class="c"&gt;# print an error and exit&lt;/span&gt;
-    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
     &lt;span class="nb"&gt;exit &lt;/span&gt;1
 &lt;span class="o"&gt;}&lt;/span&gt;
 
 &lt;span class="c"&gt;# the main&lt;/span&gt;
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$#&amp;quot;&lt;/span&gt; -lt 1 &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
-&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;help&lt;/span&gt;
-&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$#&amp;quot;&lt;/span&gt;&lt;span class="s2"&gt; -lt 1 ]; then&lt;/span&gt;
+&lt;span class="s2"&gt;    help&lt;/span&gt;
+&lt;span class="s2"&gt;fi&lt;/span&gt;
 
-&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -n &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;do&lt;/span&gt;
-&lt;span class="k"&gt;    case&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt; in
-        -h&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;help&lt;/span&gt;;&lt;span class="nb"&gt;shift&lt;/span&gt;;; &lt;span class="c"&gt;# function help is called&lt;/span&gt;
-        --&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;shift&lt;/span&gt;;&lt;span class="nb"&gt;break&lt;/span&gt;;; &lt;span class="c"&gt;# end of options&lt;/span&gt;
-        -*&lt;span class="o"&gt;)&lt;/span&gt; error &lt;span class="s2"&gt;&amp;quot;error: no such option $1. -h for help&amp;quot;&lt;/span&gt;;;
-        *&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;break&lt;/span&gt;;;
-    &lt;span class="k"&gt;esac&lt;/span&gt;
-&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;span class="s2"&gt;while [ -n &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; ]; do&lt;/span&gt;
+&lt;span class="s2"&gt;    case &lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt; in&lt;/span&gt;
+&lt;span class="s2"&gt;        -h) help;shift;; # function help is called&lt;/span&gt;
+&lt;span class="s2"&gt;        --) shift;break;; # end of options&lt;/span&gt;
+&lt;span class="s2"&gt;        -*) error &amp;quot;&lt;/span&gt;error: no such option &lt;span class="nv"&gt;$1&lt;/span&gt;. -h &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;help&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;;;&lt;/span&gt;
+&lt;span class="s2"&gt;        *) break;;&lt;/span&gt;
+&lt;span class="s2"&gt;    esac&lt;/span&gt;
+&lt;span class="s2"&gt;done&lt;/span&gt;
 
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -d &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
-&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;deleting tag of mp3 ....&amp;quot;&lt;/span&gt;
-    find &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; -name &lt;span class="s2"&gt;&amp;quot;*.[Mm][Pp]3&amp;quot;&lt;/span&gt; -type f -print | sed &lt;span class="s1"&gt;&amp;#39;s/^/&amp;quot;/;s/$/&amp;quot;/&amp;#39;&lt;/span&gt; | xargs mid3v2 -D
-&lt;span class="k"&gt;else&lt;/span&gt;
-&lt;span class="k"&gt;    &lt;/span&gt;error &lt;span class="s2"&gt;&amp;quot;error: no such dir $1. -h for help&amp;quot;&lt;/span&gt;
-&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="s2"&gt;if [ -d &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; ]; then&lt;/span&gt;
+&lt;span class="s2"&gt;    echo &amp;quot;&lt;/span&gt;deleting tag of mp3 ....&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;    find &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; -name &amp;quot;&lt;/span&gt;*.&lt;span class="o"&gt;[&lt;/span&gt;Mm&lt;span class="o"&gt;][&lt;/span&gt;Pp&lt;span class="o"&gt;]&lt;/span&gt;3&lt;span class="s2"&gt;&amp;quot; -type f -print | sed &amp;#39;s/^/&amp;quot;&lt;/span&gt;/&lt;span class="p"&gt;;&lt;/span&gt;s/&lt;span class="nv"&gt;$/&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/&amp;#39; | xargs mid3v2 -D&lt;/span&gt;
+&lt;span class="s2"&gt;else&lt;/span&gt;
+&lt;span class="s2"&gt;    error &amp;quot;&lt;/span&gt;error: no such dir &lt;span class="nv"&gt;$1&lt;/span&gt;. -h &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;help&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;fi&lt;/span&gt;
 
-&lt;span class="nb"&gt;exit &lt;/span&gt;0
+&lt;span class="s2"&gt;exit 0&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 </summary><category term="ubuntu"></category><category term="linux"></category><category term="mp3"></category><category term="id3tag"></category></entry><entry><title>不再</title><link href="http://r.durara.net/writings/2008/08/13/no-more/" rel="alternate"></link><updated>2008-08-13T00:00:00+08:00</updated><author><name>r.4ntix Shawn</name></author><id>tag:r.durara.net,2008-08-13:writings/2008/08/13/no-more/</id><summary type="html">&lt;p&gt;雨水突然的鞭打下来，大地发出连续且持久的声响。像是重锤在鞭打着心脏。每次鞭打声响之后灰尘便被震抖起来，然后又迅速的降落下来。竟是如此的强劲有力。&lt;/p&gt;
 &lt;p&gt;青葱过的山丘，已遍地黄沙。落叶消失不见，树木开始枯黄腐烂。空气里糜烂的味道，辛辣的冲刺着。&lt;/p&gt;
@@ -774,8 +965,8 @@ sudo nvidia-xconfig –add-argb-glx-visuals –composite   开启3D特效
 &lt;h2&gt;建议&lt;/h2&gt;
 &lt;p&gt;大多数情况下没有人愿意同时维护两个不同的配置文件，来分别应对 &lt;strong&gt;登录式shell&lt;/strong&gt; 和 &lt;strong&gt;交互式非登录shell&lt;/strong&gt; ——这样的话，当你想设置PATH 时，你得同时在两个文件里都配置。其实，你可以通过在 &lt;tt class="docutils literal"&gt;.bash_profile&lt;/tt&gt; 里引用 &lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt;，然后在 &lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt; 里进行PATH 和其他配置。&lt;/p&gt;
 &lt;p&gt;将下面几行代码添加到你的 &lt;tt class="docutils literal"&gt;.bash_profile&lt;/tt&gt; 文件里：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -f ~/.bashrc &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
-&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt; ~/.bashrc
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -f ~/.bashrc &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nb"&gt;source&lt;/span&gt; ~/.bashrc
 &lt;span class="k"&gt;fi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;现在当你通过console 进行 &lt;strong&gt;登录式shell&lt;/strong&gt; 时，&lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt; 也将被执行了。&lt;/p&gt;

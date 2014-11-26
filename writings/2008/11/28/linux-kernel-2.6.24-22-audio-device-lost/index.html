@@ -50,7 +50,7 @@
         <h1 class="serif">内核升级到2.6.24-22声卡失效</h1>
         <p>今天遇到了一件非常奇怪的事情。先是mirror.lupaworld.com 的源提示内核升级，升就升呗，自己早就想升了，2.6.24-21的内核对我的系统来说启动太慢了。 可是升级过后，重启系统，声卡就失效了。看了看“音效”设置，提示“找不到设备”。晕… 看来驱动没加载。</p>
 <div class="highlight"><pre>Xuange@r:~/桌面<span class="nv">$ </span>sudo lshw -C sound
-<span class="o">[</span>sudo<span class="o">]</span> password <span class="k">for </span>Xuange:
+<span class="o">[</span>sudo<span class="o">]</span> password <span class="k">for</span> Xuange:
     *-multimedia
         description: Audio device
         product: MCP65 High Definition Audio
@@ -58,21 +58,21 @@
         physical id: 7
         bus info: pci@0000:00:07.0
         version: a1
-        width: 32 bits
+        width: <span class="m">32</span> bits
         clock: 66MHz
         capabilities: pm msi ht bus_master cap_list
-        configuration: <span class="nv">driver</span><span class="o">=</span>HDA Intel <span class="nv">latency</span><span class="o">=</span>0 <span class="nv">maxlatency</span><span class="o">=</span>5 <span class="nv">mingnt</span><span class="o">=</span>2 <span class="nv">module</span><span class="o">=</span>snd_hda_intel
+        configuration: <span class="nv">driver</span><span class="o">=</span>HDA Intel <span class="nv">latency</span><span class="o">=</span><span class="m">0</span> <span class="nv">maxlatency</span><span class="o">=</span><span class="m">5</span> <span class="nv">mingnt</span><span class="o">=</span><span class="m">2</span> <span class="nv">module</span><span class="o">=</span>snd_hda_intel
 </pre></div>
 <p>sudo lshw -C sound 能找到设备。那就是内核加载驱动的事情了。</p>
 <div class="highlight"><pre>Xuange@r:~/桌面<span class="nv">$ </span>dpkg -l linux-ubuntu*
     <span class="nv">Desired</span><span class="o">=</span>Unknown/Install/Remove/Purge/Hold
-    | <span class="nv">Status</span><span class="o">=</span>Not/Installed/Config-f/Unpacked/Failed-cfg/Half-inst/t-aWait/T-pend
-    |/ Err?<span class="o">=(</span>none<span class="o">)</span>/Hold/Reinst-required/X<span class="o">=</span>both-problems <span class="o">(</span>Status,Err: <span class="nv">uppercase</span><span class="o">=</span>bad<span class="o">)</span>
+    <span class="p">|</span> <span class="nv">Status</span><span class="o">=</span>Not/Installed/Config-f/Unpacked/Failed-cfg/Half-inst/t-aWait/T-pend
+    <span class="p">|</span>/ Err?<span class="o">=(</span>none<span class="o">)</span>/Hold/Reinst-required/X<span class="o">=</span>both-problems <span class="o">(</span>Status,Err: <span class="nv">uppercase</span><span class="o">=</span>bad<span class="o">)</span>
     <span class="o">||</span>/ 名称         版本         简介
     +++-<span class="o">==============</span>-<span class="o">==============</span>-<span class="o">============================================</span>
-    rc  linux-ubuntu-m 2.6.22-14.38   Ubuntu supplied Linux modules <span class="k">for </span>version 2.
-    rc  linux-ubuntu-m 2.6.24-20.29   Ubuntu supplied Linux modules <span class="k">for </span>version 2.
-    ii  linux-ubuntu-m 2.6.24-21.33   Ubuntu supplied Linux modules <span class="k">for </span>version 2.
+    rc  linux-ubuntu-m 2.6.22-14.38   Ubuntu supplied Linux modules <span class="k">for</span> version 2.
+    rc  linux-ubuntu-m 2.6.24-20.29   Ubuntu supplied Linux modules <span class="k">for</span> version 2.
+    ii  linux-ubuntu-m 2.6.24-21.33   Ubuntu supplied Linux modules <span class="k">for</span> version 2.
 </pre></div>
 <p>晕，竟然没有2.6.24-22内核对应的modules 包。太奇怪了，以前自动升级内核从来没遇到过少一个modules 包的情况。</p>
 <p>自己安装上：</p>
@@ -82,13 +82,13 @@
     读取状态信息... 完成
     下列【新】软件包将被安装：
     linux-ubuntu-modules-2.6.24-22-generic
-    共升级了 0 个软件包，新安装了 1 个软件包，要卸载 0 个软件包，有 0 个软件未被升级。
+    共升级了 <span class="m">0</span> 个软件包，新安装了 <span class="m">1</span> 个软件包，要卸载 <span class="m">0</span> 个软件包，有 <span class="m">0</span> 个软件未被升级。
     需要下载 5433kB 的软件包。
     操作完成后，会消耗掉 17.2MB 的额外磁盘空间。
     获取：1 http://mirror.lupaworld.com hardy-security/main linux-ubuntu-modules-2.6.24-22-generic 2.6.24-22.35 <span class="o">[</span>5433kB<span class="o">]</span>
     下载 5433kB，耗时 7s <span class="o">(</span>689kB/s<span class="o">)</span>
     选中了曾被取消选择的软件包 linux-ubuntu-modules-2.6.24-22-generic。
-    <span class="o">(</span>正在读取数据库 ... 系统当前总共安装有 127301 个文件和目录。<span class="o">)</span>
+    <span class="o">(</span>正在读取数据库 ... 系统当前总共安装有 <span class="m">127301</span> 个文件和目录。<span class="o">)</span>
     正在解压缩 linux-ubuntu-modules-2.6.24-22-generic <span class="o">(</span>从 .../linux-ubuntu-modules-2.6.24-22-generic_2.6.24-22.35_i386.deb<span class="o">)</span> ...
     正在设置 linux-ubuntu-modules-2.6.24-22-generic <span class="o">(</span>2.6.24-22.35<span class="o">)</span> ...
     update-initramfs: Generating /boot/initrd.img-2.6.24-22-generic
@@ -99,7 +99,7 @@
     </div>
     <div class="hide-for-small-only medium-3 large-2 columns">
       <ul class="side-nav">
-        <li><time datetime="2008-11-28T00:00:00" class="serif">2008年11月28日</time></li>
+        <li><time datetime="2008-11-28T00:00:00+08:00" class="serif">2008年11月28日</time></li>
         <li class="divider"></li>
         <li><span class="serif">Written by</span> <a href="#">r.4ntix Shawn</a></li>
         <li class="divider"></li>

@@ -71,8 +71,8 @@
 <h2>建议</h2>
 <p>大多数情况下没有人愿意同时维护两个不同的配置文件，来分别应对 <strong>登录式shell</strong> 和 <strong>交互式非登录shell</strong> ——这样的话，当你想设置PATH 时，你得同时在两个文件里都配置。其实，你可以通过在 <tt class="docutils literal">.bash_profile</tt> 里引用 <tt class="docutils literal">.bashrc</tt>，然后在 <tt class="docutils literal">.bashrc</tt> 里进行PATH 和其他配置。</p>
 <p>将下面几行代码添加到你的 <tt class="docutils literal">.bash_profile</tt> 文件里：</p>
-<div class="highlight"><pre><span class="k">if</span> <span class="o">[</span> -f ~/.bashrc <span class="o">]</span>; <span class="k">then</span>
-<span class="k">    </span><span class="nb">source</span> ~/.bashrc
+<div class="highlight"><pre><span class="k">if</span> <span class="o">[</span> -f ~/.bashrc <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">source</span> ~/.bashrc
 <span class="k">fi</span>
 </pre></div>
 <p>现在当你通过console 进行 <strong>登录式shell</strong> 时，<tt class="docutils literal">.bashrc</tt> 也将被执行了。</p>
@@ -82,7 +82,7 @@
     </div>
     <div class="hide-for-small-only medium-3 large-2 columns">
       <ul class="side-nav">
-        <li><time datetime="2005-07-25T00:00:00" class="serif">2005年07月25日</time></li>
+        <li><time datetime="2005-07-25T00:00:00+08:00" class="serif">2005年07月25日</time></li>
         <li class="divider"></li>
         <li><span class="serif">Written by</span> <a href="#">Josh Staiger</a></li>
         <li class="divider"></li>
