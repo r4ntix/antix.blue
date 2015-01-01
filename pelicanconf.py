@@ -3,8 +3,8 @@
 from __future__ import unicode_literals
 
 # Site
-AUTHOR = u'r.4ntix Shawn'
-SITENAME = u"r.4ntix Shawn's Noise Player"
+AUTHOR = u'r.4ntix Blue'
+SITENAME = u"r.4ntix Blue's Noise Player"
 THEME = "themes/rocks"
 
 # TIME & LANG
