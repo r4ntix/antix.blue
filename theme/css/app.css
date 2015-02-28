@@ -67,6 +67,10 @@ img {
   margin-bottom: 1.8em;
 }
 
+dl dt {
+  font-weight: normal;
+}
+
 
 /* -----------------------------------------
    For side-bav
@@ -96,8 +100,17 @@ img {
 /* -----------------------------------------
    For pygments code highlight
 ----------------------------------------- */
-.highlight pre {
+pre, code, pre tt{
+  font-family: 'Ubuntu Mono', 'Consolas', 'Deja Vu Sans Mono',
+               'Bitstream Vera Sans Mono', 'Monaco', 'Courier New';
+  font-size: 0.9em;
+}
+
+pre {
+  border: none;
   background: none;
+  line-height: 1.45;
+  padding: 0 1.5em;
 }
 
 code {
@@ -112,6 +125,12 @@ code {
 /* -----------------------------------------
    For typo.css overrides
 ----------------------------------------- */
+.typo h1, .typo h2, .typo h3, .typo h4, .typo h5, .typo h6,
+.typo-h1, .typo-h2, .typo-h3, .typo-h4, .typo-h5, .typo-h6 {
+  font-family: Palatino, Optima, Georgia, serif;
+  font-weight: bold;
+}
+
 .typo a {
   border-bottom: none;
 }
