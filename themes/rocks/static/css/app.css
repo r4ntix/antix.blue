@@ -59,6 +59,10 @@ header .top-bar.expanded .title-area,
   text-decoration: underline;
 }
 
+#content .tabs *:focus {
+  outline: 0;
+}
+
 .content table {
   border: none;
 }
