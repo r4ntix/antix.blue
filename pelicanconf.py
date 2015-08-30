@@ -31,8 +31,7 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
 # Social
-SOCIAL = (('Readability', 'https://www.readability.com/r4ntix/'),
-          ('Instagram', 'http://instagram.com/r4ntix'),
+SOCIAL = (('Instagram', 'https://instagram.com/r4ntix'),
           ('Twitter', 'https://twitter.com/r4ntix'),
           ('Google+', 'https://plus.google.com/112109872395334308066'),)
 
