@@ -1,0 +1,5 @@
+{% set image = record.attachments.get(this.image) %}
+<figure{% if this.floated %} class="ui {{ this.floated }} image"{% endif %}>
+  <img class="ui {% if this.bordered %}bordered{% endif %} {% if this.rounded %}rounded{% endif %} {% if this.circular %}circular{% endif %} {% if this.centered %}centered{% endif %} image" src="{{ image|url }}">
+  {% if this.caption %}<figcaption>{{ this.caption }}</figcaption>{% endif %}
+</figure>

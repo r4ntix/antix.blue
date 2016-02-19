@@ -1,0 +1,21 @@
+{% macro render_pagination(pagination) %}
+  <div class="ui right floated buttons">
+    {% if pagination.has_prev %}
+      <a href="{{ pagination.prev|url }}" class="ui button">&laquo; Previous</a>
+    {% else %}
+      <button class="ui disabled button">
+        &laquo; Previous
+      </button>
+    {% endif %}
+    <button class="ui active button">
+      {{ pagination.page }}
+    </button>
+    {% if pagination.has_next %}
+      <a href="{{ pagination.next|url }}" class="ui button">Next &raquo;</a>
+    {% else %}
+      <button class="ui disabled button">
+        Next &raquo;
+      </button>
+    {% endif %}
+  </div>
+{% endmacro %}

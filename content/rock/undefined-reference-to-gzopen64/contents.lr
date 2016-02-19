@@ -1,0 +1,59 @@
+title: undefined reference to `gzopen64′?
+---
+author: r.4ntix Blue
+---
+content:
+
+#### text-block ####
+title: 
+----
+text:
+
+最近在学习GTK＋，尝试自己写一个有UI 的C/S 程序的时候。编译代码产生错误如下：
+
+```bash
+/usr/bin/../lib/libxml2.so.2: undefined reference to `gzopen64′
+collect2: ld 返回 1
+```
+
+/usr/lib/libxml2.so.2 没有gzopen64 函数的定义？奇怪。那好，跟进这个文件看看：
+
+```bash
+ls -l /usr/lib/libxml2.so.2
+    lrwxrwxrwx 1 root root 17 2008-11-19 10:28 /usr/lib/libxml2.so.2 -> libxml2.so.2.6.31
+ls -l /usr/lib/libxml2.so.2.6.31
+    -rw-r--r-- 1 root root 1171112 2008-11-19 03:16 /usr/lib/libxml2.so.2.6.31
+strings /usr/lib/libxml2.so.2.6.31 | grep gzopen64
+    gzopen64        # 发现了gzopen64的字符串，奇怪。继续..
+ldd /usr/lib/libxml2.so.2.6.31
+    linux-gate.so.1 =>  (0xb7fb7000)
+    libdl.so.2 => /lib/tls/i686/cmov/libdl.so.2 (0xb7e7e000)
+    libz.so.1 => /usr/lib/libz.so.1 (0xb7e69000)    # 注意这个so动态库
+    libm.so.6 => /lib/tls/i686/cmov/libm.so.6 (0xb7e43000)
+    libc.so.6 => /lib/tls/i686/cmov/libc.so.6 (0xb7cf4000)
+     /lib/ld-linux.so.2 (0xb7fb8000)
+ls -l /usr/lib/libz.so.1
+    lrwxrwxrwx 1 root root 15 2009-04-06 22:36 /usr/lib/libz.so.1 -> libz.so.1.2.3.3
+ls -l /usr/lib/libz.so.1.2.3.3
+    -rw-r--r-- 1 root root 81240 2007-11-15 20:08 /usr/lib/libz.so.1.2.3.3
+strings /usr/lib/libz.so.1.2.3.3 | grep gzopen64
+    gzopen64   # 确定gzopen64是包含在这个文件里
+objdump -T /usr/lib/libz.so.1.2.3.3 | grep gzopen64
+    00004040 g    DF .text  0000001b  Base        gzopen64      # 很明显的可以看到这个gzopen64是定义了的。
+```
+
+这就奇怪， 难道是一个reference lookup error? 本人环境Ubuntu 8.04.2 ，libxml2 为apt-get 最新的库文件。
+
+find 搜索一下本地的libz*，发现自己机子的/opt/ 里还有一个libz.so.1.2.3。/opt/ 里放的是我本地LAMP 的开发环境(xampp的开发包)。刚好，就把libxml2 连接过来算了。gcc 编译的时候加上一句-L/opt /lampp/lib/ -lxml2 编译通过。
+
+googled:
+* https://bugs.launchpad.net/ubuntu/+source/libxml2/+bug/151045    
+    不过这个bug 报告被标记为：Invalid
+* http://hi.baidu.com/linux%5Flfs/blog/item/3f19abdf9d615315485403ec.html    
+    另外一种情况
+----
+divider: no
+---
+pub_date: 2009-04-07
+---
+tags: gtk c program linux
