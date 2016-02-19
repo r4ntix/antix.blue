@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <!-- Site Properties -->
+  <title>Ubuntu Upstart 基于事件的启动进程 | Antix Blue&#39;s Noise Player</title>
+  
+<link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css">
+
+  <link rel="stylesheet" type="text/css" href="../../../../../static/app.css?h=475053d2">
+</head>
+<body>
+  <!-- start of header -->
+  <header id="header" class="ui inverted segment">
+    <div class="ui centered grid container">
+      <div class="row">
+        <div class="twelve wide column">
+          <div class="ui container inverted secondary pointing menu">
+            <a href="../../../../../" id="logo" class="item">
+              Antix Blue&#39;s Noise Player
+            </a>
+            <div class="right menu">
+              
+                <a href="../../../../../about/" class="item">About</a>
+              
+              <span class="item">|</span>
+              
+                <a href="https://www.instagram.com/r4ntix/" class="item">Instagram</a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- start of header -->
+
+  <!-- start of content -->
+  
+  <article id="content" class="ui stackable centered grid container typo">
+    <div class="row">
+      <div class="twelve wide column">
+        <h1 id="title" class="serif">
+          Ubuntu Upstart 基于事件的启动进程
+        </h1>
+        <div class="ui two column grid">
+          <div class="column">
+            <h5 id="pub-date" class="ui grey sub header">发行日期：<time>2009年01月08日</time></h5>
+          </div>
+          <div class="right aligned column">
+            <div class="ui horizontal link list">
+              
+              <a class="item">
+                #ubuntu
+              </a>
+              
+              <a class="item">
+                #linux
+              </a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="twelve wide column">
+        
+<p>昨晚上在看《开源世界的旅行手册》的时候，其「II.地理——第15章 基本系统——启动流程」中描述到：</p>
+<ol>
+<li>读取MBR 的信息，启动Boot Manager</li>
+<li>加载系统内核，启动init 进程</li>
+<li>init 进程读取/etc/inittab 文件中的信息，并进入预设的运行级别，按顺序运行该运行级别对应文件夹下的脚本。脚本通常以start 选项启动，并指向一个系统中的程序。</li>
+<li>根据/etc/rcS.d/ 文件夹中对应的脚本启动Xwindow 服务器xorg</li>
+<li>启动登录管理器，等待用户登录</li>
+</ol>
+<p>注意第3条，我在ubuntu 8.04 上并没有发现所谓的/etc/inittab 文件，在网上找了一些资料知道从ubuntu 6.10 开始，ubuntu 已经开始用Upstart 取代了传统的System V 的init daemon (Sysvinit)。于是随着这个好奇，找了一些资料了解到下一代init 程序，如：Upstart，initng 的发展，及其优势。主要看了Upstart 的资料，从官网上看，目前Upstart 的用户包括了：</p>
+<ul>
+<li>Ubuntu 6.10 and later</li>
+<li>Fedora 9 and later</li>
+<li>Debian experimental</li>
+</ul>
+<p>总的来说，Upstart 这种基于事件的启动模式来说，优势是很明显的，很灵活。实质上，改变了linux 以往的runlevel 的模式。</p>
+<p>资料：</p>
+<ol>
+<li><a href="http://upstart.ubuntu.com/">http://upstart.ubuntu.com/</a></li>
+<li><a href="http://labs.chinamobile.com/community/my_blog/225/2804">http://labs.chinamobile.com/community/my_blog/225/2804</a></li>
+</ol>
+<p><a href="http://labs.chinamobile.com/community/my_blog/225/2804">资料2</a> 中有这么一句话：</p>
+<blockquote><p>在/etc/event.d/rc? 文件中定义的rc? 工作会运行/etc/init.d/rc 脚本，这个脚本会运行链接到/etc/rc?.d 目录中的/etc/init.d 中的启动脚本，以模拟SysVinit 的行为。</p>
+</blockquote>
+<p>实质上，/etc/rc?.d 目录中的文件，是到/etc/init.d 中启动脚本的一个符号链接(ln -s)，终归到底就是在/etc/init.d/ 目录的脚本执行。而这样做，却把/etc/init.d/ 中的脚本归类了，分为由不同的事件来驱动，并且排了个启动顺序。再次 见证linux 的文件管理方式的符号链接模式的便利，和灵活。赞一个～～</p>
+<p>考试好无聊哦，咱想回家 ^_^</p>
+
+
+      </div>
+    </div>
+  </article>
+
+  <!-- end of content -->
+
+  <!-- start of footer -->
+  <div class="ui divider"></div>
+  <footer id="footer" class="ui centered grid container">
+    <div class="row">
+      <div class="twelve wide column">
+        <div class="ui two column grid">
+          <small class="column">
+            Designed and Created(2005-2016) by <a href="../../../../../about/">r.4ntix Blue</a>
+            <br />
+            ✎ Time waits for no one.
+          </small>
+          <small class="right aligned column">
+            Help from <a href="https://www.getlektor.com/">Lektor</a> and <a href="http://semantic-ui.com/">Semantic UI</a>
+            <br />
+            ☂ Hosting on <a href="https://github.com/">GitHub</a>
+          </small>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- end of footer -->
+
+  <!-- start of script -->
+  <div class="ga-script">
+<div id="ga-script"></div>
+<script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-47845863-1', 'auto');
+        ga('send', 'pageview');
+</script>
+</div>
+  <!-- end of script -->
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <!-- Site Properties -->
+  <title>Ubuntu &amp; XP 双系统 | Antix Blue&#39;s Noise Player</title>
+  
+<link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css">
+
+  <link rel="stylesheet" type="text/css" href="../../../../../static/app.css?h=475053d2">
+</head>
+<body>
+  <!-- start of header -->
+  <header id="header" class="ui inverted segment">
+    <div class="ui centered grid container">
+      <div class="row">
+        <div class="twelve wide column">
+          <div class="ui container inverted secondary pointing menu">
+            <a href="../../../../../" id="logo" class="item">
+              Antix Blue&#39;s Noise Player
+            </a>
+            <div class="right menu">
+              
+                <a href="../../../../../about/" class="item">About</a>
+              
+              <span class="item">|</span>
+              
+                <a href="https://www.instagram.com/r4ntix/" class="item">Instagram</a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- start of header -->
+
+  <!-- start of content -->
+  
+  <article id="content" class="ui stackable centered grid container typo">
+    <div class="row">
+      <div class="twelve wide column">
+        <h1 id="title" class="serif">
+          Ubuntu &amp; XP 双系统
+        </h1>
+        <div class="ui two column grid">
+          <div class="column">
+            <h5 id="pub-date" class="ui grey sub header">发行日期：<time>2008年03月03日</time></h5>
+          </div>
+          <div class="right aligned column">
+            <div class="ui horizontal link list">
+              
+              <a class="item">
+                #system
+              </a>
+              
+              <a class="item">
+                #linux
+              </a>
+              
+              <a class="item">
+                #xp
+              </a>
+              
+              <a class="item">
+                #ubuntu
+              </a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="twelve wide column">
+        
+<p>现在，我的Ubuntu 7.10 已经很舒服的在我手上运行了。以前用过Ubuntu 6.10，所以从Windows 到Ubuntu  没什么不适应的。这个版本还是变化挺大的，界面越做越好了，和朋友一样，不准备改变默认的主题了，真的很漂亮，很清爽。 由于是第一次装双系统并且在XP 下做GRUB 引导，所以记录下来。</p>
+
+
+<div class="ui section divider"></div>
+
+
+<h2 class="serif">在XP 下做GRUB 引导</h2>
+<p>我选择在XP 下做GRUB 引导的原因很简单：如果重装XP 的话，能很方便的再做一次引导，而用Linux 的GRUB 去写MBR 的话，重装XP 后要引导Linux 很麻烦，因为MBR 被XP 重新修改了。</p>
+<p>我参考了一些资料，决定用GRUB4DOS，下载后只用从压缩包里解压两个文件(grldr 和menu.lst)放在C 盘根目录就可以，然后修改boot.ini 在最后另起一行添加 <code>C:\grldr="Ubuntu 7.10"</code>。</p>
+
+
+<div class="ui section divider"></div>
+
+
+<h2 class="serif">安装Ubuntu</h2>
+<p>具体的步骤就不说了，保证网络顺畅连接就可以(安装过程中要从网络下载安全更新和语言包)，全傻瓜式安装。分区自己注意就可以。</p>
+<p>重点是，将Linux 的GRUB 安装到根挂载区。如果默认不变，那么前面的GRUB4DOS 就白做了。进行到GRUB 安装界面时，按Advanced，把里面的内容从hd0 改成Ubuntu 所在的分区。接下来就自动安装了，泡杯咖啡吧，嘿嘿。安装完后，重启就可进入Linux 了。</p>
+
+
+<div class="ui section divider"></div>
+
+
+<h2 class="serif">安装显卡驱动，解决声卡无声</h2>
+<p>要玩比VISTA 还酷的3D 特效，当然要装好显卡的驱动。我的显卡是GF 7300 GT，安装命令如下：</p>
+<div class="highlight"><pre><span></span>    sudo cp /etc/X11/xorg.conf /etc/X11/xorg.conf.bak 备份
+    sudo apt-get install nvidia-glx-new   安装驱动
+    sudo nvidia-glx-config <span class="nb">enable</span>   开启驱动
+    sudo nvidia-xconfig –add-argb-glx-visuals –composite   开启3D特效
+</pre></div>
+<p>我一次性成功。</p>
+<p>有很多人安装Ubuntu 完毕后，系统没有声音，我的ALC 883 声卡就受影响。我查了很多资料后发现，其实只要：
+<code>sudo gedit /etc/modprobe.d/alsa-base</code> 编辑alsa-base 文件，在最后加上一行 <code>options snd-hda-intel model=laptop-automute</code> 重启就可以了。嘿嘿，Ubuntu 启动时的鼓声还是挺不错的哦。</p>
+
+
+<div class="ui section divider"></div>
+
+
+<h2 class="serif">其他的一些完善设置</h2>
+<p>其他的就一些，常用的设置了，像播放器呀，字体美化，QQ 等等。</p>
+
+
+      </div>
+    </div>
+  </article>
+
+  <!-- end of content -->
+
+  <!-- start of footer -->
+  <div class="ui divider"></div>
+  <footer id="footer" class="ui centered grid container">
+    <div class="row">
+      <div class="twelve wide column">
+        <div class="ui two column grid">
+          <small class="column">
+            Designed and Created(2005-2016) by <a href="../../../../../about/">r.4ntix Blue</a>
+            <br />
+            ✎ Time waits for no one.
+          </small>
+          <small class="right aligned column">
+            Help from <a href="https://www.getlektor.com/">Lektor</a> and <a href="http://semantic-ui.com/">Semantic UI</a>
+            <br />
+            ☂ Hosting on <a href="https://github.com/">GitHub</a>
+          </small>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- end of footer -->
+
+  <!-- start of script -->
+  <div class="ga-script">
+<div id="ga-script"></div>
+<script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-47845863-1', 'auto');
+        ga('send', 'pageview');
+</script>
+</div>
+  <!-- end of script -->
+</body>
+</html>

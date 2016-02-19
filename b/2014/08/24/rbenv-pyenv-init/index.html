@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <!-- Site Properties -->
+  <title>rbenv/pyenv #1 eval &#34;$(pyenv init -)&#34; 做了什么 | Antix Blue&#39;s Noise Player</title>
+  
+<link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css">
+
+  <link rel="stylesheet" type="text/css" href="../../../../../static/app.css?h=475053d2">
+</head>
+<body>
+  <!-- start of header -->
+  <header id="header" class="ui inverted segment">
+    <div class="ui centered grid container">
+      <div class="row">
+        <div class="twelve wide column">
+          <div class="ui container inverted secondary pointing menu">
+            <a href="../../../../../" id="logo" class="item">
+              Antix Blue&#39;s Noise Player
+            </a>
+            <div class="right menu">
+              
+                <a href="../../../../../about/" class="item">About</a>
+              
+              <span class="item">|</span>
+              
+                <a href="https://www.instagram.com/r4ntix/" class="item">Instagram</a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- start of header -->
+
+  <!-- start of content -->
+  
+  <article id="content" class="ui stackable centered grid container typo">
+    <div class="row">
+      <div class="twelve wide column">
+        <h1 id="title" class="serif">
+          rbenv/pyenv #1 eval &#34;$(pyenv init -)&#34; 做了什么
+        </h1>
+        <div class="ui two column grid">
+          <div class="column">
+            <h5 id="pub-date" class="ui grey sub header">发行日期：<time>2014年08月24日</time></h5>
+          </div>
+          <div class="right aligned column">
+            <div class="ui horizontal link list">
+              
+              <a class="item">
+                #rbenv
+              </a>
+              
+              <a class="item">
+                #pyenv
+              </a>
+              
+              <a class="item">
+                #bash
+              </a>
+              
+              <a class="item">
+                #shell
+              </a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="twelve wide column">
+        <h2 class="serif">概述</h2>
+<p><a href="https://github.com/yyuu/pyenv">pyenv</a> 是我日常开发过程中常用来管理python 版本和virtualenv 的工具。甚至可以说，我几乎每天都在使用了 <a href="https://github.com/yyuu/pyenv">pyenv</a> 的bash 环境下工作。</p>
+<p>其实 <a href="https://github.com/yyuu/pyenv">pyenv</a> 是从fork <a href="https://github.com/sstephenson/rbenv">rbenv</a> 而来，两者的核心代码完全一致。<a href="https://github.com/sstephenson/rbenv">rbenv</a> 是用来管理ruby environment 的，其作者是 <a href="https://basecamp.com">Basecamp</a> 的 <a href="https://github.com/sstephenson">Sam Stephenson</a>。</p>
+<p>有趣的是，rbenv/pyenv 是纯shell 脚本实现的，不依赖于ruby/python 本身。具体的实现过程也很精巧。现在基于Linux 的开发的工作，也基本上都绕不开python。就我所在的团队，包括测试的同学，也都开始使用 <a href="https://github.com/yyuu/pyenv">pyenv</a> 来管理python 环境。</p>
+<p>所以，是时候来更加的深入了解rbenv/pyenv 了。</p>
+<p>在这里，我将以 <a href="https://github.com/yyuu/pyenv">pyenv</a> 为例，分几篇文章来描述rbenv/pyenv 核心代码的具体实现，但是并不涉及ruby-build、pyenv-build 这样的plugin 实现。</p>
+
+
+<div class="ui section divider"></div>
+
+
+<h2 class="serif">文件结构</h2>
+<p>如下图所示：</p>
+
+
+
+
+<figure>
+  <img class="ui    centered image" src="../../../../../b/2014/08/24/rbenv-pyenv-init/pyenv.jpg">
+  <figcaption>pyenv 文件结构</figcaption>
+</figure>
+
+
+<p>pyenv 的文件结构是这样的：</p>
+<ol>
+<li><p>shims 是pyenv 和用户交互的接口层。</p>
+<p>这里面存放了我们平时在pyenv shell 环境下所执行的python、pip 等命令文件。<br>
+当然，这些名为python、pip 的命令文件「并不是真正的python、pip 执行文件」，而是负责命令中转调度的binstub files。</p>
+</li>
+<li><p>versions 是存放各个python 版本文件的地方。</p>
+<p>里面存放了我们installed 的「真正的python、pip 等文件」。</p>
+</li>
+<li><p>libexec 是pyenv 的核心代码目录。</p>
+<p>bin/pyenv 则直接软连接到了libexec/pyenv。<br>
+我们平时所执行的 <code>pyenv *</code> 的命令，实际上最后都调用了libexec/pyenv-* 文件（除plugin/*/bin/pyenv-* 命令之外）。<br>
+比如我们执行<code>pyenv init -</code> 则实际调用为<code>libexec/pyenv-init -</code>。</p>
+</li>
+<li><p>plugin 是存放plugin 的目录。</p>
+<p>pyenv 安装时自带了一个叫做python-build 的plugin。它提供了我们安装和卸载python 时所用的<code>pyenv install</code>、<code>pyenv uninstall</code> 这两个命令。<br>
+其他更多的插件，可看 <a href="https://github.com/yyuu/pyenv/wiki/Plugins">Plugins wiki page</a>，这里面的<code>pyenv-virtualenv</code> 插件可以用来管理virtualenv 环境。</p>
+</li>
+<li><p>hooks 并不存在叫做hooks 的目录。但是却是pyenv 很有用的一个功能。</p>
+<p>pyenv 提供了3个hook 点，分别为 <code>exec</code>、<code>rehash</code>、<code>which</code>。当在执行<code>pyenv-exec</code>、<code>pyenv-rehash</code>、<code>pyenv-which</code>时，则会调用hook files。<br>
+这些hook files，可存放的目录为：</p>
+<div class="highlight"><pre><span></span>plugins/*/etc/pyenv.d:<span class="si">${</span><span class="nv">PYENV_HOOK_PATH</span><span class="si">}</span>:<span class="si">${</span><span class="nv">PYENV_ROOT</span><span class="si">}</span>/pyenv.d:/usr/local/etc/pyenv.d:/etc/pyenv.d:/usr/lib/pyenv/hooks
+</pre></div>
+</li>
+<li><p>completions 是存放shell completion 的目录。</p>
+<p>目前支持的shell 为：bash、fish、zsh。</p>
+</li>
+</ol>
+
+
+<div class="ui section divider"></div>
+
+
+<h2 class="serif">pyenv-init</h2>
+<p>在安装完pyenv 之后，根据安装提示，我们需要在shell 的配置文件里，加入几行配置代码。以bash 为例：</p>
+<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYENV_ROOT</span><span class="o">=</span><span class="s2">&quot;</span>$<span class="s2">HOME/.pyenv&quot;</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span>$<span class="s2">PYENV_ROOT/bin:</span>$<span class="s2">PATH&quot;</span>
+<span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(</span>pyenv init -<span class="k">)</span><span class="s2">&quot;</span>
+</pre></div>
+<p>其中前两行export 指令，设置了pyenv 的路径，并添加到我们的已有PATH 的最前面，以便我们执行pyenv 时，系统能自动从该路径下找到pyenv。</p>
+<p>而最后一行 <code>eval "$(pyenv init -)"</code> 正是魔法的开始，pyenv 的初始化隐藏其中。</p>
+<p>让我们来具体看看libexec/pyenv-init 的代码：</p>
+<ol>
+<li><p>获取到当前的shell name。</p>
+<div class="highlight"><pre><span></span> <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span>$<span class="s2">shell&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+   <span class="nv">shell</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>ps c -p <span class="s2">&quot;</span>$<span class="s2">PPID&quot;</span> -o <span class="s1">&#39;ucomm=&#39;</span> 2&gt;/dev/null <span class="o">||</span> <span class="nb">true</span><span class="k">)</span><span class="s2">&quot;</span>
+   <span class="nv">shell</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">shell</span><span class="p">##-</span><span class="si">}</span><span class="s2">&quot;</span>
+   <span class="nv">shell</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">shell</span><span class="p">%% *</span><span class="si">}</span><span class="s2">&quot;</span>
+   <span class="nv">shell</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>basename <span class="s2">&quot;</span><span class="si">${</span><span class="nv">shell</span><span class="k">:-</span>$<span class="nv">SHELL</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
+ <span class="k">fi</span>
+</pre></div>
+</li>
+<li><p>创建shims、versions 目录。</p>
+<div class="highlight"><pre><span></span> mkdir -p <span class="s2">&quot;</span><span class="si">${</span><span class="nv">PYENV_ROOT</span><span class="si">}</span><span class="s2">/&quot;</span><span class="o">{</span>shims,versions<span class="o">}</span>
+</pre></div>
+</li>
+<li><p>打印设置shims path 到我们的$PATH 最前面。</p>
+<div class="highlight"><pre><span></span> <span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="s2">:&quot;</span> !<span class="o">=</span> *:<span class="s2">&quot;</span><span class="si">${</span><span class="nv">PYENV_ROOT</span><span class="si">}</span><span class="s2">/shims&quot;</span>:* <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+   <span class="k">case</span> <span class="s2">&quot;</span>$<span class="s2">shell&quot;</span> in
+   fish <span class="o">)</span>
+     <span class="nb">echo</span> <span class="s2">&quot;setenv PATH &#39;</span><span class="si">${</span><span class="nv">PYENV_ROOT</span><span class="si">}</span><span class="s2">/shims&#39; \$PATH&quot;</span>
+   <span class="p">;;</span>
+   * <span class="o">)</span>
+     <span class="nb">echo</span> <span class="s1">&#39;export PATH=&quot;&#39;</span><span class="si">${</span><span class="nv">PYENV_ROOT</span><span class="si">}</span><span class="s1">&#39;/shims:${PATH}&quot;&#39;</span>
+   <span class="p">;;</span>
+   <span class="k">esac</span>
+ <span class="k">fi</span>
+</pre></div>
+<p>这样的话，当我们输入执行python、pip 等命令时，shell 就会首先到shims 目录去寻找了。</p>
+</li>
+<li><p>设置PYENV_SHELL 环境变量。</p>
+<div class="highlight"><pre><span></span> <span class="k">case</span> <span class="s2">&quot;</span>$<span class="s2">shell&quot;</span> in
+ fish <span class="o">)</span>
+   <span class="nb">echo</span> <span class="s2">&quot;setenv PYENV_SHELL </span>$<span class="s2">shell&quot;</span>
+ <span class="p">;;</span>
+ * <span class="o">)</span>
+   <span class="nb">echo</span> <span class="s2">&quot;export PYENV_SHELL=</span>$<span class="s2">shell&quot;</span>
+ <span class="p">;;</span>
+ <span class="k">esac</span>
+</pre></div>
+</li>
+<li><p>打印shell completion。</p>
+<div class="highlight"><pre><span></span><span class="nv">completion</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">root</span><span class="si">}</span><span class="s2">/completions/pyenv.</span><span class="si">${</span><span class="nv">shell</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">if</span> <span class="o">[</span> -r <span class="s2">&quot;</span><span class="nv">$c</span><span class="s2">ompletion&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="k">case</span> <span class="s2">&quot;</span>$<span class="s2">shell&quot;</span> in
+  fish <span class="o">)</span> <span class="nb">echo</span> <span class="s2">&quot;. &#39;</span><span class="nv">$c</span><span class="s2">ompletion&#39;&quot;</span> <span class="p">;;</span>
+  *    <span class="o">)</span> <span class="nb">echo</span> <span class="s2">&quot;source &#39;</span><span class="nv">$c</span><span class="s2">ompletion&#39;&quot;</span> <span class="p">;;</span>
+  <span class="k">esac</span>
+<span class="k">fi</span>
+</pre></div>
+</li>
+<li><p>根据参数判断打印是否rehash。</p>
+<div class="highlight"><pre><span></span> <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span>$<span class="s2">no_rehash&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+   <span class="nb">echo</span> <span class="s1">&#39;pyenv rehash 2&gt;/dev/null&#39;</span>
+ <span class="k">fi</span>
+</pre></div>
+<p><code>pyenv rehash</code> 是pyenv 代码实现中最为核心的部分，它的作用是在shims 目录下生成正确的binstub files。</p>
+</li>
+<li><p>打印一个名叫 <strong>pyenv</strong> 的shell 函数。</p>
+<div class="highlight"><pre><span></span> <span class="c1"># example for bash</span>
+ <span class="nv">commands</span><span class="o">=(</span><span class="sb">`</span>pyenv-commands --sh<span class="sb">`</span><span class="o">)</span>
+ cat <span class="s">&lt;&lt;EOS</span>
+<span class="s"> pyenv() {</span>
+<span class="s">   local command</span>
+<span class="s">   command=&quot;\$1&quot;</span>
+<span class="s">   if [ &quot;\$#&quot; -gt 0 ]; then</span>
+<span class="s">     shift</span>
+<span class="s">   fi</span>
+
+<span class="s">   case &quot;\$command&quot; in</span>
+<span class="s">   ${commands[*]})</span>
+<span class="s">     eval &quot;\`pyenv &quot;sh-\$command&quot; &quot;\$@&quot;\`&quot;;;</span>
+<span class="s">   *)</span>
+<span class="s">     command pyenv &quot;\$command&quot; &quot;\$@&quot;;;</span>
+<span class="s">   esac</span>
+<span class="s"> }</span>
+<span class="s"> EOS</span>
+</pre></div>
+</li>
+<li><p>eval "$(pyenv init -)" 执行 <code>pyenv init -</code> 打印出来的代码。</p>
+<p>这里非常关键，在我们执行 <code>eval "$(pyenv init -)"</code> 时，最终eval 的正是 <code>pyenv-init</code> echo 出来的各个语句。而在第七部步时 <code>pyenv-init</code> echo 了一个名为 <strong>pyenv</strong> 的shell 函数。最终被eval 解析执行。</p>
+</li>
+</ol>
+<p>到这里我们已经明白，原来每次我们在bash 输入执行的pyenv 实际上都是这个叫做 <strong>pyenv</strong> 的shell 函数！</p>
+
+
+<div class="ui section divider"></div>
+
+
+<h2 class="serif">名为pyenv 的shell 函数</h2>
+<p>在这个名为 <strong>pyenv</strong> 的shell 函数里，实际上将我们执行的 <code>pyenv *</code> 命令分为了两类：</p>
+<ol>
+<li><p>rehash|shell</p>
+<p>当我们执行 <code>pyenv rehash</code>、<code>pyenv shell</code> 时，通过eval 解析执行 <code>libexec/pyenv-sh-rehash</code>、<code>libexec/pyenv-sh-shell</code> 命令输出的内容。</p>
+</li>
+<li><p>others</p>
+<p>除 <code>rehash|shell</code> 之外的 <code>pyenv *</code> 命令，通过command 传递给实际的libexec/pyenv 调度相应的 <code>pyenv-*</code> 执行。</p>
+</li>
+</ol>
+<p>关于 <code>command</code> 这个命令，是忽略shell 函数的，所以能正确的传递给真实的libexec/pyenv 执行：</p>
+<blockquote><p>Runs command with arguments ignoring any shell function named command. Only shell builtin commands or commands found by searching the PATH are executed.</p>
+</blockquote>
+<p>所以，当我们挥动手指，敲打出 <code>pyenv *</code> 命令并按下回车键时，在shell 里的实际执行流程为：</p>
+<ol>
+<li>pyenv shell function</li>
+<li>bin/pyenv(libexec/pyenv)</li>
+<li>libexec/pyenv-*</li>
+</ol>
+<p>就像是魔法一样。</p>
+
+
+      </div>
+    </div>
+  </article>
+
+  <!-- end of content -->
+
+  <!-- start of footer -->
+  <div class="ui divider"></div>
+  <footer id="footer" class="ui centered grid container">
+    <div class="row">
+      <div class="twelve wide column">
+        <div class="ui two column grid">
+          <small class="column">
+            Designed and Created(2005-2016) by <a href="../../../../../about/">r.4ntix Blue</a>
+            <br />
+            ✎ Time waits for no one.
+          </small>
+          <small class="right aligned column">
+            Help from <a href="https://www.getlektor.com/">Lektor</a> and <a href="http://semantic-ui.com/">Semantic UI</a>
+            <br />
+            ☂ Hosting on <a href="https://github.com/">GitHub</a>
+          </small>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- end of footer -->
+
+  <!-- start of script -->
+  <div class="ga-script">
+<div id="ga-script"></div>
+<script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-47845863-1', 'auto');
+        ga('send', 'pageview');
+</script>
+</div>
+  <!-- end of script -->
+</body>
+</html>
