@@ -24,6 +24,13 @@ figure figcaption {
 
 #header {
   border-radius: 0;
+  padding: 1em 0;
+}
+
+#header .ui.container.menu {
+  border: none;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 #header .item {
@@ -69,6 +76,10 @@ figure figcaption {
 
 #content figure figcaption {
   text-align: center;
+}
+
+#content tfoot tr {
+  box-shadow: none !important;
 }
 
 #content .ui.button {
