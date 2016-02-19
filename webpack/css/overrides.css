@@ -49,6 +49,10 @@ figure figcaption {
   text-decoration: underline;
 }
 
+#avatar {
+  max-width: 200px;
+}
+
 #content {
   padding-top: 2em;
 }
