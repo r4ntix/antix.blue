@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="zh-cmn-Hans" > <![endif]-->
+<html class="no-js" lang="zh-cmn-Hans" >
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ SITENAME }}{% endblock title %}</title>
+
+  <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/normalize.css">
+  <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/foundation.min.css">
+  <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/typo.css">
+  <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/pygments.css">
+  <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/app.css">
+
+  <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/vendor/modernizr.js"></script>
+</head>
+
+<body>
+  <!-- start of header -->
+  <header class="contain-to-grid">
+    <nav class="top-bar" data-topbar>
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="{{ SITEURL }}">{{ SITENAME }}</a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+      </ul>
+      <section class="top-bar-section">
+        <!-- Right Nav Section -->
+        <ul class="right">
+          {% for page in PAGES %}
+          <li><a href="{{ SITEURL }}/{{ page.url }}">{{ page.title }}</a></li>
+          {% endfor %}
+          <li>
+            <a href="#">|</a>
+          </li>
+          {% for title, link in SOCIAL %}
+          <li><a href="{{ link }}">{{ title }}</a></li>
+          {% endfor %}
+        </ul>
+      </section>
+    </nav>
+  </header>
+  <!-- end of header -->
+
+  <!-- start of content -->
+  <div id="content" class="row">
+    <div class="medium-9 large-10 columns">
+      {% block content_left %}{% endblock content_left %}
+    </div>
+    <div class="hide-for-small-only medium-3 large-2 columns">
+      {% block content_right %}{% endblock content_right %}
+    </div>
+  </div>
+  <!-- end of content -->
+
+  <!-- start of footer -->
+  <footer class="row">
+    <div class="small-6 medium-6 large-6 columns">
+      <small>
+        Designed and Created(2005-2015) by <a href="{{ SITEURL }}/about/">r.4ntix Blue</a>
+        <br />
+        ✎ Time waits for no one.
+      </small>
+    </div>
+    <div class="small-6 medium-6 large-6 columns">
+      <small class="right">
+        Help from <a href="http://blog.getpelican.com/">Pelican</a> and <a href="http://foundation.zurb.com/">Foundation 5</a> and <a href="https://github.com/sofish/typo.css">Typo.css</a>
+        <br />
+        ☂ Hosting on <a href="https://github.com/">GitHub</a> and <a href="https://gitcafe.com/">GitCafe</a>
+      </small>
+    </div>
+  </footer>
+  <!-- end of footer -->
+
+  <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/vendor/jquery.js"></script>
+  <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/foundation.min.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+
+  {% include 'analytics.html' %}
+</body>
+
+</html>

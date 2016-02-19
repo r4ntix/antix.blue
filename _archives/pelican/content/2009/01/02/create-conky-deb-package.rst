@@ -1,0 +1,29 @@
+编译并打包deb 安装conky1.6.1
+====================================================
+
+:date: 2009-01-02
+:category: Writings
+:tags: conky, debian, ubuntu, linux
+:slug: create-conky-deb-package
+:author: r.4ntix Shawn
+:summary: 制作conky 的deb 包
+
+
+conky 是我非常喜欢的一款system monitor，官方用一句话来描述conky: A light-weight system monitor。
+
+ubuntu 8.04 源里的版本是1.5.1，我也用了好久，但总有一些小bug，并且因为是通用deb 的原因，并没有开启$nvidia 的一些信息获取支持(我用的是nvidia，嘿嘿)。刚好在conky 官方看到，最新的稳定版本是1.6.1，fixed 不少bug。 于是乎，自己下载下来编译打包。;-)
+
+.. code-block:: bash
+
+    sudo apt-get install libcurl4-openssl-dev   #这个是--enable-rss需要的库，我用conky来订阅了一些RSS;-)
+    sudo apt-get install libxnvctrl-dev     #这个是 --enable-nvidia需要的库
+    #其他的一些基本需要的库就不列举出来了。比如libx11-dev  ...
+    tar -xjvf conky-1.6.1.tar.bz2
+    cd conky-1.6.1/
+    ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --datadir=/usr/share --sysconfdir=/etc --localstatedir=/var/lib --enable-xft --enable-dou-ble-buffer --enable-own-window --enable-proc-uptime --enable-mpd --enable-x11 --enable-portmon --enable-nvidia --enable-audacious --enable-rss
+    make
+    sudo checkinstall
+
+这样就可以在本目录下生成一个deb 包，并且自动安装好。
+
+如果仅仅只想打包，不安装，最后一步这样：checkinstall，不加sudo 就行(权限不够，安装失败，嘿嘿)。

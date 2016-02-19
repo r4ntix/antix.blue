@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <!-- Site Properties -->
+  <title>{% block title %}Index | {% endblock title %}{{ bag('base.site.name') }}</title>
+  {% block css %}{% endblock css %}
+  <link rel="stylesheet" type="text/css" href="{{ '/static/app.css'|asseturl }}">
+</head>
+<body>
+  <!-- start of header -->
+  <header id="header" class="ui inverted segment">
+    <div class="ui centered grid container">
+      <div class="row">
+        <div class="twelve wide column">
+          <div class="ui container inverted secondary pointing menu">
+            <a href="{{ '/'|url }}" id="logo" class="item">
+              {{ bag('base.site.name') }}
+            </a>
+            <div class="right menu">
+              {% for id, item in bag('pages').iteritems() %}
+                <a href="{{ item.path|url }}" class="item">{{ item.label }}</a>
+              {% endfor %}
+              <span class="item">|</span>
+              {% for id, item in bag('social').iteritems() %}
+                <a href="{{ item.path|url(external=true) }}" class="item">{{ item.label }}</a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- start of header -->
+
+  <!-- start of content -->
+  {% block content %}{% endblock content %}
+  <!-- end of content -->
+
+  <!-- start of footer -->
+  <div class="ui divider"></div>
+  <footer id="footer" class="ui centered grid container">
+    <div class="row">
+      <div class="twelve wide column">
+        <div class="ui two column grid">
+          <small class="column">
+            Designed and Created(2005-2016) by <a href="{{ bag('pages.about.path')|url }}">{{ bag('base.site.author') }}</a>
+            <br />
+            ✎ Time waits for no one.
+          </small>
+          <small class="right aligned column">
+            Help from <a href="https://www.getlektor.com/">Lektor</a> and <a href="http://semantic-ui.com/">Semantic UI</a>
+            <br />
+            ☂ Hosting on <a href="https://github.com/">GitHub</a>
+          </small>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- end of footer -->
+
+  <!-- start of script -->
+  <div class="ga-script">{{ generate_google_analytics() }}</div>
+  <!-- end of script -->
+</body>
+</html>

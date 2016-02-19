@@ -1,0 +1,70 @@
+title: FCK plugins 代码高亮插件 for Z-blog
+---
+author: r.4ntix Blue
+---
+content:
+
+#### text-block ####
+title: 
+----
+text:
+
+其实我很早之前就开始弄上这个了，用了6个多月，也一直没发出来… 太懒了 :)
+
+昨天给咱的Z-blog 升级到最新版本，一不注意，把我很多修改过的东西直接覆盖了，其中就包括这个InsertCode 代码高亮插件。在本地弄了一会儿，发现全忘记了，那个汗啊… 看来还是记下来比较好。
+
+首先把insertcode 整个文件夹放在FCK的plugins 文件夹下，在Z-blog 里就是~/admin/FCKeditor/editor/plugins 。然后把fck_editorarea.css 复制到FCKeditor/editor/css 下，直接覆盖。修改FCKeditor/fckconfig.js 文件，在`FCKConfig.Plugins.Add('Media', 'zh-cn');` 下面加上如下一行：
+
+```js
+FCKConfig.Plugins.Add('insertcode');
+```
+
+然后修改FCKConfig.ToolbarSets，如下：
+
+```js
+FCKConfig.ToolbarSets["Default"] = [
+    ['Source','FontName','FontSize'],
+    ['TextColor','BGColor'],
+    ['Image','Media','Flash','Table','Smiley','SpecialChar'],
+    ['ShowBlocks','Preview','FitWindow'],
+    '/',
+    ['PasteText','Templates','Find','RemoveFormat'],
+    ['Undo','Redo'],
+    ['-','Bold','Italic','Underline','StrikeThrough'],
+    ['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
+    ['JustifyLeft','JustifyCenter','JustifyRight'],
+    ['Link','Unlink','Rule'],
+    ['Subscript','Superscript','-','InsertCode']   // No comma for the last row.
+];
+
+FCKConfig.ToolbarSets["Basic"] = [
+    ['Source','Bold','Italic','TextColor','Image','Link','-','InsertCode']
+];
+```
+
+最后，千万别忘记修改FCKeditor/editor/lang 下的语言文件，我就是忘记这个了。在语言文件（zh-cn.js & en.js）里修改如下：
+
+```js
+  // About Dialog
+  DlgAboutAboutTab    : "关于",
+  DlgAboutBrowserInfoTab  : "浏览器信息",
+  DlgAboutLicenseTab  : "许可证",
+  DlgAboutVersion     : "版本",
+  DlgAboutInfo        : "要获得更多信息请访问 ",
+  InsertCodeBtn   :   "插入代码"
+};
+```
+
+最后，在模板文件里加上：
+
+```html
+<link rel="stylesheet" href="/admin/FCKeditor/editor/plugins/insertcode/insertcode.css">
+```
+
+OK 了，清空浏览器的缓存，开始FCK编辑吧.. ～～
+----
+divider: no
+---
+pub_date: 2008-12-08
+---
+tags: hack zblog fck

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}About | {% endblock title %}
+{% block content %}
+  <div id="content" class="ui stackable centered grid container typo">
+    <!-- ME -->
+    <div class="row">
+      <div class="twelve wide column">
+        <h1 class="serif">
+          Me
+        </h1>
+        <div class="ui card right floated image">
+          <div class="image">
+            <img src="avatar.jpg">
+          </div>
+          <div class="content">
+            <span class="header">r.4ntix Blue</span>
+            <div class="description">
+              a developer, living in edge of the internet.
+            </div>
+          </div>
+        </div>
+        {{ this.me }}
+      </div>
+    </div>
+    <!-- About this Website -->
+    <div class="row">
+      <div class="twelve wide column">
+        <h1 class="serif">
+          About this Website
+        </h1>
+        {{ this.website }}
+      </div>
+    </div>
+  </div>
+{% endblock content %}

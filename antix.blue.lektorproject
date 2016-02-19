@@ -1,0 +1,11 @@
+[project]
+name = r.4ntix Blue's Noise Player
+url = http://antix.blue/
+
+[servers.ghpages]
+target = ghpages://r4ntix/antix.blue?cname=antix.blue
+
+[packages]
+lektor-markdown-highlighter = 0.1
+lektor-webpack-support = 0.1
+lektor-google-analytics = 0.1.3

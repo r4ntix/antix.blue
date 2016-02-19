@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% from "macros/pagination.html" import render_pagination %}
+{% block content %}
+  <div id="content" class="ui stackable centered grid container">
+    <div class="row">
+      <div class="nine wide column">
+        <div class="ui compact inverted menu">
+          <a href="{{ '/a'|url }}" class="item {% if this.path == '/' %}active{% endif %}">A</a>
+          <a href="{{ '/b'|url }}" class="item {% if this.path == '/rock' %}active{% endif %}">B</a>
+        </div>
+        <table class="ui very basic table">
+          <thead>
+            <tr>
+              <th>发行日期</th>
+              <th>标题</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% set folks = site.get('/folk', page_num=1) %}
+            {% for article in folks.pagination.items %}
+              <tr>
+                <td>{{ article.pub_date|dateformat('YYYY年MM月dd日') }}</td>
+                <td><a href="{{ article|url }}">{{ article.title }}</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="2">
+                {% if folks.pagination.pages > 1 %}
+                  {{ render_pagination(folks.pagination) }}
+                {% endif %}
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="three wide column computer only">
+        <img src="{{ '/static/spirit.png'|url }}"/>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

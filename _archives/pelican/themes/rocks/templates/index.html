@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content_left %}
+      <dl class="tabs" data-tab>
+        {% for category, articles in categories %}
+        <dd{% if category == ACTIVE_CATEGORY %} class="active"{% endif %}><a href="#{{ category.slug }}">{{ category }}</a></dd>
+        {% endfor %}
+      </dl>
+      <div class="tabs-content textwrap textwrap-table">
+        {% for category, articles in categories %}
+        <div class="content{% if category == ACTIVE_CATEGORY %} active{% endif %}" id="{{ category.slug }}">
+          <table>
+            <thead>
+              <tr>
+                <th>发行日期</th>
+                <th>标题</th>
+                <th>备注</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for article in articles %}
+              <tr>
+                <td>{{ article.locale_date }}</td>
+                <td><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></td>
+                <td>{{ article.summary }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endfor %}
+      </div>
+{% endblock content_left %}
+
+{% block content_right %}
+      <img src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/img/logo.png" />
+{% endblock content_right %}

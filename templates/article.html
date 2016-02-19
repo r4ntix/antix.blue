@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}{{ this.title }} | {% endblock title %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ get_pygments_stylesheet()|url }}">
+{% endblock css %}
+{% block content %}
+  <article id="content" class="ui stackable centered grid container typo">
+    <div class="row">
+      <div class="twelve wide column">
+        <h1 id="title" class="serif">
+          {{ this.title }}
+        </h1>
+        <div class="ui two column grid">
+          <div class="column">
+            <h5 id="pub-date" class="ui grey sub header">发行日期：<time>{{ this.pub_date|dateformat('YYYY年MM月dd日') }}</time></h5>
+          </div>
+          <div class="right aligned column">
+            <div class="ui horizontal link list">
+              {% for tag in this.tags.split() %}
+              <a class="item">
+                #{{ tag }}
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="twelve wide column">
+        {{ this.content }}
+      </div>
+    </div>
+  </article>
+{% endblock content %}
