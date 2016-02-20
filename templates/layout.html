@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <!-- Site Properties -->
-  <title>{% block title %}Index | {% endblock title %}{{ bag('base.site.name') }}</title>
+  <title>{% block title %}Index{% endblock title %} | {{ bag('base.site.name') }}</title>
   {% block css %}{% endblock css %}
   <link rel="stylesheet" type="text/css" href="{{ '/static/app.css'|asseturl }}">
 </head>
