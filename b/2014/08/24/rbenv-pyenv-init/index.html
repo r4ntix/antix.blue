@@ -29,7 +29,7 @@
               
               <span class="item">|</span>
               
-                <a href="https://www.instagram.com/r4ntix/" class="item">Instagram</a>
+                <a href="http://antix.blue/rock/rbenv-pyenv-init/https:/www.instagram.com/r4ntix" class="item">Instagram</a>
               
             </div>
           </div>
@@ -135,8 +135,8 @@
 
 <h2 class="serif">pyenv-init</h2>
 <p>在安装完pyenv 之后，根据安装提示，我们需要在shell 的配置文件里，加入几行配置代码。以bash 为例：</p>
-<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYENV_ROOT</span><span class="o">=</span><span class="s2">&quot;</span>$<span class="s2">HOME/.pyenv&quot;</span>
-<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span>$<span class="s2">PYENV_ROOT/bin:</span>$<span class="s2">PATH&quot;</span>
+<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYENV_ROOT</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.pyenv&quot;</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PYENV_ROOT</span><span class="s2">/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
 <span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(</span>pyenv init -<span class="k">)</span><span class="s2">&quot;</span>
 </pre></div>
 <p>其中前两行export 指令，设置了pyenv 的路径，并添加到我们的已有PATH 的最前面，以便我们执行pyenv 时，系统能自动从该路径下找到pyenv。</p>
@@ -144,11 +144,11 @@
 <p>让我们来具体看看libexec/pyenv-init 的代码：</p>
 <ol>
 <li><p>获取到当前的shell name。</p>
-<div class="highlight"><pre><span></span> <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span>$<span class="s2">shell&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-   <span class="nv">shell</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>ps c -p <span class="s2">&quot;</span>$<span class="s2">PPID&quot;</span> -o <span class="s1">&#39;ucomm=&#39;</span> 2&gt;/dev/null <span class="o">||</span> <span class="nb">true</span><span class="k">)</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span> <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$shell</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+   <span class="nv">shell</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>ps c -p <span class="s2">&quot;</span><span class="nv">$PPID</span><span class="s2">&quot;</span> -o <span class="s1">&#39;ucomm=&#39;</span> 2&gt;/dev/null <span class="o">||</span> <span class="nb">true</span><span class="k">)</span><span class="s2">&quot;</span>
    <span class="nv">shell</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">shell</span><span class="p">##-</span><span class="si">}</span><span class="s2">&quot;</span>
    <span class="nv">shell</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">shell</span><span class="p">%% *</span><span class="si">}</span><span class="s2">&quot;</span>
-   <span class="nv">shell</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>basename <span class="s2">&quot;</span><span class="si">${</span><span class="nv">shell</span><span class="k">:-</span>$<span class="nv">SHELL</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
+   <span class="nv">shell</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>basename <span class="s2">&quot;</span><span class="si">${</span><span class="nv">shell</span><span class="k">:-</span><span class="nv">$SHELL</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
  <span class="k">fi</span>
 </pre></div>
 </li>
@@ -158,7 +158,7 @@
 </li>
 <li><p>打印设置shims path 到我们的$PATH 最前面。</p>
 <div class="highlight"><pre><span></span> <span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="s2">:&quot;</span> !<span class="o">=</span> *:<span class="s2">&quot;</span><span class="si">${</span><span class="nv">PYENV_ROOT</span><span class="si">}</span><span class="s2">/shims&quot;</span>:* <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-   <span class="k">case</span> <span class="s2">&quot;</span>$<span class="s2">shell&quot;</span> in
+   <span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$shell</span><span class="s2">&quot;</span> in
    fish <span class="o">)</span>
      <span class="nb">echo</span> <span class="s2">&quot;setenv PATH &#39;</span><span class="si">${</span><span class="nv">PYENV_ROOT</span><span class="si">}</span><span class="s2">/shims&#39; \$PATH&quot;</span>
    <span class="p">;;</span>
@@ -171,28 +171,28 @@
 <p>这样的话，当我们输入执行python、pip 等命令时，shell 就会首先到shims 目录去寻找了。</p>
 </li>
 <li><p>设置PYENV_SHELL 环境变量。</p>
-<div class="highlight"><pre><span></span> <span class="k">case</span> <span class="s2">&quot;</span>$<span class="s2">shell&quot;</span> in
+<div class="highlight"><pre><span></span> <span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$shell</span><span class="s2">&quot;</span> in
  fish <span class="o">)</span>
-   <span class="nb">echo</span> <span class="s2">&quot;setenv PYENV_SHELL </span>$<span class="s2">shell&quot;</span>
+   <span class="nb">echo</span> <span class="s2">&quot;setenv PYENV_SHELL </span><span class="nv">$shell</span><span class="s2">&quot;</span>
  <span class="p">;;</span>
  * <span class="o">)</span>
-   <span class="nb">echo</span> <span class="s2">&quot;export PYENV_SHELL=</span>$<span class="s2">shell&quot;</span>
+   <span class="nb">echo</span> <span class="s2">&quot;export PYENV_SHELL=</span><span class="nv">$shell</span><span class="s2">&quot;</span>
  <span class="p">;;</span>
  <span class="k">esac</span>
 </pre></div>
 </li>
 <li><p>打印shell completion。</p>
 <div class="highlight"><pre><span></span><span class="nv">completion</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">root</span><span class="si">}</span><span class="s2">/completions/pyenv.</span><span class="si">${</span><span class="nv">shell</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="k">if</span> <span class="o">[</span> -r <span class="s2">&quot;</span><span class="nv">$c</span><span class="s2">ompletion&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-  <span class="k">case</span> <span class="s2">&quot;</span>$<span class="s2">shell&quot;</span> in
-  fish <span class="o">)</span> <span class="nb">echo</span> <span class="s2">&quot;. &#39;</span><span class="nv">$c</span><span class="s2">ompletion&#39;&quot;</span> <span class="p">;;</span>
-  *    <span class="o">)</span> <span class="nb">echo</span> <span class="s2">&quot;source &#39;</span><span class="nv">$c</span><span class="s2">ompletion&#39;&quot;</span> <span class="p">;;</span>
+<span class="k">if</span> <span class="o">[</span> -r <span class="s2">&quot;</span><span class="nv">$completion</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$shell</span><span class="s2">&quot;</span> in
+  fish <span class="o">)</span> <span class="nb">echo</span> <span class="s2">&quot;. &#39;</span><span class="nv">$completion</span><span class="s2">&#39;&quot;</span> <span class="p">;;</span>
+  *    <span class="o">)</span> <span class="nb">echo</span> <span class="s2">&quot;source &#39;</span><span class="nv">$completion</span><span class="s2">&#39;&quot;</span> <span class="p">;;</span>
   <span class="k">esac</span>
 <span class="k">fi</span>
 </pre></div>
 </li>
 <li><p>根据参数判断打印是否rehash。</p>
-<div class="highlight"><pre><span></span> <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span>$<span class="s2">no_rehash&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+<div class="highlight"><pre><span></span> <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$no_rehash</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
    <span class="nb">echo</span> <span class="s1">&#39;pyenv rehash 2&gt;/dev/null&#39;</span>
  <span class="k">fi</span>
 </pre></div>
