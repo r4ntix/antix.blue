@@ -6,8 +6,8 @@
     <div class="row">
       <div class="nine wide column">
         <div class="ui compact inverted menu">
-          <a href="{{ '/a'|url }}" class="item {% if this.path == '/folk' %}active{% endif %}">A</a>
-          <a href="{{ '/b'|url }}" class="item {% if this.path == '/rock' %}active{% endif %}">B</a>
+          <a href="{{ '/a'|url }}" class="item {% if this.is_child_of('/folk') %}active{% endif %}">A</a>
+          <a href="{{ '/b'|url }}" class="item {% if this.is_child_of('/rock') %}active{% endif %}">B</a>
         </div>
         <table class="ui very basic table">
           <thead>

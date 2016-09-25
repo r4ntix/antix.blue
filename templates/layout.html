@@ -27,7 +27,7 @@
               {% endfor %}
               <span class="item">|</span>
               {% for id, item in bag('social').iteritems() %}
-                <a href="{{ item.path|url(external=true) }}" class="item">{{ item.label }}</a>
+                <a href="{{ item.path }}" class="item">{{ item.label }}</a>
               {% endfor %}
             </div>
           </div>
