@@ -1,95 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-cmn-Hans">
-<head>
-  <!-- Standard Meta -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
-  <!-- Site Properties -->
-  <title>让Apache/WampServer 支持ASP/ASP.NET | Antix Blue&#39;s Noise Player</title>
-  
-<link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css">
-
-  <link rel="stylesheet" type="text/css" href="../../../../../static/app.css?h=1748ebc5">
-</head>
-<body>
-  <!-- start of header -->
-  <header id="header" class="ui inverted segment">
-    <div class="ui stackable centered grid container">
-      <div class="row">
-        <div class="twelve wide column">
-          <div class="ui container inverted secondary pointing menu">
-            <a href="../../../../../" id="logo" class="item">
-              Antix Blue&#39;s Noise Player
-            </a>
-            <div class="right menu">
-              
-                <a href="../../../../../about/" class="item">About</a>
-              
-              <span class="item">|</span>
-              
-                <a href="http://antix.blue/rock/asp-support-for-apache/https:/www.instagram.com/r4ntix" class="item">Instagram</a>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-  <!-- start of header -->
-
-  <!-- start of content -->
-  
-  <article id="content" class="ui stackable centered grid container typo">
-    <div class="row">
-      <div class="twelve wide column">
-        <h1 id="title" class="serif">
-          让Apache/WampServer 支持ASP/ASP.NET
-        </h1>
-        <div class="ui two column grid">
-          <div class="column">
-            <h5 id="pub-date" class="ui grey sub header">发行日期：<time>2008年07月22日</time></h5>
-          </div>
-          <div class="right aligned column">
-            <div class="ui horizontal link list">
-              
-              <a class="item">
-                #apache
-              </a>
-              
-              <a class="item">
-                #asp
-              </a>
-              
-              <a class="item">
-                #wamp
-              </a>
-              
-              <a class="item">
-                #.net
-              </a>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="twelve wide column">
-        <h2 class="serif">说明</h2>
-<p>本文是基于WampServer 2.X 套件讨论的，但适用于截止到目前为止所有版本的Apache。其实我们也只是对WampServer 中的Apache 模块做了修改，使其能够支持ASP/ASP.NET。</p>
-<p>本文中Apache版本为2.2.8，WampServer 的目录地址为 <code>D:\wamp\</code> 。</p>
-
-
-<div class="ui section divider"></div>
-
-
-<h2 class="serif">ASP.NET</h2>
-<p>让Apache 支持ASP.NET 比较简单，使用apache.org 里提供的mod_aspdotnet 即可。地址是：<a href="http://httpd.apache.org/modules/">http://httpd.apache.org/modules/</a></p>
-<p>说一下配置：首先下载mod_aspdotnet，然后将其mod_aspdotnet.so 释放到apache 的/modules/ ，如 <code>D:\wamp\bin\apache\apache2.2.8\modules</code>。然后，我们需要建立一个mod_aspdotnet 单独的配置文件.conf，如httpd-aspdotnet.conf，写好后放入apache的 <code>/conf/extra/</code> 中，这样比较规范。</p>
-<p>httpd-aspdotnet.conf，如下：</p>
-<div class="highlight"><pre><span></span><span class="c"># Load asp.net module</span>
+<html lang="zh-cmn-Hans"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>让Apache/WampServer 支持ASP/ASP.NET | Antix Blue&#39;s Noise Player</title><link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css"><link rel="stylesheet" type="text/css" href="../../../../../static/app.css?h=1748ebc5"></head><body><header id="header" class="ui inverted segment"><div class="ui stackable centered grid container"><div class="row"><div class="twelve wide column"><div class="ui container inverted secondary pointing menu"><a href="../../../../../" id="logo" class="item"> Antix Blue&#39;s Noise Player </a><div class="right menu"><a href="../../../../../about/" class="item">About</a><span class="item">|</span><a href="https://www.instagram.com/r4ntix/" class="item">Instagram</a></div></div></div></div></div></header><article id="content" class="ui stackable centered grid container typo"><div class="row"><div class="twelve wide column"><h1 id="title" class="serif"> 让Apache/WampServer 支持ASP/ASP.NET </h1><div class="ui two column grid"><div class="column"><h5 id="pub-date" class="ui grey sub header">发行日期：<time>2008年07月22日</time></h5></div><div class="right aligned column"><div class="ui horizontal link list"><a class="item"> #apache </a><a class="item"> #asp </a><a class="item"> #wamp </a><a class="item"> #.net </a></div></div></div></div></div><div class="row"><div class="twelve wide column"><h2 class="serif">说明</h2><p>本文是基于WampServer 2.X 套件讨论的，但适用于截止到目前为止所有版本的Apache。其实我们也只是对WampServer 中的Apache 模块做了修改，使其能够支持ASP/ASP.NET。</p><p>本文中Apache版本为2.2.8，WampServer 的目录地址为 <code>D:\wamp\</code> 。</p><div class="ui section divider"></div><h2 class="serif">ASP.NET</h2><p>让Apache 支持ASP.NET 比较简单，使用apache.org 里提供的mod_aspdotnet 即可。地址是：<a href="http://httpd.apache.org/modules/">http://httpd.apache.org/modules/</a></p><p>说一下配置：首先下载mod_aspdotnet，然后将其mod_aspdotnet.so 释放到apache 的/modules/ ，如 <code>D:\wamp\bin\apache\apache2.2.8\modules</code>。然后，我们需要建立一个mod_aspdotnet 单独的配置文件.conf，如httpd-aspdotnet.conf，写好后放入apache的 <code>/conf/extra/</code> 中，这样比较规范。</p><p>httpd-aspdotnet.conf，如下：</p><div class="highlight"><pre><span></span><span class="c"># Load asp.net module</span>
 <span class="nb">LoadModule</span> aspdotnet_module <span class="s2">&quot;modules/mod_aspdotnet.so&quot;</span>
 
 <span class="c"># Set asp.net extensions</span>
@@ -122,28 +32,14 @@
         <span class="nb">Allow</span> from <span class="k">all</span>
     <span class="nt">&lt;/directory&gt;</span>
 <span class="nt">&lt;/ifmodule&gt;</span>
-</pre></div>
-<p>这样写好httpd-aspdotnet.conf 后放入apache的 <code>/conf/extra/</code> 中，然后修改apache 的主配置文件 <code>/conf/httpd.conf</code>  在其中适当位置加入代码：</p>
-<div class="highlight"><pre><span></span><span class="c"># ASP.net ，写在httpd.conf 最后适当的位置。只是为了规范。</span>
+</pre></div><p>这样写好httpd-aspdotnet.conf 后放入apache的 <code>/conf/extra/</code> 中，然后修改apache 的主配置文件 <code>/conf/httpd.conf</code> 在其中适当位置加入代码：</p><div class="highlight"><pre><span></span><span class="c"># ASP.net ，写在httpd.conf 最后适当的位置。只是为了规范。</span>
 <span class="nb">Include</span> conf/extra/httpd-aspdotnet.conf
-</pre></div>
-<p>然后，重启apache，现在 <code>/www/aspx/</code> 目录已经可以解析.aspx 文件了。：）</p>
-
-
-<div class="ui section divider"></div>
-
-
-<h2 class="serif">ASP</h2>
-<p>让Apache 完美的支持asp，目前网上也没有好的解决办法，很多东西都还是商业的，以前有个mod 可以用，但只能用在apache1.X 上，很老的东西了。我找寻了很久也没有找到免费的解决办法。无意间得知phpnow 有个插件可以支持asp，马上下载下来玩了一下，终于成功让这个插件脱离phpnow，使其支持任意的Apache。其实phpnow 也是提取了试用版的ActiveHTML，效果还不错，我比较满意。</p>
-<p>过程如下：首先下载这个phpnow 版的ActiveHTML，释放在一个适合的位置，如 <code>D:\wamp\bin\ActiveHTML\</code> ，ActiveHTML 需要注册几个.dll，运行CMD 在ActiveHTML 目录，执行如下命令：</p>
-<div class="highlight"><pre><span></span># CMD 进入ActiveHTML目录，执行如下命令
+</pre></div><p>然后，重启apache，现在 <code>/www/aspx/</code> 目录已经可以解析.aspx 文件了。：）</p><div class="ui section divider"></div><h2 class="serif">ASP</h2><p>让Apache 完美的支持asp，目前网上也没有好的解决办法，很多东西都还是商业的，以前有个mod 可以用，但只能用在apache1.X 上，很老的东西了。我找寻了很久也没有找到免费的解决办法。无意间得知phpnow 有个插件可以支持asp，马上下载下来玩了一下，终于成功让这个插件脱离phpnow，使其支持任意的Apache。其实phpnow 也是提取了试用版的ActiveHTML，效果还不错，我比较满意。</p><p>过程如下：首先下载这个phpnow 版的ActiveHTML，释放在一个适合的位置，如 <code>D:\wamp\bin\ActiveHTML\</code> ，ActiveHTML 需要注册几个.dll，运行CMD 在ActiveHTML 目录，执行如下命令：</p><div class="highlight"><pre><span></span># CMD 进入ActiveHTML目录，执行如下命令
 regsvr32.exe /s slASP3.dll
 regsvr32.exe /s slDispatch.dll
 regsvr32.exe /s MSXML4.dll
 regsvr32.exe /s MSXML4R.dll
-</pre></div>
-<p>然后，同样的我们需要为ActiveHTML 写一个配置文件.conf，如httpd-ahtml.conf，如下：</p>
-<div class="highlight"><pre><span></span><span class="c">##################################################</span>
+</pre></div><p>然后，同样的我们需要为ActiveHTML 写一个配置文件.conf，如httpd-ahtml.conf，如下：</p><div class="highlight"><pre><span></span><span class="c">##################################################</span>
 <span class="c">#   Uncomment the following lines if you want</span>
 <span class="c">#   to use Authorization environment-variables</span>
 <span class="c">#   You may implement you own user</span>
@@ -193,61 +89,13 @@ regsvr32.exe /s MSXML4R.dll
     <span class="nb">Order</span> allow,deny
     <span class="nb">Allow</span> from <span class="k">all</span>
 <span class="nt">&lt;/directory&gt;</span>
-</pre></div>
-<p>同样的，在apache的主配置文件httpd.conf 里适当的位置加入代码：</p>
-<div class="highlight"><pre><span></span><span class="c"># ASP ，写在httpd.conf 最后适当的位置。只是为了规范。</span>
+</pre></div><p>同样的，在apache的主配置文件httpd.conf 里适当的位置加入代码：</p><div class="highlight"><pre><span></span><span class="c"># ASP ，写在httpd.conf 最后适当的位置。只是为了规范。</span>
 <span class="nb">Include</span> conf/extra/httpd-ahtml.conf
-</pre></div>
-<p>然后，重启apache，现在 <code>/www/asp/</code> 目录已经可以解析.asp 文件了。：）</p>
-
-
-<div class="ui section divider"></div>
-
-
-<h2 class="serif">PS</h2>
-<p>文章本来很早就打算写，从考试前一直拖到放假。也很久没跟新这个Time.log。于是乎，在这个安静的夜晚，终于写下了这个早就打算写的文章。晚安 ～～</p>
-
-
-      </div>
-    </div>
-  </article>
-
-  <!-- end of content -->
-
-  <!-- start of footer -->
-  <div class="ui divider"></div>
-  <footer id="footer" class="ui stackable centered grid container">
-    <div class="row">
-      <div class="twelve wide column">
-        <div class="ui two column grid">
-          <small class="column">
-            Designed and Created(2005-2016) by <a href="../../../../../about/">r.4ntix Blue</a>
-            <br />
-            ✎ Time waits for no one.
-          </small>
-          <small class="right aligned column">
-            Help from <a href="https://www.getlektor.com/">Lektor</a> and <a href="http://semantic-ui.com/">Semantic UI</a>
-            <br />
-            ☂ Hosting on <a href="https://github.com/">GitHub</a>
-          </small>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- end of footer -->
-
-  <!-- start of script -->
-  <div class="ga-script">
-<div id="ga-script"></div>
-<script type="text/javascript">
+</pre></div><p>然后，重启apache，现在 <code>/www/asp/</code> 目录已经可以解析.asp 文件了。：）</p><div class="ui section divider"></div><h2 class="serif">PS</h2><p>文章本来很早就打算写，从考试前一直拖到放假。也很久没跟新这个Time.log。于是乎，在这个安静的夜晚，终于写下了这个早就打算写的文章。晚安 ～～</p></div></div></article><div class="ui divider"></div><footer id="footer" class="ui stackable centered grid container"><div class="row"><div class="twelve wide column"><div class="ui two column grid"><small class="column"> Designed and Created(2005-2016) by <a href="../../../../../about/">r.4ntix Blue</a><br> ✎ Time waits for no one. </small><small class="right aligned column"> Help from <a href="https://www.getlektor.com/">Lektor</a> and <a href="http://semantic-ui.com/">Semantic UI</a><br> ☂ Hosting on <a href="https://github.com/">GitHub</a></small></div></div></div></footer><div class="ga-script"><div id="ga-script"></div><script type="text/javascript">
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
         ga('create', 'UA-47845863-1', 'auto');
         ga('send', 'pageview');
-</script>
-</div>
-  <!-- end of script -->
-</body>
-</html>
+</script></div></body></html>

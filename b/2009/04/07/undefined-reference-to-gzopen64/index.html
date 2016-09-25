@@ -1,89 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh-cmn-Hans">
-<head>
-  <!-- Standard Meta -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
-  <!-- Site Properties -->
-  <title>undefined reference to `gzopen64′? | Antix Blue&#39;s Noise Player</title>
-  
-<link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css">
-
-  <link rel="stylesheet" type="text/css" href="../../../../../static/app.css?h=1748ebc5">
-</head>
-<body>
-  <!-- start of header -->
-  <header id="header" class="ui inverted segment">
-    <div class="ui stackable centered grid container">
-      <div class="row">
-        <div class="twelve wide column">
-          <div class="ui container inverted secondary pointing menu">
-            <a href="../../../../../" id="logo" class="item">
-              Antix Blue&#39;s Noise Player
-            </a>
-            <div class="right menu">
-              
-                <a href="../../../../../about/" class="item">About</a>
-              
-              <span class="item">|</span>
-              
-                <a href="http://antix.blue/rock/undefined-reference-to-gzopen64/https:/www.instagram.com/r4ntix" class="item">Instagram</a>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-  <!-- start of header -->
-
-  <!-- start of content -->
-  
-  <article id="content" class="ui stackable centered grid container typo">
-    <div class="row">
-      <div class="twelve wide column">
-        <h1 id="title" class="serif">
-          undefined reference to `gzopen64′?
-        </h1>
-        <div class="ui two column grid">
-          <div class="column">
-            <h5 id="pub-date" class="ui grey sub header">发行日期：<time>2009年04月07日</time></h5>
-          </div>
-          <div class="right aligned column">
-            <div class="ui horizontal link list">
-              
-              <a class="item">
-                #gtk
-              </a>
-              
-              <a class="item">
-                #c
-              </a>
-              
-              <a class="item">
-                #program
-              </a>
-              
-              <a class="item">
-                #linux
-              </a>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="twelve wide column">
-        
-<p>最近在学习GTK＋，尝试自己写一个有UI 的C/S 程序的时候。编译代码产生错误如下：</p>
-<div class="highlight"><pre><span></span>/usr/bin/../lib/libxml2.so.2: undefined reference to <span class="sb">`</span>gzopen64′
+<html lang="zh-cmn-Hans"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>undefined reference to `gzopen64′? | Antix Blue&#39;s Noise Player</title><link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css"><link rel="stylesheet" type="text/css" href="../../../../../static/app.css?h=1748ebc5"></head><body><header id="header" class="ui inverted segment"><div class="ui stackable centered grid container"><div class="row"><div class="twelve wide column"><div class="ui container inverted secondary pointing menu"><a href="../../../../../" id="logo" class="item"> Antix Blue&#39;s Noise Player </a><div class="right menu"><a href="../../../../../about/" class="item">About</a><span class="item">|</span><a href="https://www.instagram.com/r4ntix/" class="item">Instagram</a></div></div></div></div></div></header><article id="content" class="ui stackable centered grid container typo"><div class="row"><div class="twelve wide column"><h1 id="title" class="serif"> undefined reference to `gzopen64′? </h1><div class="ui two column grid"><div class="column"><h5 id="pub-date" class="ui grey sub header">发行日期：<time>2009年04月07日</time></h5></div><div class="right aligned column"><div class="ui horizontal link list"><a class="item"> #gtk </a><a class="item"> #c </a><a class="item"> #program </a><a class="item"> #linux </a></div></div></div></div></div><div class="row"><div class="twelve wide column"><p>最近在学习GTK＋，尝试自己写一个有UI 的C/S 程序的时候。编译代码产生错误如下：</p><div class="highlight"><pre><span></span>/usr/bin/../lib/libxml2.so.2: undefined reference to <span class="sb">`</span>gzopen64′
 collect2: ld 返回 1
-</pre></div>
-<p>/usr/lib/libxml2.so.2 没有gzopen64 函数的定义？奇怪。那好，跟进这个文件看看：</p>
-<div class="highlight"><pre><span></span>ls -l /usr/lib/libxml2.so.2
+</pre></div><p>/usr/lib/libxml2.so.2 没有gzopen64 函数的定义？奇怪。那好，跟进这个文件看看：</p><div class="highlight"><pre><span></span>ls -l /usr/lib/libxml2.so.2
     lrwxrwxrwx <span class="m">1</span> root root <span class="m">17</span> 2008-11-19 10:28 /usr/lib/libxml2.so.2 -&gt; libxml2.so.2.6.31
 ls -l /usr/lib/libxml2.so.2.6.31
     -rw-r--r-- <span class="m">1</span> root root <span class="m">1171112</span> 2008-11-19 03:16 /usr/lib/libxml2.so.2.6.31
@@ -104,58 +22,11 @@ strings /usr/lib/libz.so.1.2.3.3 <span class="p">|</span> grep gzopen64
     gzopen64   <span class="c1"># 确定gzopen64是包含在这个文件里</span>
 objdump -T /usr/lib/libz.so.1.2.3.3 <span class="p">|</span> grep gzopen64
     <span class="m">00004040</span> g    DF .text  0000001b  Base        gzopen64      <span class="c1"># 很明显的可以看到这个gzopen64是定义了的。</span>
-</pre></div>
-<p>这就奇怪， 难道是一个reference lookup error? 本人环境Ubuntu 8.04.2 ，libxml2 为apt-get 最新的库文件。</p>
-<p>find 搜索一下本地的libz*，发现自己机子的/opt/ 里还有一个libz.so.1.2.3。/opt/ 里放的是我本地LAMP 的开发环境(xampp的开发包)。刚好，就把libxml2 连接过来算了。gcc 编译的时候加上一句-L/opt /lampp/lib/ -lxml2 编译通过。</p>
-<p>googled:</p>
-<ul>
-<li><a href="https://bugs.launchpad.net/ubuntu/+source/libxml2/+bug/151045">https://bugs.launchpad.net/ubuntu/+source/libxml2/+bug/151045</a><br>
-  不过这个bug 报告被标记为：Invalid</li>
-<li><a href="http://hi.baidu.com/linux%5Flfs/blog/item/3f19abdf9d615315485403ec.html">http://hi.baidu.com/linux%5Flfs/blog/item/3f19abdf9d615315485403ec.html</a><br>
-  另外一种情况</li>
-</ul>
-
-
-      </div>
-    </div>
-  </article>
-
-  <!-- end of content -->
-
-  <!-- start of footer -->
-  <div class="ui divider"></div>
-  <footer id="footer" class="ui stackable centered grid container">
-    <div class="row">
-      <div class="twelve wide column">
-        <div class="ui two column grid">
-          <small class="column">
-            Designed and Created(2005-2016) by <a href="../../../../../about/">r.4ntix Blue</a>
-            <br />
-            ✎ Time waits for no one.
-          </small>
-          <small class="right aligned column">
-            Help from <a href="https://www.getlektor.com/">Lektor</a> and <a href="http://semantic-ui.com/">Semantic UI</a>
-            <br />
-            ☂ Hosting on <a href="https://github.com/">GitHub</a>
-          </small>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- end of footer -->
-
-  <!-- start of script -->
-  <div class="ga-script">
-<div id="ga-script"></div>
-<script type="text/javascript">
+</pre></div><p>这就奇怪， 难道是一个reference lookup error? 本人环境Ubuntu 8.04.2 ，libxml2 为apt-get 最新的库文件。</p><p>find 搜索一下本地的libz*，发现自己机子的/opt/ 里还有一个libz.so.1.2.3。/opt/ 里放的是我本地LAMP 的开发环境(xampp的开发包)。刚好，就把libxml2 连接过来算了。gcc 编译的时候加上一句-L/opt /lampp/lib/ -lxml2 编译通过。</p><p>googled:</p><ul><li><a href="https://bugs.launchpad.net/ubuntu/+source/libxml2/+bug/151045">https://bugs.launchpad.net/ubuntu/+source/libxml2/+bug/151045</a><br> 不过这个bug 报告被标记为：Invalid</li><li><a href="http://hi.baidu.com/linux%5Flfs/blog/item/3f19abdf9d615315485403ec.html">http://hi.baidu.com/linux%5Flfs/blog/item/3f19abdf9d615315485403ec.html</a><br> 另外一种情况</li></ul></div></div></article><div class="ui divider"></div><footer id="footer" class="ui stackable centered grid container"><div class="row"><div class="twelve wide column"><div class="ui two column grid"><small class="column"> Designed and Created(2005-2016) by <a href="../../../../../about/">r.4ntix Blue</a><br> ✎ Time waits for no one. </small><small class="right aligned column"> Help from <a href="https://www.getlektor.com/">Lektor</a> and <a href="http://semantic-ui.com/">Semantic UI</a><br> ☂ Hosting on <a href="https://github.com/">GitHub</a></small></div></div></div></footer><div class="ga-script"><div id="ga-script"></div><script type="text/javascript">
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
         ga('create', 'UA-47845863-1', 'auto');
         ga('send', 'pageview');
-</script>
-</div>
-  <!-- end of script -->
-</body>
-</html>
+</script></div></body></html>

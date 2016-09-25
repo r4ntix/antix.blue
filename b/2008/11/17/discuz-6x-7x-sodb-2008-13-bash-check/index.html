@@ -1,86 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-cmn-Hans">
-<head>
-  <!-- Standard Meta -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
-  <!-- Site Properties -->
-  <title>Discuz! 6.x/7.x SODB-2008-13 Check | Antix Blue&#39;s Noise Player</title>
-  
-<link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css">
-
-  <link rel="stylesheet" type="text/css" href="../../../../../static/app.css?h=1748ebc5">
-</head>
-<body>
-  <!-- start of header -->
-  <header id="header" class="ui inverted segment">
-    <div class="ui stackable centered grid container">
-      <div class="row">
-        <div class="twelve wide column">
-          <div class="ui container inverted secondary pointing menu">
-            <a href="../../../../../" id="logo" class="item">
-              Antix Blue&#39;s Noise Player
-            </a>
-            <div class="right menu">
-              
-                <a href="../../../../../about/" class="item">About</a>
-              
-              <span class="item">|</span>
-              
-                <a href="http://antix.blue/rock/discuz-6x-7x-sodb-2008-13-bash-check/https:/www.instagram.com/r4ntix" class="item">Instagram</a>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-  <!-- start of header -->
-
-  <!-- start of content -->
-  
-  <article id="content" class="ui stackable centered grid container typo">
-    <div class="row">
-      <div class="twelve wide column">
-        <h1 id="title" class="serif">
-          Discuz! 6.x/7.x SODB-2008-13 Check
-        </h1>
-        <div class="ui two column grid">
-          <div class="column">
-            <h5 id="pub-date" class="ui grey sub header">发行日期：<time>2008年11月17日</time></h5>
-          </div>
-          <div class="right aligned column">
-            <div class="ui horizontal link list">
-              
-              <a class="item">
-                #discuz
-              </a>
-              
-              <a class="item">
-                #security
-              </a>
-              
-              <a class="item">
-                #poc
-              </a>
-              
-              <a class="item">
-                #bash
-              </a>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="twelve wide column">
-        
-<p>好吧，我承认上个周末，我并没有像往常一样玩一整天的PES2009。实际上在星期六，我用早上的时间看了正则，下午写下了Discuz! 6.x/7.x SODB-2008-13 Check，这个东东。在我写的前一天heige 发布了exp，不得不说这个是对我的一个诱惑。因为很久没看到DZ 出这么严重的洞洞了 :(</p>
-<p>说明一下，这不是首发，写出来的那天就被一个朋友在他的blog 上发出来了。不过，发出来只是一个“bug”版本，比如说抓取的结果并不是很好，还有关于google 自动处理机的一些问题。主要的是，并没有整合那个exp，整合的当然不能乱发了。我还是把这个“bug”代码帖一下，记录一下。</p>
-<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<html lang="zh-cmn-Hans"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Discuz! 6.x/7.x SODB-2008-13 Check | Antix Blue&#39;s Noise Player</title><link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css"><link rel="stylesheet" type="text/css" href="../../../../../static/app.css?h=1748ebc5"></head><body><header id="header" class="ui inverted segment"><div class="ui stackable centered grid container"><div class="row"><div class="twelve wide column"><div class="ui container inverted secondary pointing menu"><a href="../../../../../" id="logo" class="item"> Antix Blue&#39;s Noise Player </a><div class="right menu"><a href="../../../../../about/" class="item">About</a><span class="item">|</span><a href="https://www.instagram.com/r4ntix/" class="item">Instagram</a></div></div></div></div></div></header><article id="content" class="ui stackable centered grid container typo"><div class="row"><div class="twelve wide column"><h1 id="title" class="serif"> Discuz! 6.x/7.x SODB-2008-13 Check </h1><div class="ui two column grid"><div class="column"><h5 id="pub-date" class="ui grey sub header">发行日期：<time>2008年11月17日</time></h5></div><div class="right aligned column"><div class="ui horizontal link list"><a class="item"> #discuz </a><a class="item"> #security </a><a class="item"> #poc </a><a class="item"> #bash </a></div></div></div></div></div><div class="row"><div class="twelve wide column"><p>好吧，我承认上个周末，我并没有像往常一样玩一整天的PES2009。实际上在星期六，我用早上的时间看了正则，下午写下了Discuz! 6.x/7.x SODB-2008-13 Check，这个东东。在我写的前一天heige 发布了exp，不得不说这个是对我的一个诱惑。因为很久没看到DZ 出这么严重的洞洞了 :(</p><p>说明一下，这不是首发，写出来的那天就被一个朋友在他的blog 上发出来了。不过，发出来只是一个“bug”版本，比如说抓取的结果并不是很好，还有关于google 自动处理机的一些问题。主要的是，并没有整合那个exp，整合的当然不能乱发了。我还是把这个“bug”代码帖一下，记录一下。</p><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># Discuz! 6.x/7.x SODB-2008-13 Check</span>
 <span class="c1"># 文件中google_page_count 参数是 google 搜索结果的页数，大于0就可以，太大了，google 会认为是自动机而停止处理！</span>
@@ -148,49 +67,11 @@ rm -r /tmp/t_url /tmp/check
 <span class="nb">echo</span> <span class="s2">&quot;开启WAP注册的结果URL列表保存在当前目录下urllist&quot;</span>
 
 <span class="nb">exit</span> 0
-</pre></div>
-
-
-      </div>
-    </div>
-  </article>
-
-  <!-- end of content -->
-
-  <!-- start of footer -->
-  <div class="ui divider"></div>
-  <footer id="footer" class="ui stackable centered grid container">
-    <div class="row">
-      <div class="twelve wide column">
-        <div class="ui two column grid">
-          <small class="column">
-            Designed and Created(2005-2016) by <a href="../../../../../about/">r.4ntix Blue</a>
-            <br />
-            ✎ Time waits for no one.
-          </small>
-          <small class="right aligned column">
-            Help from <a href="https://www.getlektor.com/">Lektor</a> and <a href="http://semantic-ui.com/">Semantic UI</a>
-            <br />
-            ☂ Hosting on <a href="https://github.com/">GitHub</a>
-          </small>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- end of footer -->
-
-  <!-- start of script -->
-  <div class="ga-script">
-<div id="ga-script"></div>
-<script type="text/javascript">
+</pre></div></div></div></article><div class="ui divider"></div><footer id="footer" class="ui stackable centered grid container"><div class="row"><div class="twelve wide column"><div class="ui two column grid"><small class="column"> Designed and Created(2005-2016) by <a href="../../../../../about/">r.4ntix Blue</a><br> ✎ Time waits for no one. </small><small class="right aligned column"> Help from <a href="https://www.getlektor.com/">Lektor</a> and <a href="http://semantic-ui.com/">Semantic UI</a><br> ☂ Hosting on <a href="https://github.com/">GitHub</a></small></div></div></div></footer><div class="ga-script"><div id="ga-script"></div><script type="text/javascript">
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
         ga('create', 'UA-47845863-1', 'auto');
         ga('send', 'pageview');
-</script>
-</div>
-  <!-- end of script -->
-</body>
-</html>
+</script></div></body></html>
