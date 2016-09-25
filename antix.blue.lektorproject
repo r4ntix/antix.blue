@@ -9,3 +9,4 @@ target = ghpages://r4ntix/antix.blue?cname=antix.blue
 lektor-markdown-highlighter = 0.1
 lektor-webpack-support = 0.1
 lektor-google-analytics = 0.1.3
+lektor-htmlmin = 0.3
